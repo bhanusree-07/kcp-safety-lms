@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Course Quiz - KCP LMS</title>
+
+<link rel="stylesheet" href="../css/global.css">
+<link rel="stylesheet" href="../css/employee.css">
+
+</head>
+
+<body>
+
+<div class="employee-layout">
+
+<!-- SIDEBAR -->
+
+<div class="employee-sidebar">
+
+<div class="sidebar-logo">
+
+<a href="courses.html">
+
+<img
+src="../assests/kcp_logo3.png"
+alt="KCP Logo"
+class="sidebar-logo-img">
+
+</a>
+
+<h3>
+
+<a
+href="courses.html"
+class="sidebar-title-link"
+>
+
+Safety LMS
+
+</a>
+
+</h3>
+
+</div>
+
+
+<div class="sidebar-menu">
+
+<a href="courses.html">
+⌂ Dashboard
+</a>
+
+<a
+href="course-details.html"
+class="active-sidebar"
+>
+▣ My Courses
+</a>
+
+<a href="progress.html">
+◔ Progress
+</a>
+
+<a href="certificates.html">
+✦ Certificates
+</a>
+
+<a href="profile.html">
+◌ Profile
+</a>
+
+<a
+href="#"
+onclick="openLogoutModal()"
+>
+↩ Logout
+</a>
+
+</div>
+
+</div>
+
+
+<!-- MAIN -->
+
+<div class="employee-main">
+
+<div class="employee-banner">
+
+<h1>
+Course Quiz
+</h1>
+
+<p>
+Complete the quiz to unlock certification.
+</p>
+
+</div>
+
+
+<div class="quiz-preview-card">
+
+<h2>
+Fire Safety Quiz
+</h2>
+
+<p>
+Answer all questions.
+</p>
+
+
+<!-- Q1 -->
+
+<div class="quiz-question">
+
+<p>
+1. Which extinguisher is used for electrical fires?
+</p>
+
+<label>
+<input type="radio" name="q1" value="A">
+Water
+</label>
+
+<label>
+<input type="radio" name="q1" value="B">
+CO₂
+</label>
+
+<label>
+<input type="radio" name="q1" value="C">
+Foam
+</label>
+
+</div>
+
+
+<!-- Q2 -->
+
+<div class="quiz-question">
+
+<p>
+2. PPE stands for?
+</p>
+
+<label>
+<input type="radio" name="q2" value="A">
+Personal Protective Equipment
+</label>
+
+<label>
+<input type="radio" name="q2" value="B">
+Public Protection Equipment
+</label>
+
+<label>
+<input type="radio" name="q2" value="C">
+Power Protection Equipment
+</label>
+
+</div>
+
+
+<button
+id="submit-quiz"
+class="admin-save-btn"
+>
+
+Submit Quiz
+
+</button>
+
+<p id="quiz-result"></p>
+
+</div>
+
+</div>
+
+</div>
+
+
+<script>
+
+const submitBtn=
+document.getElementById(
+"submit-quiz"
+);
+
+const result=
+document.getElementById(
+"quiz-result"
+);
+
+submitBtn.addEventListener(
+"click",
+()=>{
+
+let score=0;
+
+const q1=
+document.querySelector(
+'input[name="q1"]:checked'
+);
+
+const q2=
+document.querySelector(
+'input[name="q2"]:checked'
+);
+
+if(
+q1 &&
+q1.value==="B"
+){
+score++;
+}
+
+if(
+q2 &&
+q2.value==="A"
+){
+score++;
+}
+
+if(score>=2){
+
+result.innerHTML=
+"Passed ✓ Certificate unlocked";
+
+result.style.color=
+"green";
+
+}
+else{
+
+result.innerHTML=
+"Failed. Try again.";
+
+result.style.color=
+"red";
+
+}
+
+}
+);
+
+</script>
+
+<!-- LOGOUT MODAL -->
+
+<div
+id="logout-modal"
+class="logout-modal"
+>
+
+<div class="logout-box">
+
+<h3>
+Logout
+</h3>
+
+<p>
+Do you want to logout?
+</p>
+
+<div class="logout-actions">
+
+<button
+class="logout-cancel"
+onclick="closeLogoutModal()"
+>
+Cancel
+</button>
+
+<button
+class="logout-confirm"
+onclick="logoutUser()"
+>
+Yes
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+function openLogoutModal(){
+
+document.getElementById(
+"logout-modal"
+).style.display=
+"flex";
+
+}
+
+function closeLogoutModal(){
+
+document.getElementById(
+"logout-modal"
+).style.display=
+"none";
+
+}
+
+function logoutUser(){
+
+localStorage.clear();
+
+window.location.href=
+"../index.html";
+
+}
+
+</script>
+<script src="../js/employee-auth.js"></script>
+<script src="../js/logout.js"></script>
+</body>
+</html>

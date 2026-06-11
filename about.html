@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About KCP Safety LMS</title>
+<link rel="stylesheet" href="css/global.css">
+</head>
+
+<body>
+
+<nav class="public-navbar">
+
+<div class="nav-logo">
+
+<a id="logo-link" href="index.html">
+
+<img
+src="assests/kcp_logo3.png"
+alt="KCP Logo"
+class="public-logo">
+
+</a>
+
+</div>
+
+<div class="nav-center">
+<a href="index.html"><span class="home-icon">⌂</span> Home</a>
+<a href="all-courses.html">All Courses</a>
+<a href="about.html">About</a>
+<a href="contact.html">Contact</a>
+</div>
+
+<div class="nav-right">
+
+<button class="theme-toggle">🌙</button>
+
+<div class="lang-toggle">
+EN | తెలుగు
+</div>
+
+<a href="login.html" class="nav-login-btn">
+Log In / Sign Up
+</a>
+
+</div>
+
+</nav>
+
+
+<section class="about-banner">
+<h1 class="about-banner-title">About Us</h1>
+</section>
+
+
+<section class="about-content">
+
+<div class="about-text">
+
+<h2>KCP Safety LMS</h2>
+
+<p>
+KCP Safety LMS is designed to support
+industrial learning, employee training,
+and safer workplace practices through
+structured digital learning.
+</p>
+
+<p>
+The platform enables industries to
+deliver safety courses, track learning
+progress, and improve workforce awareness.
+</p>
+
+</div>
+
+
+<div class="about-image-box">
+
+<img src="assests/kcp_plant.png" class="about-image">
+
+</div>
+
+</section>
+
+
+<section class="mission-section">
+
+<h2>Our Mission</h2>
+
+<p>
+To make industrial safety learning
+accessible, structured, and effective
+through technology-driven training.
+</p>
+
+</section>
+
+<script>
+
+const userEmail=
+localStorage.getItem("userEmail");
+
+const navBtn=
+document.querySelector(".nav-login-btn");
+
+if(userEmail){
+
+navBtn.innerHTML="Profile";
+
+navBtn.href=
+"employee/courses.html";
+
+}
+
+</script>
+
+
+
+
+</body>
+</html>

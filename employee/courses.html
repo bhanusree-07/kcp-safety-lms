@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Employee Dashboard - KCP LMS</title>
+
+<link rel="stylesheet" href="../css/global.css">
+<link rel="stylesheet" href="../css/employee.css">
+
+</head>
+
+<body>
+
+<div class="employee-layout">
+
+<!-- SIDEBAR -->
+
+<div class="employee-sidebar">
+
+<div class="sidebar-logo">
+
+<a href="../index.html">
+
+<img
+src="../assests/kcp_logo3.png"
+alt="KCP Logo"
+class="sidebar-logo-img">
+
+</a>
+
+<h3>
+
+<a
+href="../index.html"
+class="sidebar-title-link"
+>
+
+Safety LMS
+
+</a>
+
+</h3>
+
+</div>
+
+
+<!-- NAVIGATION -->
+
+<div class="sidebar-menu">
+
+<a
+href="courses.html"
+class="active-sidebar"
+>
+⌂ Dashboard
+</a>
+
+<a href="course-details.html">
+▣ My Courses
+</a>
+
+<a href="progress.html">
+◔ Progress
+</a>
+
+<a href="certificates.html">
+✦ Certificates
+</a>
+
+<a href="profile.html">
+◌ Profile
+</a>
+
+<a
+href="#"
+onclick="openLogoutModal()"
+>
+↩ Logout
+</a>
+
+</div>
+
+</div>
+
+
+<!-- MAIN -->
+
+<div class="employee-main">
+
+<!-- BANNER -->
+
+<div class="employee-banner">
+
+<h1 id="welcome-name">
+
+Welcome
+
+</h1>
+
+<p>
+Continue your safety training and track your learning progress.
+</p>
+
+</div>
+
+
+<!-- COURSES -->
+
+<div class="employee-content">
+
+<h2>
+My Courses
+</h2>
+
+<div
+class="employee-course-grid"
+id="course-grid"
+>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<script>
+
+const email=
+localStorage.getItem(
+"userEmail"
+);
+
+const grid=
+document.getElementById(
+"course-grid"
+);
+
+
+/* LOAD USER */
+
+async function loadUser(){
+
+const response=
+await fetch(
+`http://localhost:3000/get-user?email=${email}`
+);
+
+const user=
+await response.json();
+
+if(user){
+
+document.getElementById(
+"welcome-name"
+).innerHTML=
+
+`Welcome, ${user.full_name}`;
+
+}
+
+}
+
+
+/* LOAD EMPLOYEE COURSES */
+
+async function loadCourses(){
+
+const response=
+await fetch(
+`http://localhost:3000/employee-courses?email=${email}`
+);
+
+const courses=
+await response.json();
+
+grid.innerHTML="";
+
+courses.forEach(
+course=>{
+
+grid.innerHTML+=`
+
+<div class="employee-course-card">
+
+<h3>
+${course.title}
+</h3>
+
+<p>
+Progress: 0%
+</p>
+
+<a
+href="course-details.html?course_id=${course.id}"
+>
+Continue →
+</a>
+
+</div>
+
+`;
+
+}
+
+);
+
+}
+
+
+/* INITIAL LOAD */
+
+loadUser();
+loadCourses();
+
+</script>
+
+<!-- LOGOUT MODAL -->
+
+<div
+id="logout-modal"
+class="logout-modal"
+>
+
+<div class="logout-box">
+
+<h3>
+Logout
+</h3>
+
+<p>
+Do you want to logout?
+</p>
+
+<div class="logout-actions">
+
+<button
+class="logout-cancel"
+onclick="closeLogoutModal()"
+>
+Cancel
+</button>
+
+<button
+class="logout-confirm"
+onclick="logoutUser()"
+>
+Yes
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+function openLogoutModal(){
+
+document.getElementById(
+"logout-modal"
+).style.display=
+"flex";
+
+}
+
+function closeLogoutModal(){
+
+document.getElementById(
+"logout-modal"
+).style.display=
+"none";
+
+}
+
+function logoutUser(){
+
+localStorage.clear();
+
+window.location.href=
+"../index.html";
+
+}
+
+</script>
+<script src="../js/employee-auth.js"></script>
+<script src="../js/logout.js"></script>
+</body>
+</html>

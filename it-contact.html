@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        IT Contact
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="css/global.css"
+    >
+
+</head>
+
+<body>
+
+    <nav class="public-navbar">
+
+        <div class="nav-logo">
+
+<a id="logo-link" href="index.html">
+
+<img
+src="assests/kcp_logo3.png"
+alt="KCP Logo"
+class="public-logo">
+
+</a>
+
+</div>
+
+        <div class="nav-center">
+
+            <a href="index.html"><span class="home-icon">⌂</span> Home</a>
+
+            <a href="all-courses.html">
+                All Courses
+            </a>
+
+            <a href="about.html">
+                About
+            </a>
+
+            <a href="contact.html">
+                Contact
+            </a>
+
+        </div>
+
+        <div class="nav-right">
+
+            <button class="theme-toggle">🌙</button>
+
+            <div class="lang-toggle">
+
+                EN | తెలుగు
+
+            </div>
+
+            <a
+                href="login.html"
+                class="nav-login-btn"
+            >
+                Log In/Sign Up
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <section class="about-section">
+
+        <h2>
+
+            IT Department Contact
+
+        </h2>
+
+        <p>
+
+            For technical support,
+            website issues,
+            or system maintenance.
+
+        </p>
+
+        <br>
+
+        <p>
+
+            Email:
+            itsupport@kcp.com
+
+        </p>
+
+        <p>
+
+            Phone:
+            +91 XXXXX XXXXX
+
+        </p>
+
+    </section>
+
+<script>
+
+const userEmail=
+localStorage.getItem("userEmail");
+
+const navBtn=
+document.querySelector(".nav-login-btn");
+
+if(userEmail){
+
+navBtn.innerHTML="Profile";
+
+navBtn.href=
+"employee/courses.html";
+
+}
+
+</script>
+
+</body>
+
+</html>

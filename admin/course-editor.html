@@ -1,0 +1,1118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Course Editor - KCP LMS</title>
+
+<link rel="stylesheet" href="../css/global.css">
+<link rel="stylesheet" href="../css/employee.css">
+<link rel="stylesheet" href="../css/admin.css">
+
+</head>
+
+<body style="display:none;">
+
+<div class="employee-layout">
+
+<!-- ADMIN SIDEBAR -->
+
+<div class="employee-sidebar">
+
+<div class="sidebar-logo">
+
+<a href="../index.html">
+
+<img
+src="../assests/kcp_logo3.png"
+alt="KCP Logo"
+class="sidebar-logo-img">
+
+</a>
+
+<h3>
+
+<a
+href="../index.html"
+class="sidebar-title-link"
+>
+
+Safety LMS
+
+</a>
+
+</h3>
+
+</div>
+
+
+<!-- ADMIN NAVIGATION -->
+
+<div class="sidebar-menu">
+
+<a href="dashboard.html">
+⌂ Dashboard
+</a>
+
+<a href="courses.html">
+▣ Manage Courses
+</a>
+
+
+<a href="employee-progress.html">
+◔ Employee Progress
+</a>
+
+<a href="certificates.html">
+✦ Certificates
+</a>
+
+<a href="employees.html">
+◌ Employees
+</a>
+
+<a href="profile.html">
+◌ Profile
+</a>
+
+<a
+href="#"
+onclick="openLogoutModal()"
+>
+↩ Logout
+</a>
+
+</div>
+
+</div>
+
+
+<!-- MAIN CONTENT -->
+
+<div class="employee-main">
+
+<!-- PAGE BANNER -->
+
+<div class="employee-banner">
+
+<h1>
+Create Course
+</h1>
+
+<p>
+Create and manage LMS training content.
+</p>
+
+</div>
+
+
+<!-- COURSE DETAILS -->
+
+<div class="admin-section-card">
+
+<h2>
+Course Information
+</h2>
+
+<div class="admin-form-grid">
+
+<div class="admin-input-group">
+
+<label>
+Course Title
+</label>
+
+<input
+type="text"
+id="course-title"
+placeholder="Enter course title"
+>
+
+</div>
+
+
+<div class="admin-input-group">
+
+<label>
+Language
+</label>
+
+<select id="course-language">
+
+<option>
+English
+</option>
+
+<option>
+Telugu
+</option>
+
+</select>
+
+</div>
+
+
+<div class="admin-input-group full-width">
+
+<label>
+Course Description
+</label>
+
+<textarea
+id="course-description"
+placeholder="Course description"
+></textarea>
+
+</div>
+
+
+<div class="admin-input-group">
+
+<label>
+Duration
+</label>
+
+<input
+type="text"
+id="course-duration"
+placeholder="Ex: 2 Hours"
+>
+
+</div>
+
+
+
+<div class="admin-input-group">
+
+<label>Course Thumbnail</label>
+
+<input
+type="file"
+id="thumbnail"
+accept="image/*"
+>
+
+<div
+id="current-thumbnail"
+style="margin-top:8px;color:#666;"
+>
+</div>
+
+
+
+
+</div>
+
+
+<div class="admin-input-group">
+
+<label>
+Status
+</label>
+
+<select id="course-status">
+
+<option value="draft">
+Draft
+</option>
+
+<option value="published">
+Published
+</option>
+
+</select>
+
+</div>
+
+</div>
+
+
+<div style="text-align:center;margin-top:20px;">
+
+<button
+class="admin-save-btn"
+style="height:42px;"
+id="save-course-btn"
+type="button"
+>
+Save Course
+</button>
+</div>
+
+</div>
+
+
+<!-- MODULES SECTION -->
+
+<div class="admin-section-card">
+
+<div class="module-header-row">
+
+<h2>
+Modules
+</h2>
+
+<button
+class="admin-add-btn"
+id="add-module-btn"
+type="button"
+>
+
++ Add Module
+
+</button>
+
+</div>
+
+
+<!-- MODULE CARD -->
+
+<div id="modules-container"></div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<script>
+
+const params =
+new URLSearchParams(
+window.location.search
+);
+
+const courseId =
+params.get("course_id");
+
+if(courseId){
+
+loadCourseDetails();
+
+}
+
+async function loadCourseDetails(){
+
+const response =
+await fetch(
+`http://localhost:3000/course-details?course_id=${courseId}`
+);
+
+const course =
+await response.json();
+
+document.getElementById(
+"current-thumbnail"
+).innerHTML=
+course.thumbnail
+?
+`Current File: ${course.thumbnail}`
+:
+"No thumbnail uploaded";
+
+document.getElementById(
+"course-title"
+).value = course.title;
+
+document.getElementById(
+"course-description"
+).value = course.description;
+
+document.getElementById(
+"course-language"
+).value = course.language;
+
+document.getElementById(
+"course-duration"
+).value = course.duration;
+
+document.getElementById(
+"course-status"
+).value = course.status;
+loadModules();
+
+}
+
+async function loadModules(){
+
+console.log("loadModules running");
+
+const response=
+await fetch(
+`http://localhost:3000/course-modules?course_id=${courseId}`
+);
+
+const modules=
+await response.json();
+
+console.log(modules);
+
+const container=
+document.getElementById(
+"modules-container"
+);
+
+console.log(container);
+
+container.innerHTML="";
+
+moduleCount=
+modules.length;
+
+modules.forEach(module=>{
+
+console.log(
+"rendering",
+module.module_title
+);
+
+container.insertAdjacentHTML(
+"beforeend",
+`
+
+<div class="admin-module-card">
+
+<h3>
+Module ${module.module_order}
+</h3>
+
+<div class="admin-form-grid">
+
+<div class="admin-input-group">
+
+<label>
+Module Title
+</label>
+
+<input
+type="text"
+value="${module.module_title}"
+>
+
+</div>
+
+<div class="admin-input-group">
+
+<label>
+Module Order
+</label>
+
+<input
+type="number"
+value="${module.module_order}"
+>
+
+</div>
+
+<div class="admin-input-group full-width">
+
+<label>
+Module Description
+</label>
+
+<textarea>${module.module_content || ""}</textarea>
+
+</div>
+
+<div class="admin-input-group">
+
+<label>
+PDF Upload
+</label>
+
+<p>
+${module.pdf_file || "No PDF"}
+</p>
+
+</div>
+
+<div class="admin-input-group">
+
+<label>
+Image Upload
+</label>
+
+<p>
+${module.image_file || "No Image"}
+</p>
+
+</div>
+
+<div class="admin-input-group">
+
+<label>
+Video Link
+</label>
+
+<input
+type="text"
+value="${module.video_link || ""}"
+>
+
+</div>
+
+</div>
+
+<div class="module-btn-row">
+
+<button
+class="admin-save-btn update-module-btn"
+data-id="${module.id}"
+>
+Save Changes
+</button>
+
+<button
+class="admin-delete-btn delete-module-btn"
+data-id="${module.id}"
+>
+Delete Module
+</button>
+
+</div>
+
+</div>
+
+`
+);
+
+});
+
+}
+
+
+let moduleCount=0;
+
+document
+.getElementById(
+"add-module-btn"
+)
+.addEventListener(
+"click",
+function(){
+
+moduleCount++;
+
+const container=
+document.getElementById(
+"modules-container"
+);
+
+container.insertAdjacentHTML(
+"beforeend",
+`
+
+<div class="admin-module-card">
+
+<h3>
+Module ${moduleCount}
+</h3>
+
+<div class="admin-form-grid">
+
+<div class="admin-input-group">
+
+<label>
+Module Title
+</label>
+
+<input
+type="text"
+placeholder="Module title"
+>
+
+</div>
+
+<div class="admin-input-group">
+
+<label>
+Module Order
+</label>
+
+<input
+type="number"
+value="${moduleCount}"
+>
+
+</div>
+
+<div class="admin-input-group full-width">
+
+<label>
+Module Description
+</label>
+
+<textarea
+placeholder="Module content / learning material"
+></textarea>
+
+</div>
+
+<div class="admin-input-group">
+
+<label>
+PDF Upload
+</label>
+
+<input
+type="file"
+accept=".pdf"
+>
+
+</div>
+
+<div class="admin-input-group">
+
+<label>
+Image Upload
+</label>
+
+<input
+type="file"
+accept="image/*"
+>
+
+</div>
+
+<div class="admin-input-group">
+
+<label>
+Video Link
+</label>
+
+<input
+type="text"
+placeholder="YouTube URL"
+>
+
+</div>
+
+</div>
+
+<div class="module-btn-row">
+
+<button
+class="admin-save-btn save-module-btn"
+>
+Save Module
+</button>
+
+<button class="admin-delete-btn">
+Delete
+</button>
+
+</div>
+
+</div>
+
+`
+);
+
+}
+);
+document
+.getElementById(
+"add-module-btn"
+)
+.click();
+
+document.addEventListener(
+"click",
+async function(e){
+
+if(
+e.target.classList.contains(
+"save-module-btn"
+)
+){
+
+
+
+
+const card=
+e.target.closest(
+".admin-module-card"
+);
+
+const inputs=
+card.querySelectorAll(
+"input, textarea"
+);
+
+const module_title=
+inputs[0].value;
+
+const module_order=
+inputs[1].value;
+
+const module_content=
+inputs[2].value;
+
+const video_link=
+inputs[5].value;
+
+const pdfInput=
+card.querySelectorAll(
+'input[type="file"]'
+)[0];
+
+let pdf_file="";
+
+if(
+pdfInput.files[0]
+){
+
+const pdfFormData=
+new FormData();
+
+pdfFormData.append(
+"pdf",
+pdfInput.files[0]
+);
+
+const pdfUploadResponse=
+await fetch(
+"http://localhost:3000/upload-module-pdf",
+{
+method:"POST",
+body:pdfFormData
+}
+);
+
+const pdfUploadData=
+await pdfUploadResponse.json();
+
+pdf_file=
+pdfUploadData.pdf_file;
+console.log(
+"uploaded pdf",
+pdfUploadData
+);
+
+}
+
+console.log({
+pdf_file
+});
+
+const response=
+await fetch(
+"http://localhost:3000/create-module",
+{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+course_id:courseId,
+module_title,
+module_content,
+module_order,
+pdf_file,
+image_file:"",
+video_link
+})
+}
+);
+
+const data=
+await response.json();
+
+const popup=
+document.getElementById(
+"module-popup"
+);
+
+popup.classList.add(
+"show"
+);
+
+setTimeout(()=>{
+
+popup.classList.remove(
+"show"
+);
+
+},3000);
+}
+
+}
+);
+
+document.addEventListener(
+"click",
+async function(e){
+
+if(
+e.target.classList.contains(
+"update-module-btn"
+)
+){
+
+console.log(
+"update clicked"
+);
+
+const moduleId=
+e.target.dataset.id;
+
+const card=
+e.target.closest(
+".admin-module-card"
+);
+
+const inputs=
+card.querySelectorAll(
+"input"
+);
+
+const module_title=
+inputs[0].value;
+
+const module_order=
+inputs[1].value;
+
+const module_content=
+card.querySelector(
+"textarea"
+).value;
+
+const video_link=
+inputs[2].value;
+
+const response=
+await fetch(
+"http://localhost:3000/update-module",
+{
+method:"PUT",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+module_id:moduleId,
+module_title,
+module_content,
+module_order,
+pdf_file:"",
+image_file:"",
+video_link
+})
+}
+);
+
+const data=
+await response.json();
+
+const popup=
+document.getElementById(
+"module-popup"
+);
+
+popup.innerHTML=
+"✓ Module updated successfully";
+
+popup.classList.add(
+"show"
+);
+
+setTimeout(()=>{
+
+popup.classList.remove(
+"show"
+);
+
+},3000);
+
+}
+
+}
+);
+
+
+document.addEventListener(
+"click",
+async function(e){
+
+if(
+e.target.classList.contains(
+"delete-module-btn"
+)
+){
+
+const moduleId=
+e.target.dataset.id;
+
+const confirmed=
+confirm(
+"Delete this module?"
+);
+
+if(!confirmed){
+
+return;
+
+}
+
+const response=
+await fetch(
+`http://localhost:3000/delete-module?module_id=${moduleId}`,
+{
+method:"DELETE"
+}
+);
+
+const data=
+await response.json();
+
+if(data.success){
+
+loadModules();
+
+}
+
+}
+
+}
+);
+
+</script>
+
+<script>
+
+document
+.getElementById(
+"save-course-btn"
+)
+.addEventListener(
+"click",
+async function(){
+const saveBtn=
+document.getElementById(
+"save-course-btn"
+);
+
+saveBtn.disabled=true;
+saveBtn.innerHTML=
+"Saving...";
+
+const title=
+document.getElementById(
+"course-title"
+).value;
+
+const description=
+document.getElementById(
+"course-description"
+).value;
+
+const language=
+document.getElementById(
+"course-language"
+).value;
+
+const duration=
+document.getElementById(
+"course-duration"
+).value;
+
+const status=
+document.getElementById(
+"course-status"
+).value;
+
+const thumbnailInput=
+document.getElementById(
+"thumbnail"
+);
+
+const formData=
+new FormData();
+
+if(
+thumbnailInput.files[0]
+){
+
+formData.append(
+"thumbnail",
+thumbnailInput.files[0]
+);
+
+}
+
+let thumbnail=
+"kcp_plant.png";
+
+if(
+thumbnailInput.files[0]
+){
+
+const uploadResponse=
+await fetch(
+"http://localhost:3000/upload-course-thumbnail",
+{
+method:"POST",
+body:formData
+}
+);
+
+const uploadData=
+await uploadResponse.json();
+
+thumbnail=
+uploadData.thumbnail;
+
+}
+
+let url=
+"http://localhost:3000/create-course";
+
+let payload={
+title,
+description,
+language,
+duration,
+thumbnail,
+status,
+created_by:5
+};
+
+if(courseId){
+
+url=
+"http://localhost:3000/update-course";
+
+payload={
+course_id:courseId,
+title,
+description,
+language,
+duration,
+thumbnail,
+status
+};
+
+}
+
+const response=
+await fetch(
+url,
+{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify(
+payload
+)
+}
+);
+
+const data=
+await response.json();
+
+const popup=
+document.getElementById(
+"success-popup"
+);
+
+popup.classList.add(
+"show"
+);
+
+setTimeout(()=>{
+popup.classList.remove(
+"show"
+);
+},3000);
+saveBtn.innerHTML=
+"Saved ✓";
+}
+);
+</script>
+
+<!-- LOGOUT MODAL -->
+
+<div
+id="logout-modal"
+class="logout-modal"
+>
+
+<div class="logout-box">
+
+<h3>
+Logout
+</h3>
+
+<p>
+Do you want to logout?
+</p>
+
+<div class="logout-actions">
+
+<button
+class="logout-cancel"
+onclick="closeLogoutModal()"
+>
+Cancel
+</button>
+
+<button
+class="logout-confirm"
+onclick="logoutUser()"
+>
+Yes
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+function openLogoutModal(){
+
+document.getElementById(
+"logout-modal"
+).style.display=
+"flex";
+
+}
+
+function closeLogoutModal(){
+
+document.getElementById(
+"logout-modal"
+).style.display=
+"none";
+
+}
+
+function logoutUser(){
+
+localStorage.clear();
+
+window.location.href=
+"../index.html";
+
+}
+
+</script>
+
+
+<script src="../js/auth-check.js"></script>
+<script src="../js/admin-auth.js"></script>
+<script src="../js/logout.js"></script>
+<div id="success-popup" class="success-popup">
+✓ Course saved successfully
+</div>
+<div id="module-popup" class="success-popup">
+✓ Module saved successfully
+</div>
+</body>
+</html>

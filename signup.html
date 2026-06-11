@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>KCP Safety LMS - Create Account</title>
+
+    <link rel="stylesheet" href="css/global.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+
+    <a href="index.html" class="auth-home-link"><span class="auth-home-icon">⌂</span> Home</a>
+
+    <div class="login-container">
+
+        <div class="login-card">
+
+            <!-- Logo -->
+
+            <div class="logo-header">
+
+                <img
+                    src="assests/kcp_logo3.png"
+                    alt="KCP Logo"
+                    class="logo-img"
+                >
+
+                <h2>Safety LMS</h2>
+
+            </div>
+
+            <!-- Heading -->
+
+            <h1>Create Account</h1>
+
+            <p class="small-text">
+                or
+                <a href="login.html">
+                    Log In
+                </a>
+            </p>
+
+            <!-- Form -->
+
+            <form id="signup-form">
+
+                <input
+                    type="text"
+                    id="signup-name"
+                    placeholder="Full Name"
+                    required
+                >
+
+                <input
+                    type="email"
+                    id="signup-email"
+                    placeholder="Email"
+                    required
+                >
+
+                <div class="password-wrapper"><input type="password" id="signupPassword" placeholder="Password"><span class="password-toggle" onclick="togglePassword('signupPassword', this)">⌔</span></div>
+
+                <div class="password-wrapper"><input type="password" id="confirmPassword" placeholder="Confirm Password"><span class="password-toggle" onclick="togglePassword('confirmPassword', this)">⌔</span></div>
+
+                <p id="passwordMessage" class="form-message"></p>
+
+                <button type="submit">
+                    Create Account
+                </button>
+
+                <p id="signup-message" class="form-message"></p>
+
+            </form>
+
+        </div>
+
+    </div>
+
+<script
+    type="module"
+    src="js/auth.js">
+</script>
+
+<script>
+
+function togglePassword(id,icon){
+const input=document.getElementById(id);
+
+if(input.type==="password"){
+input.type="text";
+icon.innerHTML="◉";
+}else{
+input.type="password";
+icon.innerHTML="⌔";
+}
+}
+
+const password=document.getElementById("signupPassword");
+const confirmPassword=document.getElementById("confirmPassword");
+const message=document.getElementById("passwordMessage");
+
+confirmPassword.addEventListener("input",function(){
+
+if(confirmPassword.value===""){
+message.innerHTML="";
+return;
+}
+
+if(password.value===confirmPassword.value){
+message.innerHTML="Passwords match";
+message.className="form-message success";
+}else{
+message.innerHTML="Passwords do not match";
+message.className="form-message error";
+}
+
+});
+
+</script>
+
+</body>
+</html>
+
+

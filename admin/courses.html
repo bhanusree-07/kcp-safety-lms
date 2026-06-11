@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Manage Courses - KCP LMS</title>
+
+<link rel="stylesheet" href="../css/global.css">
+<link rel="stylesheet" href="../css/employee.css">
+<link rel="stylesheet" href="../css/admin.css">
+
+</head>
+
+<body style="display:none;">
+
+<div class="employee-layout">
+
+<!-- SIDEBAR -->
+
+<div class="employee-sidebar">
+
+<div class="sidebar-logo">
+
+<a href="../index.html">
+
+<img
+src="../assests/kcp_logo3.png"
+alt="KCP Logo"
+class="sidebar-logo-img">
+
+</a>
+
+<h3>
+
+<a
+href="../index.html"
+class="sidebar-title-link"
+>
+
+Safety LMS
+
+</a>
+
+</h3>
+
+</div>
+
+
+<!-- NAVIGATION -->
+
+<div class="sidebar-menu">
+
+<a href="dashboard.html">
+⌂ Dashboard
+</a>
+
+<a
+href="courses.html"
+class="active-sidebar"
+>
+▣ Manage Courses
+</a>
+
+
+
+<a href="employee-progress.html">
+◔ Employee Progress
+</a>
+
+<a href="certificates.html">
+✦ Certificates
+</a>
+
+<a href="employees.html">
+◌ Employees
+</a>
+
+<a href="profile.html">
+◌ Profile
+</a>
+
+<a
+href="#"
+onclick="openLogoutModal()"
+>
+↩ Logout
+</a>
+
+</div>
+
+</div>
+
+
+<!-- MAIN -->
+
+<div class="employee-main">
+
+<!-- PAGE BANNER -->
+
+<div class="employee-banner">
+
+<h1>
+Manage Courses
+</h1>
+
+<p>
+Create, edit and manage LMS training courses.
+</p>
+
+</div>
+
+
+<!-- TOOLBAR -->
+
+<div class="admin-toolbar">
+
+<input
+type="text"
+placeholder="Search courses..."
+id="course-search"
+>
+
+<a
+href="course-editor.html"
+class="admin-add-btn"
+>
++ Create Course
+</a>
+
+</div>
+
+<div
+class="admin-course-grid"
+id="course-grid"
+>
+
+</div>
+
+
+</div>
+
+</div>
+
+<div id="delete-popup" class="delete-popup">
+
+<div class="delete-popup-box">
+
+<h3>
+Delete Course?
+</h3>
+
+<p>
+Permanently delete the course & its modules?
+</p>
+
+<div class="delete-popup-actions">
+
+<button
+id="cancel-delete-btn"
+class="admin-save-btn"
+>
+Cancel
+</button>
+
+<button
+id="confirm-delete-btn"
+class="admin-delete-btn"
+>
+Delete
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+async function loadCourses(){
+
+const response=
+await fetch(
+"http://localhost:3000/courses"
+);
+
+const courses=
+await response.json();
+
+const grid=
+document.getElementById(
+"course-grid"
+);
+
+grid.innerHTML="";
+
+courses.forEach(
+(course)=>{
+
+grid.innerHTML+=`
+
+<div class="admin-course-card">
+
+
+
+<img
+src="../assests/course-thumbnails/${course.thumbnail}"
+class="admin-course-thumbnail"
+>
+
+<h3>
+${course.title}
+</h3>
+
+<p>
+Language:
+${course.language}
+</p>
+
+<p>
+Duration:
+${course.duration}
+</p>
+
+<p>
+Status:
+${course.status}
+</p>
+
+<div class="admin-course-actions">
+
+<a href="course-editor.html?course_id=${course.id}">
+✎ Edit
+</a>
+
+<a href="manage-modules.html?course_id=${course.id}">
+◫ Modules
+</a>
+
+<a
+href="#"
+class="delete-btn"
+data-id="${course.id}"
+>
+Delete
+</a>
+
+</div>
+
+</div>
+
+`;
+
+}
+);
+
+}
+
+loadCourses();
+
+document.addEventListener(
+"click",
+function(e){
+
+if(
+e.target.classList.contains(
+"delete-btn"
+)
+){
+
+e.preventDefault();
+
+const courseId=
+e.target.dataset.id;
+
+window.courseToDelete=
+courseId;
+
+document
+.getElementById(
+"delete-popup"
+)
+.classList.add(
+"show"
+);
+document.body.style.overflow="hidden";
+
+}
+
+}
+);
+
+document
+.getElementById(
+"cancel-delete-btn"
+)
+.addEventListener(
+"click",
+function(){
+
+document
+.getElementById(
+"delete-popup"
+)
+.classList.remove(
+"show"
+);
+document.body.style.overflow="auto";
+
+}
+);
+
+</script>
+<script>
+document
+.getElementById(
+"confirm-delete-btn"
+)
+.addEventListener(
+"click",
+async function(){
+
+const courseId=
+window.courseToDelete;
+
+const response=
+await fetch(
+`http://localhost:3000/delete-course?course_id=${courseId}`,
+{
+method:"DELETE"
+}
+);
+
+const data=
+await response.json();
+
+if(data.success){
+
+document
+.getElementById(
+"delete-popup"
+)
+.classList.remove(
+"show"
+);
+
+document.body.style.overflow="auto";
+
+loadCourses();
+
+}
+
+}
+);
+</script>
+
+<!-- LOGOUT MODAL -->
+
+<div
+id="logout-modal"
+class="logout-modal"
+>
+
+<div class="logout-box">
+
+<h3>
+Logout
+</h3>
+
+<p>
+Do you want to logout?
+</p>
+
+<div class="logout-actions">
+
+<button
+class="logout-cancel"
+onclick="closeLogoutModal()"
+>
+Cancel
+</button>
+
+<button
+class="logout-confirm"
+onclick="logoutUser()"
+>
+Yes
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+function openLogoutModal(){
+
+document.getElementById(
+"logout-modal"
+).style.display=
+"flex";
+
+}
+
+function closeLogoutModal(){
+
+document.getElementById(
+"logout-modal"
+).style.display=
+"none";
+
+}
+
+function logoutUser(){
+
+localStorage.clear();
+
+window.location.href=
+"../index.html";
+
+}
+
+</script>
+
+<script src="../js/auth-check.js"></script>
+<script src="../js/admin-auth.js"></script>
+<script src="../js/logout.js"></script>
+
+</body>
+</html>

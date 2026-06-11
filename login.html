@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>KCP Safety LMS - Login</title>
+
+    <!-- Global CSS -->
+    <link rel="stylesheet" href="css/global.css">
+
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+
+    <a href="index.html" class="auth-home-link"><span class="auth-home-icon">⌂</span> Home</a>
+
+
+    <div class="login-container">
+
+        <div class="login-card">
+
+            <!-- Logo + Safety LMS -->
+
+            <div class="logo-header">
+
+                <img
+                    src="assests/kcp_logo3.png"
+                    alt="KCP Logo"
+                    class="logo-img"
+                >
+
+                <h2>Safety LMS</h2>
+
+            </div>
+
+            <!-- Main Heading -->
+
+            <h1>Sign In</h1>
+
+            <p class="small-text">
+                or
+                <a href="signup.html">
+                    create an account
+                </a>
+            </p>
+
+            <form id="login-form">
+
+                <!-- Email -->
+
+                <input
+                    type="email"
+                    id="login-email"
+                    placeholder="Email"
+                    required
+                >
+
+                <!-- Password -->
+
+                <div class="password-wrapper"><input type="password" id="loginPassword" placeholder="Password"><span class="password-toggle" onclick="togglePassword('loginPassword', this)">⌔</span></div>
+
+                <!-- Remember Me -->
+
+                <div class="remember-row">
+
+                    <label class="remember-label">
+
+                        <input type="checkbox">
+
+                        <span>Remember me</span>
+
+                    </label>
+
+                </div>
+
+                <!-- Login Button -->
+
+                <button type="submit">
+                    Log In
+                </button>
+
+                <p id="login-message" class="form-message"></p>
+
+            </form>
+
+            <!-- Forgot Password -->
+
+            <a
+                href="forgot-password.html"
+                class="forgot-link"
+            >
+                Forgotten your password?
+            </a>
+
+        </div>
+
+    </div>
+
+<script
+    type="module"
+    src="js/auth.js">
+</script>
+
+<script>
+function togglePassword(id,icon){
+const input=document.getElementById(id);
+if(input.type==="password"){
+input.type="text";
+icon.innerHTML="◉";
+}else{
+input.type="password";
+icon.innerHTML="⌔";
+}
+}
+
+
+
+
+</script>
+
+</body>
+</html>

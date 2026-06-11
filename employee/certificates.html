@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Certificates - KCP LMS</title>
+
+<link rel="stylesheet" href="../css/global.css">
+<link rel="stylesheet" href="../css/employee.css">
+
+</head>
+
+<body>
+
+<div class="employee-layout">
+
+<!-- SIDEBAR -->
+
+<div class="employee-sidebar">
+
+<div class="sidebar-logo">
+
+<a href="courses.html">
+
+<img
+src="../assests/kcp_logo3.png"
+alt="KCP Logo"
+class="sidebar-logo-img">
+
+</a>
+
+<h3>
+
+<a
+href="courses.html"
+class="sidebar-title-link"
+>
+
+Safety LMS
+
+</a>
+
+</h3>
+
+</div>
+
+<div class="sidebar-menu">
+
+<a href="courses.html">
+⌂ Dashboard
+</a>
+
+<a href="course-details.html">
+▣ My Courses
+</a>
+
+<a href="progress.html">
+◔ Progress
+</a>
+
+<a
+href="certificates.html"
+class="active-sidebar"
+>
+✦ Certificates
+</a>
+
+<a href="profile.html">
+◌ Profile
+</a>
+
+<a 
+href="#"
+onclick="openLogoutModal()"
+>
+↩ Logout
+</a>
+
+</div>
+
+</div>
+
+
+<!-- MAIN -->
+
+<div class="employee-main">
+
+<div class="employee-banner">
+
+<h1>
+My Certificates
+</h1>
+
+<p>
+View certificates earned from completed training.
+</p>
+
+</div>
+
+
+<div
+class="certificate-grid"
+id="certificate-grid"
+>
+
+</div>
+
+</div>
+
+</div>
+
+
+<script>
+
+const email=
+localStorage.getItem(
+"userEmail"
+);
+
+const grid=
+document.getElementById(
+"certificate-grid"
+);
+
+async function loadCertificates(){
+
+const response=
+await fetch(
+`http://localhost:3000/user-certificates?email=${email}`
+);
+
+const certificates=
+await response.json();
+
+if(certificates.length===0){
+
+grid.innerHTML=`
+
+<div class="empty-certificates">
+
+<h3>
+No Certificates Yet
+</h3>
+
+<p>
+Complete courses to earn certificates.
+</p>
+
+</div>
+
+`;
+
+return;
+
+}
+
+certificates.forEach(cert=>{
+
+const date=
+new Date(
+cert.issued_at
+);
+
+grid.innerHTML+=`
+
+<div class="certificate-card">
+
+<div class="certificate-top">
+
+<h2>
+${cert.title}
+</h2>
+
+<span>
+Completed
+</span>
+
+</div>
+
+<div class="certificate-body">
+
+<p>
+
+<strong>
+Certificate Code:
+</strong>
+
+${cert.certificate_code}
+
+</p>
+
+<p>
+
+<strong>
+Issued:
+</strong>
+
+${date.toLocaleDateString()}
+
+</p>
+
+</div>
+
+<button
+class="certificate-btn"
+onclick="
+alert(
+'Certificate Viewer Coming Soon'
+)
+"
+>
+
+View Certificate
+
+</button>
+
+</div>
+
+`;
+
+});
+
+}
+
+loadCertificates();
+
+</script>
+
+<!-- LOGOUT MODAL -->
+
+<div
+id="logout-modal"
+class="logout-modal"
+>
+
+<div class="logout-box">
+
+<h3>
+Logout
+</h3>
+
+<p>
+Do you want to logout?
+</p>
+
+<div class="logout-actions">
+
+<button
+class="logout-cancel"
+onclick="closeLogoutModal()"
+>
+Cancel
+</button>
+
+<button
+class="logout-confirm"
+onclick="logoutUser()"
+>
+Yes
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+function openLogoutModal(){
+
+document.getElementById(
+"logout-modal"
+).style.display=
+"flex";
+
+}
+
+function closeLogoutModal(){
+
+document.getElementById(
+"logout-modal"
+).style.display=
+"none";
+
+}
+
+function logoutUser(){
+
+localStorage.clear();
+
+window.location.href=
+"../index.html";
+
+}
+
+</script>
+
+<script src="../js/employee-auth.js"></script>
+<script src="../js/logout.js"></script>
+</body>
+
+</html>

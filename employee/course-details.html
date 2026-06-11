@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Courses - KCP LMS</title>
+
+<link rel="stylesheet" href="../css/global.css">
+<link rel="stylesheet" href="../css/employee.css">
+
+</head>
+
+<body>
+
+<div class="employee-layout">
+
+<!-- EMPLOYEE SIDEBAR -->
+
+<div class="employee-sidebar">
+
+<div class="sidebar-logo">
+
+<a href="../index.html">
+
+<img
+src="../assests/kcp_logo3.png"
+alt="KCP Logo"
+class="sidebar-logo-img">
+
+</a>
+
+<h3>
+
+<a
+href="../index.html"
+class="sidebar-title-link"
+>
+
+Safety LMS
+
+</a>
+
+</h3>
+
+</div>
+
+
+<!-- SIDEBAR -->
+
+<div class="sidebar-menu">
+
+<a href="courses.html">
+⌂ Dashboard
+</a>
+
+<a
+href="course-details.html"
+class="active-sidebar"
+>
+▣ My Courses
+</a>
+
+<a href="progress.html">
+◔ Progress
+</a>
+
+<a href="certificates.html">
+✦ Certificates
+</a>
+
+<a href="profile.html">
+◌ Profile
+</a>
+
+<a
+href="#"
+onclick="openLogoutModal()"
+>
+↩ Logout
+</a>
+
+
+
+</div>
+
+</div>
+
+
+<!-- MAIN -->
+
+<div class="employee-main">
+
+<!-- BANNER -->
+
+<div class="employee-banner">
+
+<h1>
+My Courses
+</h1>
+
+<p>
+Browse and continue your safety training.
+</p>
+
+</div>
+
+
+<!-- FILTER + SEARCH -->
+
+<div class="employee-toolbar">
+
+<select id="course-filter">
+
+<option>
+All Courses
+</option>
+
+<option>
+Completed
+</option>
+
+<option>
+In Progress
+</option>
+
+</select>
+
+
+<div class="employee-search">
+
+<input
+type="text"
+placeholder="Search courses..."
+>
+
+<button>
+⌕
+</button>
+
+</div>
+
+</div>
+
+
+<!-- COURSE GRID -->
+
+<div
+class="employee-course-grid"
+id="course-grid"
+>
+
+</div>
+
+</div>
+
+</div>
+
+
+<script>
+
+let courses=[];
+let progressData=[];
+
+
+/* ELEMENTS */
+
+const grid=
+document.getElementById(
+"course-grid"
+);
+
+const searchInput=
+document.querySelector(
+".employee-search input"
+);
+
+const filter=
+document.getElementById(
+"course-filter"
+);
+
+const email=
+localStorage.getItem(
+"userEmail"
+);
+
+
+/* LOAD DATA */
+
+async function loadData(){
+
+/* ASSIGNED COURSES */
+
+const courseResponse=
+await fetch(
+`http://localhost:3000/employee-courses?email=${email}`
+);
+
+courses=
+await courseResponse.json();
+
+
+/* USER PROGRESS */
+
+const progressResponse=
+await fetch(
+`http://localhost:3000/user-progress?email=${email}`
+);
+
+progressData=
+await progressResponse.json();
+
+renderCourses();
+
+}
+
+
+/* GET STATUS */
+
+function getStatus(courseId){
+
+const progress=
+progressData.find(
+p=>p.course_id==courseId
+);
+
+if(!progress){
+
+return "Not Started";
+
+}
+
+if(
+progress.status==="completed"
+){
+
+return "Completed";
+
+}
+
+if(
+progress.status==="in_progress"
+){
+
+return "In Progress";
+
+}
+
+return "Not Started";
+
+}
+
+/* RENDER COURSES */
+
+function renderCourses(){
+
+const search=
+searchInput.value
+.toLowerCase();
+
+const selected=
+filter.value;
+
+grid.innerHTML="";
+
+courses.forEach(
+course=>{
+
+const status=
+getStatus(
+course.id
+);
+
+const matchesSearch=
+
+course.title
+.toLowerCase()
+.includes(
+search
+);
+
+const matchesFilter=
+
+selected==="All Courses"
+?
+true
+:
+status===selected;
+
+
+if(
+matchesSearch
+&&
+matchesFilter
+){
+
+let buttonClass=
+"view-btn";
+
+let buttonText=
+"View";
+
+if(
+status==="Completed"
+){
+
+buttonClass=
+"completed-btn";
+
+buttonText=
+"Completed";
+
+}
+
+else if(
+status==="In Progress"
+){
+
+buttonClass=
+"progress-btn";
+
+buttonText=
+"In Progress";
+
+}
+
+grid.innerHTML+=`
+
+<div class="employee-course-card">
+
+<h3>
+
+${course.title}
+
+</h3>
+
+<p class="notstarted-text">
+
+${status}
+
+</p>
+
+<a
+href="module.html?course_id=${course.id}"
+class="${buttonClass}"
+>
+
+${buttonText}
+
+</a>
+
+</div>
+
+`;
+
+}
+
+}
+);
+
+}
+
+
+/* SEARCH */
+
+searchInput.addEventListener(
+"input",
+renderCourses
+);
+
+
+/* FILTER */
+
+filter.addEventListener(
+"change",
+renderCourses
+);
+
+
+/* INITIAL LOAD */
+
+loadData();
+
+</script>
+
+<!-- LOGOUT MODAL -->
+
+<div
+id="logout-modal"
+class="logout-modal"
+>
+
+<div class="logout-box">
+
+<h3>
+Logout
+</h3>
+
+<p>
+Do you want to logout?
+</p>
+
+<div class="logout-actions">
+
+<button
+class="logout-cancel"
+onclick="closeLogoutModal()"
+>
+Cancel
+</button>
+
+<button
+class="logout-confirm"
+onclick="logoutUser()"
+>
+Yes
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+function openLogoutModal(){
+
+document.getElementById(
+"logout-modal"
+).style.display=
+"flex";
+
+}
+
+function closeLogoutModal(){
+
+document.getElementById(
+"logout-modal"
+).style.display=
+"none";
+
+}
+
+function logoutUser(){
+
+localStorage.clear();
+
+window.location.href=
+"../index.html";
+
+}
+
+</script>
+<script src="../js/employee-auth.js"></script>
+<script src="../js/logout.js"></script>
+</body>
+</html>

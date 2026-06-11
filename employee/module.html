@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Course Modules - KCP LMS</title>
+
+<link rel="stylesheet" href="../css/global.css">
+<link rel="stylesheet" href="../css/employee.css">
+
+</head>
+
+<body>
+
+<div class="employee-layout">
+
+<!-- SIDEBAR -->
+
+<div class="employee-sidebar">
+
+<div class="sidebar-logo">
+
+<a href="courses.html">
+
+<img
+src="../assests/kcp_logo3.png"
+alt="KCP Logo"
+class="sidebar-logo-img">
+
+</a>
+
+<h3>
+
+<a
+href="courses.html"
+class="sidebar-title-link"
+>
+
+Safety LMS
+
+</a>
+
+</h3>
+
+</div>
+
+
+<div class="sidebar-menu">
+
+<a href="courses.html">
+⌂ Dashboard
+</a>
+
+<a
+href="course-details.html"
+class="active-sidebar"
+>
+▣ My Courses
+</a>
+
+<a href="progress.html">
+◔ Progress
+</a>
+
+<a href="certificates.html">
+✦ Certificates
+</a>
+
+<a href="profile.html">
+◌ Profile
+</a>
+
+
+
+</div>
+
+</div>
+
+
+<!-- MAIN -->
+
+<div class="employee-main">
+
+<!-- COURSE BANNER -->
+
+<div class="employee-banner">
+
+<h1 id="course-title">
+Loading...
+</h1>
+
+<p id="course-description">
+Loading description...
+</p>
+
+</div>
+
+
+<!-- COURSE INFO -->
+
+<div class="module-overview-card">
+
+<div class="module-course-info">
+
+<p>
+<strong>Duration:</strong>
+<span id="course-duration">
+--
+</span>
+</p>
+
+<p>
+<strong>Language:</strong>
+<span id="course-language">
+--
+</span>
+</p>
+
+<p>
+<strong>Progress:</strong>
+<span id="course-progress">
+0%
+</span>
+</p>
+
+</div>
+
+</div>
+
+
+<!-- MODULES -->
+
+<div class="module-section">
+
+<h2>
+Course Modules
+</h2>
+
+<div id="module-list">
+
+</div>
+
+</div>
+
+
+<!-- QUIZ -->
+
+<div class="quiz-preview-card">
+
+<h2>
+Course Quiz
+</h2>
+
+<p id="quiz-message">
+Complete modules to unlock quiz.
+</p>
+
+<a
+id="quiz-btn"
+class="view-btn"
+style="pointer-events:none;opacity:.55;"
+>
+
+Quiz Locked
+
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+
+<script>
+
+/* URL */
+
+const params=
+new URLSearchParams(
+window.location.search
+);
+
+const courseId=
+params.get(
+"course_id"
+);
+
+const email=
+localStorage.getItem(
+"userEmail"
+);
+
+
+/* ELEMENTS */
+
+const moduleList=
+document.getElementById(
+"module-list"
+);
+
+const courseTitle=
+document.getElementById(
+"course-title"
+);
+
+const courseDescription=
+document.getElementById(
+"course-description"
+);
+
+const courseDuration=
+document.getElementById(
+"course-duration"
+);
+
+const courseLanguage=
+document.getElementById(
+"course-language"
+);
+
+const courseProgress=
+document.getElementById(
+"course-progress"
+);
+
+const quizBtn=
+document.getElementById(
+"quiz-btn"
+);
+
+const quizMessage=
+document.getElementById(
+"quiz-message"
+);
+
+
+/* LOAD COURSE */
+
+async function loadCourse(){
+
+const response=
+await fetch(
+`http://localhost:3000/course-details?course_id=${courseId}`
+);
+
+const course=
+await response.json();
+
+courseTitle.innerHTML=
+course.title;
+
+courseDescription.innerHTML=
+course.description;
+
+courseDuration.innerHTML=
+course.duration;
+
+courseLanguage.innerHTML=
+course.language;
+
+}
+
+
+/* LOAD MODULES */
+
+async function loadModules(){
+
+const response=
+await fetch(
+`http://localhost:3000/course-modules?course_id=${courseId}`
+);
+
+const modules=
+await response.json();
+
+moduleList.innerHTML="";
+
+modules.forEach(
+(module,index)=>{
+
+moduleList.innerHTML+=`
+
+<div class="module-card">
+
+<h3>
+
+Module ${index+1}
+
+</h3>
+
+<p>
+
+${module.module_title}
+
+</p>
+
+<a href="module-content.html?module_id=${module.id}&course_id=${courseId}">
+
+View →
+
+</a>
+
+</div>
+
+`;
+
+}
+
+);
+
+}
+
+
+/* CHECK QUIZ + PROGRESS */
+
+async function checkQuizUnlock(){
+
+const response=
+await fetch(
+`http://localhost:3000/user-progress?email=${email}`
+);
+
+const progress=
+await response.json();
+
+const currentCourse=
+progress.find(
+p=>
+p.course_id==courseId
+);
+
+courseProgress.innerHTML=
+"0%";
+
+
+if(currentCourse){
+
+if(
+currentCourse.status==="completed"
+){
+
+courseProgress.innerHTML=
+"Completed";
+
+quizBtn.innerHTML=
+"Start Quiz";
+
+quizBtn.href=
+`quiz.html?course_id=${courseId}`;
+
+quizBtn.className=
+"progress-btn";
+
+quizBtn.style.pointerEvents=
+"auto";
+
+quizBtn.style.opacity=
+"1";
+
+quizMessage.innerHTML=
+"Quiz unlocked.";
+
+}
+
+else if(
+currentCourse.status==="in_progress"
+){
+
+courseProgress.innerHTML=
+"In Progress";
+
+}
+
+}
+
+}
+
+
+/* LOAD */
+
+loadCourse();
+loadModules();
+checkQuizUnlock();
+
+</script>
+
+<!-- LOGOUT MODAL -->
+
+<div
+id="logout-modal"
+class="logout-modal"
+>
+
+<div class="logout-box">
+
+<h3>
+Logout
+</h3>
+
+<p>
+Do you want to logout?
+</p>
+
+<div class="logout-actions">
+
+<button
+class="logout-cancel"
+onclick="closeLogoutModal()"
+>
+Cancel
+</button>
+
+<button
+class="logout-confirm"
+onclick="logoutUser()"
+>
+Yes
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+function openLogoutModal(){
+
+document.getElementById(
+"logout-modal"
+).style.display=
+"flex";
+
+}
+
+function closeLogoutModal(){
+
+document.getElementById(
+"logout-modal"
+).style.display=
+"none";
+
+}
+
+function logoutUser(){
+
+localStorage.clear();
+
+window.location.href=
+"../index.html";
+
+}
+
+</script>
+<script src="../js/employee-auth.js"></script>
+<script src="../js/logout.js"></script>
+</body>
+</html>

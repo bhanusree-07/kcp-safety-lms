@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Employee Details - KCP LMS</title>
+
+<link rel="stylesheet" href="../css/global.css">
+<link rel="stylesheet" href="../css/employee.css">
+<link rel="stylesheet" href="../css/admin.css">
+
+</head>
+
+<body style="display:none;">
+
+<div class="employee-layout">
+
+<!-- ADMIN SIDEBAR -->
+
+<div class="employee-sidebar">
+
+<div class="sidebar-logo">
+
+<a href="../index.html">
+
+<img
+src="../assests/kcp_logo3.png"
+alt="KCP Logo"
+class="sidebar-logo-img">
+
+</a>
+
+<h3>
+
+<a
+href="../index.html"
+class="sidebar-title-link"
+>
+
+Safety LMS
+
+</a>
+
+</h3>
+
+</div>
+
+
+<!-- ADMIN NAVIGATION -->
+
+<div class="sidebar-menu">
+
+<a href="dashboard.html">
+⌂ Dashboard
+</a>
+
+<a href="courses.html">
+▣ Manage Courses
+</a>
+
+
+<a href="employee-progress.html">
+◔ Employee Progress
+</a>
+
+<a href="certificates.html">
+✦ Certificates
+</a>
+
+<a
+href="employees.html"
+class="active-sidebar"
+>
+◌ Employees
+</a>
+
+<a href="profile.html">
+◌ Profile
+</a>
+
+<a
+href="#"
+onclick="openLogoutModal()"
+>
+↩ Logout
+</a>
+
+</div>
+
+</div>
+
+
+<!-- MAIN -->
+
+<div class="employee-main">
+
+<!-- BANNER -->
+
+<div class="employee-banner">
+
+<h1>
+Employee Details
+</h1>
+
+<p>
+View and manage employee learning assignments.
+</p>
+
+</div>
+
+
+<!-- EMPLOYEE INFO -->
+
+<div class="admin-section-card">
+
+<h2>
+Employee Information
+</h2>
+
+<div id="employee-info">
+
+Loading...
+
+</div>
+
+</div>
+
+
+<!-- ASSIGN COURSE -->
+
+<div class="admin-section-card">
+
+<h2>
+Assign Course
+</h2>
+
+<div class="admin-toolbar">
+
+<select id="course-select">
+
+</select>
+
+<button
+class="admin-add-btn"
+id="assign-course-btn"
+>
+
+Assign Course
+
+</button>
+
+</div>
+
+</div>
+
+
+<!-- ASSIGNED COURSES -->
+
+<div class="admin-section-card">
+
+<h2>
+Assigned Courses
+</h2>
+
+<div
+class="admin-course-grid"
+id="assigned-courses"
+>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+<script>
+
+const params=
+new URLSearchParams(
+window.location.search
+);
+
+const user_id=
+params.get("id");
+
+async function loadEmployee(){
+
+const response=
+await fetch(
+`http://localhost:3000/employee-details?user_id=${user_id}`
+);
+
+const employee=
+await response.json();
+
+document.getElementById(
+"employee-info"
+).innerHTML=`
+
+<p>
+<strong>Name:</strong>
+${employee.full_name}
+</p>
+
+<p>
+<strong>Email:</strong>
+${employee.email}
+</p>
+
+<p>
+<strong>Department:</strong>
+${employee.department || "-"}
+</p>
+
+<p>
+<strong>Designation:</strong>
+${employee.designation || "-"}
+</p>
+
+`;
+
+}
+
+async function loadCourses(){
+
+const response=
+await fetch(
+"http://localhost:3000/courses"
+);
+
+const courses=
+await response.json();
+
+const select=
+document.getElementById(
+"course-select"
+);
+
+courses.forEach(
+course=>{
+
+select.innerHTML+=`
+
+<option value="${course.id}">
+${course.title}
+</option>
+
+`;
+
+}
+);
+
+}
+
+async function loadAssignedCourses(){
+
+const response=
+await fetch(
+`http://localhost:3000/assigned-courses?user_id=${user_id}`
+);
+
+const courses=
+await response.json();
+
+const container=
+document.getElementById(
+"assigned-courses"
+);
+
+container.innerHTML="";
+
+courses.forEach(
+course=>{
+
+container.innerHTML+=`
+
+<div class="admin-course-card">
+
+<h3>
+${course.title}
+</h3>
+
+<p>
+Status:
+${course.status || "Not Started"}
+</p>
+
+</div>
+
+`;
+
+}
+);
+
+}
+
+document
+.getElementById(
+"assign-course-btn"
+)
+.addEventListener(
+"click",
+async()=>{
+
+const course_id=
+document.getElementById(
+"course-select"
+).value;
+
+await fetch(
+"http://localhost:3000/assign-course",
+{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+user_id,
+course_id
+})
+}
+);
+
+alert(
+"Course Assigned"
+);
+
+loadAssignedCourses();
+
+}
+);
+
+loadEmployee();
+loadCourses();
+loadAssignedCourses();
+
+</script>
+
+<!-- LOGOUT MODAL -->
+
+<div
+id="logout-modal"
+class="logout-modal"
+>
+
+<div class="logout-box">
+
+<h3>
+Logout
+</h3>
+
+<p>
+Do you want to logout?
+</p>
+
+<div class="logout-actions">
+
+<button
+class="logout-cancel"
+onclick="closeLogoutModal()"
+>
+Cancel
+</button>
+
+<button
+class="logout-confirm"
+onclick="logoutUser()"
+>
+Yes
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+function openLogoutModal(){
+
+document.getElementById(
+"logout-modal"
+).style.display=
+"flex";
+
+}
+
+function closeLogoutModal(){
+
+document.getElementById(
+"logout-modal"
+).style.display=
+"none";
+
+}
+
+function logoutUser(){
+
+localStorage.clear();
+
+window.location.href=
+"../index.html";
+
+}
+
+</script>
+
+
+<script src="../js/auth-check.js"></script>
+<script src="../js/admin-auth.js"></script>
+<script src="../js/logout.js"></script>
+</body>
+</html>
