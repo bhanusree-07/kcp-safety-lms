@@ -1,0 +1,133 @@
+<div class="admin-section-card">
+
+<h2>Create Question</h2>
+
+<div class="admin-input-group">
+<label>Question</label>
+<textarea id="question"></textarea>
+</div>
+
+<div class="admin-input-group">
+<label>Option A</label>
+<input type="text" id="option-a">
+</div>
+
+<div class="admin-input-group">
+<label>Option B</label>
+<input type="text" id="option-b">
+</div>
+
+<div class="admin-input-group">
+<label>Option C</label>
+<input type="text" id="option-c">
+</div>
+
+<div class="admin-input-group">
+<label>Option D</label>
+<input type="text" id="option-d">
+</div>
+
+<div class="admin-input-group">
+<label>Correct Answer</label>
+
+<select id="correct-answer">
+<option value="A">A</option>
+<option value="B">B</option>
+<option value="C">C</option>
+<option value="D">D</option>
+</select>
+
+</div>
+
+<button
+class="admin-add-btn"
+onclick="saveQuestion()"
+>
+Add Question
+</button>
+
+</div>
+
+<script>
+
+const params=
+new URLSearchParams(
+window.location.search
+);
+
+const courseId=
+params.get(
+"course_id"
+);
+
+const quizId=1;
+
+console.log(
+"Course ID:",
+courseId
+);
+
+async function saveQuestion(){
+
+const question=
+document.getElementById(
+"question"
+).value;
+
+const option_a=
+document.getElementById(
+"option-a"
+).value;
+
+const option_b=
+document.getElementById(
+"option-b"
+).value;
+
+const option_c=
+document.getElementById(
+"option-c"
+).value;
+
+const option_d=
+document.getElementById(
+"option-d"
+).value;
+
+const correct_answer=
+document.getElementById(
+"correct-answer"
+).value;
+
+const response=
+await fetch(
+"http://localhost:3000/create-question",
+{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+quiz_id:quizId,
+question,
+option_a,
+option_b,
+option_c,
+option_d,
+correct_answer
+})
+}
+);
+
+const data=
+await response.json();
+
+console.log(data);
+
+alert(
+"Question Added"
+);
+
+}
+
+</script>

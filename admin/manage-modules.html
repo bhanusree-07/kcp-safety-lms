@@ -71,6 +71,300 @@ Choose a module from the left side.
 </div>
 
 <div
+id="question-popup"
+class="delete-popup"
+>
+
+<div
+class="delete-popup-box"
+style="
+max-width:760px;
+width:90%;
+max-height:90vh;
+overflow-y:auto;
+padding:30px 40px;
+"
+>
+<div class="popup-header">
+
+
+
+<h2
+id="question-popup-title"
+style="font-size:40px;margin:0;"
+>
+Add New Question
+</h2>
+<button
+class="popup-close-btn"
+onclick="closeQuestionPopup()"
+>
+×
+</button>
+
+</div>
+
+
+<div class="question-layout">
+
+<div class="question-form">
+
+<div class="admin-input-group">
+
+<label>
+Question
+</label>
+
+<textarea
+id="popup-question"
+placeholder="Enter your question..."
+rows="5"
+style="
+min-height:120px;
+max-height:220px;
+resize:vertical;
+"
+></textarea>
+
+</div>
+
+<div class="admin-input-group">
+
+<label>
+Option A
+</label>
+
+<input
+type="text"
+id="popup-option-a"
+>
+
+</div>
+
+<div class="admin-input-group">
+
+<label>
+Option B
+</label>
+
+<input
+type="text"
+id="popup-option-b"
+>
+
+</div>
+
+<div class="admin-input-group">
+
+<label>
+Option C
+</label>
+
+<input
+type="text"
+id="popup-option-c"
+>
+
+</div>
+
+<div class="admin-input-group">
+
+<label>
+Option D
+</label>
+
+<input
+type="text"
+id="popup-option-d"
+>
+
+</div>
+
+<div class="admin-input-group">
+
+<div class="admin-input-group">
+
+<label>
+Marks
+</label>
+
+<input
+type="number"
+id="popup-marks"
+value="1"
+min="1"
+>
+
+</div>
+
+<label>
+Correct Answer
+</label>
+
+<select id="popup-correct-answer">
+
+
+
+<option value="A">A</option>
+<option value="B">B</option>
+<option value="C">C</option>
+<option value="D">D</option>
+
+</select>
+
+</div>
+
+<div class="delete-popup-actions">
+
+<button
+class="admin-save-btn"
+onclick="closeQuestionPopup()"
+>
+Cancel
+</button>
+
+<button
+class="admin-add-btn"
+onclick="saveQuestion()"
+>
+Save Question
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<div
+id="quiz-settings-popup"
+class="delete-popup"
+>
+
+<div
+class="delete-popup-box"
+style="
+max-width:500px;
+"
+>
+
+<h2>
+Quiz Settings
+</h2>
+
+<div class="admin-input-group">
+
+<label>
+Quiz Title
+</label>
+
+<input
+type="text"
+id="quiz-title"
+>
+
+</div>
+
+<div class="admin-input-group">
+
+<label>
+Total Marks
+</label>
+
+<input
+type="text"
+id="quiz-total-marks"
+readonly
+>
+
+</div>
+
+<div class="admin-input-group">
+
+<label>
+Passing Marks
+</label>
+
+<input
+type="number"
+id="quiz-passing-marks"
+>
+
+</div>
+
+<div class="delete-popup-actions">
+
+<button
+class="admin-save-btn"
+onclick="closeQuizSettings()"
+>
+Cancel
+</button>
+
+<button
+class="admin-add-btn"
+onclick="saveQuizSettings()"
+>
+Save
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+<div
+id="delete-question-popup"
+class="delete-popup"
+>
+
+<div
+class="delete-popup-box"
+style="
+max-width:450px;
+width:90%;
+"
+>
+
+<h3>
+Delete Question?
+</h3>
+
+<p>
+Permanently delete this question?
+</p>
+
+<div class="delete-popup-actions">
+
+<button
+id="cancel-question-delete"
+class="admin-save-btn"
+>
+Cancel
+</button>
+
+<button
+id="confirm-question-delete"
+class="admin-delete-btn"
+>
+Delete
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<div
 id="delete-module-popup"
 class="delete-popup"
 >
@@ -118,6 +412,12 @@ window.location.search
 const courseId=
 params.get("course_id");
 
+let currentQuestionIndex = 0;
+
+let quizQuestions = [];
+
+let editingQuestionId = null;
+
 console.log(courseId);
 
 async function loadCourseInfo(){
@@ -163,17 +463,7 @@ document.getElementById(
 
 container.innerHTML="";
 
-contentPanel.innerHTML=`
 
-<h2>
-Select a module
-</h2>
-
-<p>
-Choose a module from the left side.
-</p>
-
-`;
 
 if(modules.length===0){
 
@@ -209,72 +499,12 @@ ${module.module_title}
 
 `;
 
-function showResources(){
-
-document.getElementById(
-"module-content-panel"
-).innerHTML=`
-
-<h2>
-Resources
-</h2>
-
-<p>
-Module PDFs, images and videos will appear here.
-</p>
-
-`;
-
-}
-
-function showQuiz(){
-
-document.getElementById(
-"module-content-panel"
-).innerHTML=`
-
-<h2>
-Quiz
-</h2>
-
-<p>
-Quiz preview will appear here.
-</p>
-
-`;
-
-}
-
-function showCertificate(){
-
-document.getElementById(
-"module-content-panel"
-).innerHTML=`
-
-<h2>
-Certificate
-</h2>
-
-<p>
-Certificate preview will appear here.
-</p>
-
-`;
-
-}
 
 });
 
 container.innerHTML+=`
 
 <div class="sidebar-divider"></div>
-
-<div
-class="module-item special-item"
-onclick="showResources()"
->
-Resources
-</div>
 
 <div
 class="module-item special-item"
@@ -290,7 +520,21 @@ onclick="showCertificate()"
 Certificate
 </div>
 
+<div class="sidebar-divider"></div>
+
+<div class="progress-placeholder">
+Progress
+<br>
+--
+</div>
+
 `;
+
+if(modules.length > 0){
+
+showModule(modules[0].id);
+
+}
 
 }
 function showModule(moduleId){
@@ -318,26 +562,75 @@ document.getElementById(
 ${module.module_title}
 </h2>
 
+${
+module.module_content
+?
+`
 <p class="module-description">
-${module.module_content || "No description"}
+${module.module_content}
 </p>
+`
+:
+""
+}
 
-<div class="module-resource-section">
+${
+module.video_link
+?
+`
+<hr class="module-divider">
+
+<div class="video-section">
 
 <h3>
-Learning Materials
+Video Lesson
 </h3>
+
+<iframe
+width="100%"
+height="500"
+src="${
+module.video_link.replace(
+"watch?v=",
+"embed/"
+)
+}"
+frameborder="0"
+allowfullscreen
+style="
+border:none;
+border-radius:12px;
+margin-top:15px;
+"
+>
+</iframe>
+
+</div>
+
+<br>
+`
+:
+""
+}
 
 ${
 module.pdf_file
 ?
 `
+<hr class="module-divider">
+
+<div class="pdf-section">
+
+<h3>
+Learning Material
+</h3>
+
 <div class="pdf-viewer-card">
 
 <iframe
 src="../assests/module-pdfs/${module.pdf_file}"
 width="100%"
-height="700"
+height="1000"
 style="
 border:none;
 border-radius:12px;
@@ -360,14 +653,13 @@ Download PDF
 </a>
 
 </div>
+
+</div>
 `
 :
-`
-<p>
-No files uploaded yet.
-</p>
-`
+""
 }
+
 
 
 
@@ -381,6 +673,712 @@ No files uploaded yet.
 });
 
 }
+
+function showResources(){
+
+fetch(
+`http://localhost:3000/course-modules?course_id=${courseId}`
+)
+.then(res=>res.json())
+.then(modules=>{
+
+let html=`
+
+<h2>
+Resources
+</h2>
+
+`;
+
+modules.forEach(module=>{
+
+if(module.video_link){
+
+let embedUrl=
+module.video_link.replace(
+"watch?v=",
+"embed/"
+);
+
+html+=`
+
+<div class="admin-section-card">
+
+<h3>
+${module.module_title}
+</h3>
+
+<iframe
+width="100%"
+height="400"
+src="${embedUrl}"
+title="YouTube Video"
+frameborder="0"
+allowfullscreen
+style="
+border:none;
+border-radius:12px;
+margin-top:15px;
+"
+>
+</iframe>
+
+</div>
+
+`;
+
+}
+
+});
+
+document.getElementById(
+"module-content-panel"
+).innerHTML=
+html;
+
+});
+
+}
+
+function showQuiz(){
+
+fetch(
+`http://localhost:3000/quiz-questions?quiz_id=${courseId}`
+)
+.then(res=>res.json())
+.then(questions=>{
+
+quizQuestions =
+questions;
+
+currentQuestionIndex = 0;
+
+if(quizQuestions.length===0){
+
+document.getElementById(
+"module-content-panel"
+).innerHTML=`
+
+<div class="admin-section-card">
+
+<h2>
+Quiz
+</h2>
+
+<p>
+No questions added yet.
+</p>
+
+<button
+class="admin-add-btn"
+onclick="openQuestionPopup()"
+>
++ Add First Question
+</button>
+
+</div>
+
+`;
+
+return;
+
+}
+
+renderQuestion();
+
+});
+
+}
+
+function renderQuestion(){
+
+if(quizQuestions.length===0){
+
+document.getElementById(
+"module-content-panel"
+).innerHTML=`
+
+<div class="quiz-header">
+
+<h2>
+${document.getElementById("banner-title").innerText.replace(" Modules","")} Quiz
+</h2>
+
+<div
+style="
+display:flex;
+gap:12px;
+"
+>
+
+<button
+class="admin-save-btn"
+onclick="openQuizSettings()"
+>
+Quiz Settings
+</button>
+
+<button
+class="admin-add-btn"
+onclick="openQuestionPopup()"
+>
++ Add Question
+</button>
+
+</div>
+
+</div>
+
+<p>
+No questions added yet.
+</p>
+
+`;
+
+return;
+
+}
+
+const question =
+quizQuestions[currentQuestionIndex];
+
+let html=`
+
+<div class="quiz-header">
+
+<h2>
+${document.getElementById("banner-title").innerText.replace(" Modules","")} Quiz
+</h2>
+
+<div
+style="
+display:flex;
+gap:12px;
+"
+>
+
+<button
+class="admin-save-btn"
+onclick="openQuizSettings()"
+>
+Quiz Settings
+</button>
+
+<button
+class="admin-add-btn"
+onclick="openQuestionPopup()"
+>
++ Add Question
+</button>
+
+</div>
+
+</div>
+
+<div class="question-badge">
+
+Question
+${currentQuestionIndex + 1}
+
+of
+
+${quizQuestions.length}
+
+</div>
+
+<div class="quiz-card">
+
+<h3 class="quiz-question">
+${question.question}
+</h3>
+
+<div class="quiz-option">
+A. ${question.option_a}
+</div>
+
+<div class="quiz-option">
+B. ${question.option_b}
+</div>
+
+<div class="quiz-option">
+C. ${question.option_c}
+</div>
+
+<div class="quiz-option">
+D. ${question.option_d}
+</div>
+
+<div class="correct-answer">
+
+✓ Correct Answer:
+${question.correct_answer}
+
+<br>
+
+Marks:
+${question.marks}
+
+</div>
+
+<div class="quiz-actions">
+
+<button
+class="admin-save-btn"
+onclick="previousQuestion()"
+>
+← Previous
+</button>
+
+<button
+class="admin-save-btn"
+onclick="nextQuestion()"
+>
+Next →
+</button>
+
+<button
+class="admin-save-btn"
+onclick="editQuestion()"
+>
+Edit
+</button>
+
+<button
+class="admin-delete-btn"
+onclick="deleteQuestion(${question.id})"
+>
+Delete
+</button>
+
+</div>
+
+</div>
+
+`;
+
+document.getElementById(
+"module-content-panel"
+).innerHTML =
+html;
+
+}
+
+
+function nextQuestion(){
+
+if(
+currentQuestionIndex <
+quizQuestions.length - 1
+){
+
+currentQuestionIndex++;
+
+renderQuestion();
+
+}
+
+}
+
+function previousQuestion(){
+
+if(
+currentQuestionIndex > 0
+){
+
+currentQuestionIndex--;
+
+renderQuestion();
+
+}
+
+}
+
+
+function openQuestionPopup(){
+
+document
+.getElementById(
+"question-popup"
+)
+.classList.add(
+"show"
+);
+
+document.body.style.overflow =
+"hidden";
+
+}
+
+
+
+
+
+
+function closeQuestionPopup(){
+
+document
+.getElementById(
+"question-popup"
+)
+.classList.remove(
+"show"
+);
+
+document.body.style.overflow =
+"auto";
+
+editingQuestionId = null;
+
+document.getElementById(
+"question-popup-title"
+).innerText =
+"Add New Question";
+
+document.querySelector(
+".admin-add-btn"
+).innerText =
+"Save Question";
+
+document.getElementById(
+"popup-question"
+).value = "";
+
+document.getElementById(
+"popup-option-a"
+).value = "";
+
+document.getElementById(
+"popup-option-b"
+).value = "";
+
+document.getElementById(
+"popup-option-c"
+).value = "";
+
+document.getElementById(
+"popup-option-d"
+).value = "";
+
+document.getElementById(
+"popup-correct-answer"
+).value = "A";
+
+document.getElementById(
+"popup-marks"
+).value = 1;
+
+}
+
+
+
+
+
+
+function showCertificate(){
+
+document.getElementById(
+"module-content-panel"
+).innerHTML=`
+
+<h2>
+Certificate
+</h2>
+
+<p>
+Certificate preview will appear here.
+</p>
+
+`;
+
+}
+
+
+
+async function saveQuestion(){
+
+const question =
+document.getElementById(
+"popup-question"
+).value;
+
+const option_a =
+document.getElementById(
+"popup-option-a"
+).value;
+
+const option_b =
+document.getElementById(
+"popup-option-b"
+).value;
+
+const option_c =
+document.getElementById(
+"popup-option-c"
+).value;
+
+const option_d =
+document.getElementById(
+"popup-option-d"
+).value;
+
+const correct_answer =
+document.getElementById(
+"popup-correct-answer"
+).value;
+
+const marks =
+document.getElementById(
+"popup-marks"
+).value;
+
+if(
+!question.trim() ||
+!option_a.trim() ||
+!option_b.trim() ||
+!option_c.trim() ||
+!option_d.trim()
+){
+
+document.body.insertAdjacentHTML(
+"afterbegin",
+`
+<div class="error-toast">
+Please fill all fields
+</div>
+`
+);
+
+setTimeout(()=>{
+
+const toast =
+document.querySelector(
+".error-toast"
+);
+
+if(toast){
+toast.remove();
+}
+
+},3000);
+
+return;
+
+}
+
+const url =
+editingQuestionId
+?
+"http://localhost:3000/update-question"
+:
+"http://localhost:3000/create-question";
+
+const response =
+await fetch(
+url,
+{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+id:editingQuestionId,
+quiz_id:courseId,
+question,
+option_a,
+option_b,
+option_c,
+option_d,
+correct_answer,
+marks
+})
+}
+);
+
+const data =
+await response.json();
+
+if(data.success){
+
+closeQuestionPopup();
+
+showQuiz();
+
+}
+
+}
+
+
+
+
+
+function editQuestion(){
+
+const question =
+quizQuestions[currentQuestionIndex];
+
+editingQuestionId =
+question.id;
+
+document.getElementById(
+"question-popup-title"
+).innerText =
+"Edit Question";
+
+document.getElementById(
+"popup-question"
+).value =
+question.question;
+
+document.getElementById(
+"popup-option-a"
+).value =
+question.option_a;
+
+document.getElementById(
+"popup-option-b"
+).value =
+question.option_b;
+
+document.getElementById(
+"popup-option-c"
+).value =
+question.option_c;
+
+document.getElementById(
+"popup-option-d"
+).value =
+question.option_d;
+
+document.getElementById(
+"popup-marks"
+).value =
+question.marks;
+
+document.getElementById(
+"popup-correct-answer"
+).value =
+question.correct_answer;
+
+document.querySelector(
+".admin-add-btn"
+).innerText =
+"Update Question";
+
+openQuestionPopup();
+
+}
+
+
+async function openQuizSettings(){
+
+const response =
+await fetch(
+`http://localhost:3000/quiz-settings?course_id=${courseId}`
+);
+
+const quiz =
+await response.json();
+
+document.getElementById(
+"quiz-title"
+).value =
+quiz.quiz_title || "";
+
+document.getElementById(
+"quiz-total-marks"
+).value =
+quiz.total_marks || 0;
+
+document.getElementById(
+"quiz-passing-marks"
+).value =
+quiz.passing_marks || 0;
+
+document.getElementById(
+"quiz-settings-popup"
+).classList.add(
+"show"
+);
+
+document.body.style.overflow =
+"hidden";
+
+}
+
+function closeQuizSettings(){
+
+document.getElementById(
+"quiz-settings-popup"
+).classList.remove(
+"show"
+);
+
+document.body.style.overflow =
+"auto";
+
+}
+
+async function saveQuizSettings(){
+
+const quiz_title =
+document.getElementById(
+"quiz-title"
+).value;
+
+const passing_marks =
+document.getElementById(
+"quiz-passing-marks"
+).value;
+
+const response =
+await fetch(
+"http://localhost:3000/update-quiz-settings",
+{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+course_id:courseId,
+quiz_title,
+passing_marks
+})
+}
+);
+
+const data =
+await response.json();
+
+if(data.success){
+
+closeQuizSettings();
+
+showQuiz();
+
+}
+
+}
+
+
+function deleteQuestion(questionId){
+
+window.questionToDelete =
+questionId;
+
+document
+.getElementById(
+"delete-question-popup"
+)
+.classList.add(
+"show"
+);
+
+document.body.style.overflow =
+"hidden";
+
+}
+
+
 
 loadCourseInfo();
 loadModules();
@@ -411,6 +1409,72 @@ document
 
 document.body.style.overflow=
 "hidden";
+
+}
+
+}
+);
+
+
+document
+.getElementById(
+"cancel-question-delete"
+)
+.addEventListener(
+"click",
+function(){
+
+document
+.getElementById(
+"delete-question-popup"
+)
+.classList.remove(
+"show"
+);
+
+document.body.style.overflow =
+"auto";
+
+}
+);
+
+
+document
+.getElementById(
+"confirm-question-delete"
+)
+.addEventListener(
+"click",
+async function(){
+
+const questionId =
+window.questionToDelete;
+
+const response =
+await fetch(
+`http://localhost:3000/delete-question?question_id=${questionId}`,
+{
+method:"DELETE"
+}
+);
+
+const data =
+await response.json();
+
+if(data.success){
+
+document
+.getElementById(
+"delete-question-popup"
+)
+.classList.remove(
+"show"
+);
+
+document.body.style.overflow =
+"auto";
+
+showQuiz();
 
 }
 

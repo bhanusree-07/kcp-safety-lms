@@ -59,7 +59,7 @@ Safety LMS
 href="course-details.html"
 class="active-sidebar"
 >
-▣ My Courses
+▣ All Courses
 </a>
 
 <a href="progress.html">
@@ -195,9 +195,8 @@ async function loadData(){
 
 const courseResponse=
 await fetch(
-`http://localhost:3000/employee-courses?email=${email}`
+"http://localhost:3000/courses"
 );
-
 courses=
 await courseResponse.json();
 
@@ -328,18 +327,40 @@ buttonText=
 
 grid.innerHTML+=`
 
-<div class="employee-course-card">
+<div class="employee-catalog-card">
 
-<h3>
+<img
+src="../assests/course-thumbnails/${course.thumbnail}"
+class="employee-course-thumbnail"
+>
 
-${course.title}
+<h3
+title="${course.title}"
+>
+
+${
+course.title.length > 25
+?
+course.title.substring(0,25) + "..."
+:
+course.title
+}
 
 </h3>
 
-<p class="notstarted-text">
+<p>
+Language:
+${course.language}
+</p>
 
+<p>
+Duration:
+${course.duration}
+</p>
+
+<p>
+Status:
 ${status}
-
 </p>
 
 <a

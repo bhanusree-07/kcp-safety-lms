@@ -63,6 +63,9 @@ Safety LMS
 ▣ Manage Courses
 </a>
 
+<a href="employees.html">
+◌ Employees
+</a>
 
 <a href="employee-progress.html">
 ◔ Employee Progress
@@ -73,10 +76,6 @@ href="certificates.html"
 class="active-sidebar"
 >
 ✦ Certificates
-</a>
-
-<a href="employees.html">
-◌ Employees
 </a>
 
 <a href="profile.html">
@@ -113,46 +112,52 @@ Manage issued training certificates.
 </div>
 
 
-<!-- FILTERS -->
 
-<div class="admin-section-card">
+<!-- CERTIFICATE TABLE -->
 
 <div class="admin-toolbar">
 
 <input
 type="text"
-placeholder="Search employee..."
->
+id="searchInput"
+placeholder="Search certificates..."
+class="course-search"
+/>
 
-<select>
+<button id="clearFilters">
+Clear
+</button>
 
-<option>
-All Courses
-</option>
+</div>
 
-<option>
-Fire Safety
-</option>
+<div class="course-filters">
 
-<option>
-First Aid
-</option>
+<div class="filter-box">
 
-<option>
-Electrical Safety
+<select id="departmentFilter">
+
+<option value="">
+Departments
 </option>
 
 </select>
 
 </div>
 
+<div class="filter-box">
+
+<select id="courseFilter">
+
+<option value="">
+Courses
+</option>
+
+</select>
 </div>
 
-
-<!-- CERTIFICATE TABLE -->
+</div>
 
 <div class="admin-section-card">
-
 <h2>
 Issued Certificates
 </h2>
@@ -189,111 +194,9 @@ Action
 
 <tbody>
 
-<tr>
-
-<td>
-Ravi Kumar
-</td>
-
-<td>
-Fire Safety
-</td>
-
-<td>
-02 Jun 2026
-</td>
-
-<td>
-
-<span class="progress-badge completed">
-
-Available
-
-</span>
-
-</td>
-
-<td>
-
-<a href="#">
-View
-</a>
-
-</td>
-
-</tr>
 
 
-<tr>
 
-<td>
-Priya Sharma
-</td>
-
-<td>
-First Aid
-</td>
-
-<td>
-28 May 2026
-</td>
-
-<td>
-
-<span class="progress-badge completed">
-
-Available
-
-</span>
-
-</td>
-
-<td>
-
-<a href="#">
-Download
-</a>
-
-</td>
-
-</tr>
-
-
-<tr>
-
-<td>
-Rahul Verma
-</td>
-
-<td>
-Electrical Safety
-</td>
-
-<td>
---
-
-</td>
-
-<td>
-
-<span class="progress-badge not-started">
-
-Pending
-
-</span>
-
-</td>
-
-<td>
-
-<a href="#">
---
-
-</a>
-
-</td>
-
-</tr>
 
 </tbody>
 
@@ -376,6 +279,7 @@ window.location.href=
 
 </script>
 
+<script src="../js/certificate.js"></script>
 <script src="../js/auth-check.js"></script>
 <script src="../js/admin-auth.js"></script>
 <script src="../js/logout.js"></script>

@@ -10,6 +10,7 @@
 
 <link rel="stylesheet" href="../css/global.css">
 <link rel="stylesheet" href="../css/employee.css">
+<link rel="stylesheet" href="../css/admin.css">
 
 </head>
 
@@ -55,7 +56,7 @@ Safety LMS
 </a>
 
 <a href="course-details.html">
-▣ My Courses
+▣ All Courses
 </a>
 
 <a
@@ -110,13 +111,91 @@ Track your completed and ongoing courses.
 
 <!-- PROGRESS GRID -->
 
-<div
-class="employee-course-grid"
-id="progress-grid"
->
+<div class="course-filters">
+
+<div class="filter-box">
+
+<select id="courseFilter">
+
+<option value="">
+Courses
+</option>
+
+</select>
 
 </div>
 
+<div class="filter-box">
+
+<select id="statusFilter">
+
+<option value="">
+Status
+</option>
+
+<option value="Completed">
+Completed
+</option>
+
+<option value="In Progress">
+In Progress
+</option>
+
+<option value="Not Started">
+Not Started
+</option>
+
+</select>
+
+</div>
+
+<button id="clearFilters">
+
+Clear
+
+</button>
+
+</div>
+
+<div class="admin-section-card">
+
+<h2>
+My Progress
+</h2>
+
+<table class="admin-progress-table">
+
+<thead>
+
+<tr>
+
+<th>
+Course
+</th>
+
+<th>
+Progress
+</th>
+
+<th>
+Status
+</th>
+
+<th>
+Action
+</th>
+
+</tr>
+
+</thead>
+
+<tbody id="progress-body">
+
+</tbody>
+
+</table>
+
+</div>
 </div>
 
 </div>
@@ -124,7 +203,8 @@ id="progress-grid"
 
 <script>
 
-let progressData=[];
+let progressData = [];
+let filteredData = [];
 
 const grid=
 document.getElementById(
@@ -150,73 +230,243 @@ await fetch(
 progressData=
 await response.json();
 
+filteredData =
+progressData;
+
+populateFilters();
+
 renderProgress();
 
 }
 
+function populateFilters(){
+
+const courseFilter =
+document.getElementById(
+"courseFilter"
+);
+
+courseFilter.innerHTML = `
+<option value="">
+Courses
+</option>
+`;
+
+const courses = [
+
+...new Set(
+
+progressData.map(
+item=>item.course_title
+)
+
+)
+
+];
+
+courses.forEach(
+course=>{
+
+courseFilter.innerHTML += `
+<option value="${course}">
+${course}
+</option>
+`;
+
+}
+);
+
+}
 
 /* RENDER PROGRESS */
 
 function renderProgress(){
 
-grid.innerHTML="";
+const tbody =
+document.getElementById(
+"progress-body"
+);
 
-progressData.forEach(
+tbody.innerHTML="";
+
+filteredData.forEach(
 item=>{
-
-let buttonClass=
-"progress-btn";
+let actionText =
+"Start";
 
 if(
-item.status==="Completed"
+item.progress_percent > 0
+&&
+item.progress_percent < 100
 ){
-
-buttonClass=
-"completed-btn";
-
+actionText =
+"Continue";
 }
 
-grid.innerHTML+=`
+if(
+item.progress_percent === 100
+){
+actionText =
+"View";
+}
 
-<div class="employee-course-card">
+tbody.innerHTML += `
 
-<h3>
+<tr>
 
-Course ID:
-${item.course_id}
-
-</h3>
-
-<p>
-
-${item.status}
-
-</p>
-
-<p>
-
-${item.progress_percent}%
-
-</p>
-
-<a
-href="#"
-class="${buttonClass}"
+<td
+title="${item.course_title}"
 >
+${
+item.course_title
+.split(" ")
+.length > 5
+
+?
+
+item.course_title
+.split(" ")
+.slice(0,4)
+.join(" ")
+
++ "..."
+
+:
+
+item.course_title
+}
+</td>
+
+<td>
+${item.progress_percent}%
+</td>
+
+<td>
+
+<span class="progress-badge ${
+
+item.progress_percent === 100
+?
+"completed"
+:
+item.progress_percent > 0
+?
+"in-progress"
+:
+"not-started"
+
+}">
 
 ${item.status}
+
+</span>
+
+</td>
+
+<td>
+
+<a href="module.html?course_id=${item.course_id}">
+
+${actionText}
 
 </a>
 
-</div>
+</td>
+
+</tr>
 
 `;
 
 }
-
 );
 
 }
+
+
+
+
+function filterProgress(){
+
+const selectedCourse =
+document.getElementById(
+"courseFilter"
+).value;
+
+const selectedStatus =
+document.getElementById(
+"statusFilter"
+).value;
+
+filteredData =
+
+progressData.filter(
+item=>{
+
+const courseMatch =
+
+!selectedCourse ||
+
+item.course_title ===
+selectedCourse;
+
+const statusMatch =
+
+!selectedStatus ||
+
+item.status ===
+selectedStatus;
+
+return(
+courseMatch &&
+statusMatch
+);
+
+}
+);
+
+renderProgress();
+
+}
+
+
+
+function clearFilters(){
+
+document.getElementById(
+"courseFilter"
+).value="";
+
+document.getElementById(
+"statusFilter"
+).value="";
+
+filteredData =
+progressData;
+
+renderProgress();
+
+}
+
+document.getElementById(
+"courseFilter"
+).addEventListener(
+"change",
+filterProgress
+);
+
+document.getElementById(
+"statusFilter"
+).addEventListener(
+"change",
+filterProgress
+);
+
+document.getElementById(
+"clearFilters"
+).addEventListener(
+"click",
+clearFilters
+);
 
 
 /* INITIAL LOAD */

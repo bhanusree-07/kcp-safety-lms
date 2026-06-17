@@ -61,6 +61,12 @@ Safety LMS
 ▣ Manage Courses
 </a>
 
+<a
+href="employees.html"
+class="active-sidebar"
+>
+◌ Employees
+</a>
 
 <a href="employee-progress.html">
 ◔ Employee Progress
@@ -68,13 +74,6 @@ Safety LMS
 
 <a href="certificates.html">
 ✦ Certificates
-</a>
-
-<a
-href="employees.html"
-class="active-sidebar"
->
-◌ Employees
 </a>
 
 <a href="profile.html">
@@ -187,6 +186,8 @@ window.location.search
 const user_id=
 params.get("id");
 
+console.log(user_id);
+
 async function loadEmployee(){
 
 const response=
@@ -203,7 +204,17 @@ document.getElementById(
 
 <p>
 <strong>Name:</strong>
-${employee.full_name}
+
+<span title="${employee.full_name}">
+${
+employee.full_name.length > 14
+?
+employee.full_name.substring(0,14) + "..."
+:
+employee.full_name
+}
+</span>
+
 </p>
 
 <p>
@@ -280,8 +291,14 @@ container.innerHTML+=`
 
 <div class="admin-course-card">
 
-<h3>
-${course.title}
+<h3 title="${course.title}">
+${
+course.title.split(" ").length > 5
+?
+course.title.split(" ").slice(0,3).join(" ") + "..."
+:
+course.title
+}
 </h3>
 
 <p>

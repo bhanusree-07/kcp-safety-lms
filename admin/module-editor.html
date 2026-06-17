@@ -42,16 +42,16 @@ Safety LMS
 ▣ Manage Courses
 </a>
 
+<a href="employees.html">
+◌ Employees
+</a>
+
 <a href="employee-progress.html">
 ◔ Employee Progress
 </a>
 
 <a href="certificates.html">
 ✦ Certificates
-</a>
-
-<a href="employees.html">
-◌ Employees
 </a>
 
 <a href="profile.html">
@@ -107,12 +107,7 @@ id="pdf-file"
 accept=".pdf"
 >
 
-Image File
-<input
-type="file"
-id="image-file"
-accept="image/*"
->
+
 <div class="admin-input-group">
 
 <label>Video Link</label>
@@ -222,10 +217,9 @@ document.getElementById(
 "pdf-file"
 );
 
-const imageInput=
-document.getElementById(
-"image-file"
-);
+
+
+
 
 const video_link=
 document.getElementById(
@@ -249,14 +243,7 @@ pdfInput.files[0]
 
 }
 
-if(imageInput.files[0]){
 
-formData.append(
-"image_file",
-imageInput.files[0]
-);
-
-}
 
 const uploadResponse=
 await fetch(
@@ -267,6 +254,8 @@ body:formData
 }
 );
 
+console.log(uploadResponse.status);
+
 const uploadData=
 await uploadResponse.json();
 console.log(uploadData);
@@ -274,10 +263,18 @@ console.log(uploadData);
 const pdf_file=
 uploadData.pdf_file;
 
-const image_file=
-uploadData.image_file;
+
 
 let response;
+
+console.log("UPLOAD DATA");
+console.log(uploadData);
+
+console.log("FILES");
+console.log({
+pdf_file,
+video_link
+});
 
 if(moduleId){
 
@@ -295,7 +292,6 @@ module_title,
 module_content,
 module_order,
 pdf_file,
-image_file,
 video_link
 })
 }
@@ -317,7 +313,6 @@ module_title,
 module_content,
 module_order,
 pdf_file,
-image_file,
 video_link
 })
 }

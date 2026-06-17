@@ -19,70 +19,34 @@
 
 <!-- SIDEBAR -->
 
-<div class="employee-sidebar">
 
-<div class="sidebar-logo">
+<!-- MODULES --
+<div class="modules-layout">
 
-<a href="courses.html">
+<div id="module-list-panel">
 
-<img
-src="../assests/kcp_logo3.png"
-alt="KCP Logo"
-class="sidebar-logo-img">
-
-</a>
-
-<h3>
-
-<a
-href="courses.html"
-class="sidebar-title-link"
->
-
-Safety LMS
-
-</a>
-
+<h3 class="course-content-title">
+Course Content
 </h3>
 
-</div>
-
-
-<div class="sidebar-menu">
-
-<a href="courses.html">
-⌂ Dashboard
-</a>
-
-<a
-href="course-details.html"
-class="active-sidebar"
->
-▣ My Courses
-</a>
-
-<a href="progress.html">
-◔ Progress
-</a>
-
-<a href="certificates.html">
-✦ Certificates
-</a>
-
-<a href="profile.html">
-◌ Profile
-</a>
-
-<a
-href="#"
-onclick="openLogoutModal()"
->
-↩ Logout
-</a>
-
+<div id="module-list">
 </div>
 
 </div>
+
+<div id="module-content-panel">
+
+<h2>
+Select a module
+</h2>
+
+<p>
+Choose a module from the left side.
+</p>
+
+</div>
+
+</div>----->
 
 
 <!-- MAIN -->
@@ -104,77 +68,11 @@ Complete the quiz to unlock certification.
 
 <div class="quiz-preview-card">
 
-<h2>
-Fire Safety Quiz
-</h2>
+<div id="quiz-container">
 
-<p>
-Answer all questions.
-</p>
-
-
-<!-- Q1 -->
-
-<div class="quiz-question">
-
-<p>
-1. Which extinguisher is used for electrical fires?
-</p>
-
-<label>
-<input type="radio" name="q1" value="A">
-Water
-</label>
-
-<label>
-<input type="radio" name="q1" value="B">
-CO₂
-</label>
-
-<label>
-<input type="radio" name="q1" value="C">
-Foam
-</label>
+Loading quiz...
 
 </div>
-
-
-<!-- Q2 -->
-
-<div class="quiz-question">
-
-<p>
-2. PPE stands for?
-</p>
-
-<label>
-<input type="radio" name="q2" value="A">
-Personal Protective Equipment
-</label>
-
-<label>
-<input type="radio" name="q2" value="B">
-Public Protection Equipment
-</label>
-
-<label>
-<input type="radio" name="q2" value="C">
-Power Protection Equipment
-</label>
-
-</div>
-
-
-<button
-id="submit-quiz"
-class="admin-save-btn"
->
-
-Submit Quiz
-
-</button>
-
-<p id="quiz-result"></p>
 
 </div>
 
@@ -185,67 +83,375 @@ Submit Quiz
 
 <script>
 
-const submitBtn=
+let questions = [];
+
+let currentQuestion = 0;
+
+let answers = {};
+
+
+const params =
+new URLSearchParams(
+window.location.search
+);
+
+const courseId =
+params.get(
+"course_id"
+);
+
+
+async function loadModules(){
+
+const response=
+await fetch(
+`http://localhost:3000/course-modules?course_id=${courseId}`
+);
+
+const modules=
+await response.json();
+
+console.log(modules);
+
+const container=
 document.getElementById(
-"submit-quiz"
+"module-list"
 );
 
-const result=
+const contentPanel=
 document.getElementById(
-"quiz-result"
+"module-content-panel"
 );
 
-submitBtn.addEventListener(
-"click",
-()=>{
+container.innerHTML="";
 
-let score=0;
 
-const q1=
+
+if(modules.length===0){
+
+container.innerHTML=`
+
+<div class="admin-section-card">
+
+<p>
+No modules created yet.
+</p>
+
+</div>
+
+`;
+
+return;
+
+}
+
+modules.forEach(module=>{
+
+container.innerHTML+=`
+
+<div
+class="module-item"
+onclick="showModule(${module.id})"
+>
+
+${module.module_order}.
+${module.module_title}
+
+</div>
+
+`;
+
+
+});
+
+container.innerHTML+=`
+
+<div class="sidebar-divider"></div>
+
+<div
+class="module-item special-item"
+onclick="showQuiz()"
+>
+Quiz
+</div>
+
+<div
+class="module-item special-item"
+onclick="showCertificate()"
+>
+Certificate
+</div>
+
+<div class="sidebar-divider"></div>
+
+<div class="progress-placeholder">
+
+Progress
+
+<br>
+
+${courseProgress}%
+
+</div>
+
+`;
+
+if(modules.length > 0){
+
+showModule(modules[0].id);
+
+}
+
+}
+
+
+
+
+async function loadQuiz(){
+
+const response =
+await fetch(
+`http://localhost:3000/quiz-questions?quiz_id=${courseId}`
+);
+
+questions =
+await response.json();
+
+renderQuestion();
+
+}
+
+function renderQuestion(){
+
+const question =
+questions[currentQuestion];
+
+document.getElementById(
+"quiz-container"
+).innerHTML = `
+
+<div class="question-badge">
+
+Question ${currentQuestion + 1}
+of
+${questions.length}
+
+</div>
+
+<div class="quiz-card">
+
+<h3 class="quiz-question">
+${question.question}
+</h3>
+
+<label class="quiz-option">
+
+<input
+type="radio"
+name="answer"
+value="A"
+${answers[currentQuestion] === "A" ? "checked" : ""}
+>
+
+A. ${question.option_a}
+
+</label>
+
+<label class="quiz-option">
+
+<input
+type="radio"
+name="answer"
+value="B"
+${answers[currentQuestion] === "B" ? "checked" : ""}
+>
+
+B. ${question.option_b}
+
+</label>
+
+<label class="quiz-option">
+
+<input
+type="radio"
+name="answer"
+value="C"
+${answers[currentQuestion] === "C" ? "checked" : ""}
+>
+
+C. ${question.option_c}
+
+</label>
+
+<label class="quiz-option">
+
+<input
+type="radio"
+name="answer"
+value="D"
+${answers[currentQuestion] === "D" ? "checked" : ""}
+>
+
+D. ${question.option_d}
+
+</label>
+
+<div class="quiz-actions">
+
+<button
+class="admin-save-btn"
+onclick="previousQuestion()"
+>
+
+← Previous
+
+</button>
+
+<button
+class="admin-add-btn"
+onclick="nextQuestion()"
+>
+
+${currentQuestion === questions.length-1
+? "Submit Quiz"
+: "Next →"}
+
+</button>
+
+</div>
+
+</div>
+
+`;
+
+}
+
+function nextQuestion(){
+
+const selected =
 document.querySelector(
-'input[name="q1"]:checked'
+'input[name="answer"]:checked'
 );
 
-const q2=
-document.querySelector(
-'input[name="q2"]:checked'
-);
+if(selected){
 
-if(
-q1 &&
-q1.value==="B"
-){
-score++;
+answers[currentQuestion] =
+selected.value;
+
 }
 
 if(
-q2 &&
-q2.value==="A"
+currentQuestion <
+questions.length - 1
 ){
-score++;
-}
 
-if(score>=2){
+currentQuestion++;
 
-result.innerHTML=
-"Passed ✓ Certificate unlocked";
-
-result.style.color=
-"green";
+renderQuestion();
 
 }
 else{
 
-result.innerHTML=
-"Failed. Try again.";
+submitQuiz();
 
-result.style.color=
-"red";
+}
+
+}
+
+function previousQuestion(){
+
+if(currentQuestion > 0){
+
+currentQuestion--;
+
+renderQuestion();
+
+}
+
+}
+
+async function submitQuiz(){
+
+let score = 0;
+
+questions.forEach(
+(question,index)=>{
+
+if(
+answers[index] ===
+question.correct_answer
+){
+
+score += Number(question.marks);
 
 }
 
 }
 );
+
+const totalMarks =
+questions.reduce(
+(sum,q)=>
+sum + Number(q.marks),
+0
+);
+
+const percentage =
+Math.round(
+(score / totalMarks) * 100
+);
+
+alert(
+`Quiz Finished!\n\nScore: ${score}/${totalMarks}\n\nPercentage: ${percentage}%`
+);
+
+if(percentage >= 60){
+
+const email =
+localStorage.getItem(
+"userEmail"
+);
+
+const userResponse =
+await fetch(
+`http://localhost:3000/get-user?email=${email}`
+);
+
+const user =
+await userResponse.json();
+
+await fetch(
+"http://localhost:3000/create-certificate",
+{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+user_id:user.id,
+course_id:courseId
+})
+}
+);
+
+alert(
+"Congratulations! You passed the quiz."
+);
+
+window.location.href =
+"certificates.html";
+
+}
+else{
+
+alert(
+"You did not reach the passing score. Please try again."
+);
+
+}
+
+}
+loadQuiz();
 
 </script>
 

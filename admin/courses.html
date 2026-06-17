@@ -64,7 +64,9 @@ class="active-sidebar"
 ▣ Manage Courses
 </a>
 
-
+<a href="employees.html">
+◌ Employees
+</a>
 
 <a href="employee-progress.html">
 ◔ Employee Progress
@@ -72,10 +74,6 @@ class="active-sidebar"
 
 <a href="certificates.html">
 ✦ Certificates
-</a>
-
-<a href="employees.html">
-◌ Employees
 </a>
 
 <a href="profile.html">
@@ -132,6 +130,42 @@ class="admin-add-btn"
 
 </div>
 
+<div class="course-filters">
+
+<select id="status-filter">
+
+<option value="all">
+All Status
+</option>
+
+<option value="published">
+Published
+</option>
+
+<option value="draft">
+Draft
+</option>
+
+</select>
+
+<select id="language-filter">
+
+<option value="all">
+All Languages
+</option>
+
+<option value="English">
+English
+</option>
+
+<option value="Telugu">
+Telugu
+</option>
+
+</select>
+
+</div>
+
 <div
 class="admin-course-grid"
 id="course-grid"
@@ -180,15 +214,9 @@ Delete
 
 <script>
 
-async function loadCourses(){
+let allCourses = [];
 
-const response=
-await fetch(
-"http://localhost:3000/courses"
-);
-
-const courses=
-await response.json();
+function renderCourses(courses){
 
 const grid=
 document.getElementById(
@@ -204,15 +232,19 @@ grid.innerHTML+=`
 
 <div class="admin-course-card">
 
-
-
 <img
 src="../assests/course-thumbnails/${course.thumbnail}"
 class="admin-course-thumbnail"
 >
 
-<h3>
-${course.title}
+<h3 title="${course.title}">
+${
+course.title.split(" ").length > 5
+?
+course.title.split(" ").slice(0,3).join(" ") + "..."
+:
+course.title
+}
 </h3>
 
 <p>
@@ -259,7 +291,106 @@ Delete
 
 }
 
+function filterCourses(){
+
+const search=
+document
+.getElementById(
+"course-search"
+)
+.value
+.toLowerCase();
+
+const status=
+document
+.getElementById(
+"status-filter"
+)
+.value;
+
+const language=
+document
+.getElementById(
+"language-filter"
+)
+.value;
+
+const filtered=
+allCourses.filter(course=>{
+
+const matchesSearch=
+course.title
+.toLowerCase()
+.includes(search);
+
+const matchesStatus=
+status==="all"
+||
+course.status===status;
+
+const matchesLanguage=
+language==="all"
+||
+course.language===language;
+
+return(
+matchesSearch
+&&
+matchesStatus
+&&
+matchesLanguage
+);
+
+});
+
+renderCourses(filtered);
+
+}
+
+async function loadCourses(){
+
+const response=
+await fetch(
+"http://localhost:3000/courses"
+);
+
+const courses=
+await response.json();
+
+allCourses = courses;
+
+renderCourses(courses);
+
+}
+
 loadCourses();
+
+document
+.getElementById(
+"course-search"
+)
+.addEventListener(
+"input",
+filterCourses
+);
+
+document
+.getElementById(
+"status-filter"
+)
+.addEventListener(
+"change",
+filterCourses
+);
+
+document
+.getElementById(
+"language-filter"
+)
+.addEventListener(
+"change",
+filterCourses
+);
 
 document.addEventListener(
 "click",

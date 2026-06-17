@@ -61,7 +61,9 @@ Safety LMS
 ▣ Manage Courses
 </a>
 
-
+<a href="employees.html">
+◌ Employees
+</a>
 
 <a
 href="employee-progress.html"
@@ -72,10 +74,6 @@ class="active-sidebar"
 
 <a href="certificates.html">
 ✦ Certificates
-</a>
-
-<a href="employees.html">
-◌ Employees
 </a>
 
 <a href="profile.html">
@@ -113,73 +111,62 @@ Track employee training completion and performance.
 </div>
 
 
-<!-- FILTERS -->
-
-<div class="admin-section-card">
-
-<div class="admin-toolbar">
-
-<input
-type="text"
-placeholder="Search employee..."
->
-
-<select>
-
-<option>
-All Departments
-</option>
-
-<option>
-Production
-</option>
-
-<option>
-Maintenance
-</option>
-
-<option>
-Safety
-</option>
-
-<option>
-HR
-</option>
-
-</select>
-
-<select>
-
-<option>
-All Courses
-</option>
-
-<option>
-Fire Safety
-</option>
-
-<option>
-First Aid
-</option>
-
-<option>
-Electrical Safety
-</option>
-
-</select>
-
-</div>
-
-</div>
-
 
 <!-- PROGRESS TABLE -->
+
+<div class="course-filters">
+
+<div class="filter-box">
+
+<select id="departmentFilter">
+
+<option value="">
+Departments
+</option>
+
+</select>
+
+</div>
+
+<div class="filter-box">
+
+<select id="courseFilter">
+
+<option value="">
+Courses
+</option>
+
+</select>
+
+</div>
+
+<div class="filter-box">
+
+<select id="statusFilter">
+
+<option value="">
+Status
+</option>
+
+</select>
+
+</div>
+
+<button id="clearFilters">
+
+Clear
+
+</button>
+
+</div>
 
 <div class="admin-section-card">
 
 <h2>
 Training Progress
 </h2>
+
+
 
 <table class="admin-progress-table">
 
@@ -210,121 +197,9 @@ Action
 </tr>
 
 </thead>
-
 <tbody>
 
-<tr>
-
-<td>
-Ravi Kumar
-</td>
-
-<td>
-Fire Safety
-</td>
-
-<td>
-60%
-</td>
-
-<td>
-
-<span class="progress-badge in-progress">
-
-In Progress
-
-</span>
-
-</td>
-
-<td>
-
-<a href="employee-details.html">
-
-View
-
-</a>
-
-</td>
-
-</tr>
-
-
-<tr>
-
-<td>
-Priya Sharma
-</td>
-
-<td>
-First Aid
-</td>
-
-<td>
-100%
-</td>
-
-<td>
-
-<span class="progress-badge completed">
-
-Completed
-
-</span>
-
-</td>
-
-<td>
-
-<a href="employee-details.html">
-
-View
-
-</a>
-
-</td>
-
-</tr>
-
-
-<tr>
-
-<td>
-Rahul Verma
-</td>
-
-<td>
-Electrical Safety
-</td>
-
-<td>
-0%
-</td>
-
-<td>
-
-<span class="progress-badge not-started">
-
-Not Started
-
-</span>
-
-</td>
-
-<td>
-
-<a href="employee-details.html">
-
-View
-
-</a>
-
-</td>
-
-</tr>
-
 </tbody>
-
 </table>
 
 </div>
@@ -403,6 +278,7 @@ window.location.href=
 
 </script>
 
+<script src="../js/employee.js"></script>
 <script src="../js/auth-check.js"></script>
 <script src="../js/admin-auth.js"></script>
 <script src="../js/logout.js"></script>

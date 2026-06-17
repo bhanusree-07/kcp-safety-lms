@@ -61,7 +61,12 @@ Safety LMS
 ▣ Manage Courses
 </a>
 
-
+<a
+href="employees.html"
+class="active-sidebar"
+>
+◌ Employees
+</a>
 
 <a href="employee-progress.html">
 ◔ Employee Progress
@@ -69,13 +74,6 @@ Safety LMS
 
 <a href="certificates.html">
 ✦ Certificates
-</a>
-
-<a
-href="employees.html"
-class="active-sidebar"
->
-◌ Employees
 </a>
 
 <a href="profile.html">
@@ -113,51 +111,36 @@ Manage employee training assignments and records.
 </div>
 
 
-<!-- TOOLBAR -->
-
-<div class="admin-section-card">
-
 <div class="admin-toolbar">
 
 <input
 type="text"
-placeholder="Search employee..."
->
+id="searchInput"
+placeholder="Search employees..."
+class="course-search"
+/>
 
-<select>
-
-<option>
-All Departments
-</option>
-
-<option>
-Production
-</option>
-
-<option>
-Maintenance
-</option>
-
-<option>
-Safety
-</option>
-
-<option>
-HR
-</option>
-
-</select>
-
-<button class="admin-add-btn">
-
-+ Add Employee
-
+<button id="clearFilters">
+Clear
 </button>
 
 </div>
 
+<div class="course-filters">
+
+<div class="filter-box">
+
+<select id="departmentFilter">
+
+<option value="">
+Departments
+</option>
+
+</select>
+
 </div>
 
+</div>
 
 <!-- EMPLOYEE GRID -->
 
@@ -175,6 +158,8 @@ id="employee-grid"
 
 <script>
 
+let allEmployees = [];
+
 async function loadEmployees(){
 
 const response=
@@ -185,7 +170,68 @@ await fetch(
 const employees=
 await response.json();
 
-const grid=
+allEmployees = employees;
+
+populateDepartments();
+
+renderEmployees(
+employees
+);
+
+}
+
+function filterEmployees(){
+
+const selectedDepartment =
+document.getElementById(
+"departmentFilter"
+).value;
+
+const searchText =
+document.getElementById(
+"searchInput"
+).value
+.toLowerCase();
+
+const filteredEmployees =
+
+allEmployees.filter(employee=>{
+
+const departmentMatch =
+
+!selectedDepartment ||
+
+employee.department ===
+selectedDepartment;
+
+const searchMatch =
+
+employee.full_name
+.toLowerCase()
+.includes(searchText)
+
+||
+
+employee.email
+.toLowerCase()
+.includes(searchText);
+
+return(
+departmentMatch &&
+searchMatch
+);
+
+});
+
+renderEmployees(
+filteredEmployees
+);
+
+}
+
+function renderEmployees(employees){
+
+const grid =
 document.getElementById(
 "employee-grid"
 );
@@ -219,9 +265,6 @@ ${employee.designation || "-"}
 
 <div class="admin-course-actions">
 
-<a href="#">
-Assign Course
-</a>
 
 <a href="employee-details.html?id=${employee.id}">
 View Details
@@ -237,6 +280,85 @@ View Details
 );
 
 }
+
+
+function populateDepartments(){
+
+const departmentFilter =
+document.getElementById(
+"departmentFilter"
+);
+
+departmentFilter.innerHTML = `
+<option value="">
+Departments
+</option>
+`;
+
+const departments = [
+
+...new Set(
+
+allEmployees
+.map(employee => employee.department)
+.filter(Boolean)
+
+)
+
+];
+
+departments.forEach(
+department=>{
+
+departmentFilter.innerHTML += `
+<option value="${department}">
+${department}
+</option>
+`;
+
+}
+);
+
+}
+
+function clearFilters(){
+
+document.getElementById(
+"searchInput"
+).value="";
+
+document.getElementById(
+"departmentFilter"
+).value="";
+
+renderEmployees(
+allEmployees
+);
+
+}
+
+
+document.getElementById(
+"searchInput"
+).addEventListener(
+"input",
+filterEmployees
+);
+
+document.getElementById(
+"departmentFilter"
+).addEventListener(
+"change",
+filterEmployees
+);
+
+document.getElementById(
+"clearFilters"
+).addEventListener(
+"click",
+clearFilters
+);
+
 
 loadEmployees();
 

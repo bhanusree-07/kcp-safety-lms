@@ -61,17 +61,17 @@ Safety LMS
 ▣ Manage Courses
 </a>
 
+<a href="employees.html">
+◌ Employees
+</a>
 
 <a href="employee-progress.html">
 ◔ Employee Progress
 </a>
 
+
 <a href="certificates.html">
 ✦ Certificates
-</a>
-
-<a href="employees.html">
-◌ Employees
 </a>
 
 <a href="profile.html">
@@ -374,7 +374,10 @@ container.insertAdjacentHTML(
 "beforeend",
 `
 
-<div class="admin-module-card">
+<div
+class="admin-module-card"
+data-pdf="${module.pdf_file || ''}"
+>
 
 <h3>
 Module ${module.module_order}
@@ -430,17 +433,6 @@ ${module.pdf_file || "No PDF"}
 
 </div>
 
-<div class="admin-input-group">
-
-<label>
-Image Upload
-</label>
-
-<p>
-${module.image_file || "No Image"}
-</p>
-
-</div>
 
 <div class="admin-input-group">
 
@@ -565,18 +557,7 @@ accept=".pdf"
 
 </div>
 
-<div class="admin-input-group">
 
-<label>
-Image Upload
-</label>
-
-<input
-type="file"
-accept="image/*"
->
-
-</div>
 
 <div class="admin-input-group">
 
@@ -614,11 +595,7 @@ Delete
 
 }
 );
-document
-.getElementById(
-"add-module-btn"
-)
-.click();
+
 
 document.addEventListener(
 "click",
@@ -653,7 +630,7 @@ const module_content=
 inputs[2].value;
 
 const video_link=
-inputs[5].value;
+inputs[4].value;
 
 const pdfInput=
 card.querySelectorAll(
@@ -765,16 +742,35 @@ e.target.closest(
 ".admin-module-card"
 );
 
+const existingPdf=
+card.dataset.pdf;
+
 const inputs=
 card.querySelectorAll(
 "input"
 );
+
+console.log(inputs);
+console.log(inputs.length);
+
+inputs.forEach((input,index)=>{
+console.log(index,input);
+});
+
+console.log(inputs);
+console.log(inputs.length);
+
+console.log(inputs[0]);
+console.log(inputs[1]);
+console.log(inputs[2]);
+
 
 const module_title=
 inputs[0].value;
 
 const module_order=
 inputs[1].value;
+
 
 const module_content=
 card.querySelector(
@@ -797,7 +793,7 @@ module_id:moduleId,
 module_title,
 module_content,
 module_order,
-pdf_file:"",
+pdf_file:existingPdf,
 image_file:"",
 video_link
 })

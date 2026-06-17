@@ -430,24 +430,18 @@ upload.fields([
 {
 name:"pdf_file",
 maxCount:1
-},
-{
-name:"image_file",
-maxCount:1
 }
 ]),
 (req,res)=>{
 
+console.log(req.files);
+
 res.json({
 
 pdf_file:
-req.files?.pdf_file?.[0]?.filename || "",
-
-image_file:
-req.files?.image_file?.[0]?.filename || ""
+req.files?.pdf_file?.[0]?.filename || ""
 
 });
-
 }
 );
 
@@ -789,7 +783,9 @@ req.query.email;
 const sql=`
 
 SELECT
-courses.*
+courses.*,
+COALESCE(progress.progress_percent,0)
+AS progress_percent
 FROM employee_courses
 
 JOIN users
@@ -799,6 +795,14 @@ users.id
 JOIN courses
 ON employee_courses.course_id=
 courses.id
+
+LEFT JOIN progress
+ON progress.user_id=
+users.id
+
+AND progress.course_id=
+courses.id
+
 
 WHERE users.email=?
 AND courses.status='published'
@@ -1074,7 +1078,6 @@ module_title,
 module_content,
 module_order,
 pdf_file,
-image_file,
 video_link
 }=req.body;
 
@@ -1088,7 +1091,6 @@ module_title=?,
 module_content=?,
 module_order=?,
 pdf_file=?,
-image_file=?,
 video_link=?
 
 WHERE id=?
@@ -1102,7 +1104,6 @@ module_title,
 module_content,
 module_order,
 pdf_file,
-image_file,
 video_link,
 module_id
 ],
@@ -1210,6 +1211,7 @@ const sql=`
 
 SELECT
 progress.course_id,
+courses.title AS course_title,
 progress.progress_percent,
 progress.status
 
@@ -1218,6 +1220,10 @@ FROM progress
 JOIN users
 ON progress.user_id=
 users.id
+
+JOIN courses
+ON progress.course_id=
+courses.id
 
 WHERE users.email=?
 
@@ -1263,6 +1269,38 @@ const certificateCode=
 "KCP-"+
 Date.now();
 
+const checkSql = `
+
+SELECT *
+FROM certificates
+WHERE user_id=?
+AND course_id=?
+
+`;
+
+db.query(
+checkSql,
+[user_id,course_id],
+(err,result)=>{
+
+if(err){
+
+return res
+.status(500)
+.json(err);
+
+}
+
+if(result.length > 0){
+
+return res.json(
+{
+success:true,
+message:"Certificate already exists"
+}
+);
+
+}
 const sql=`
 
 INSERT INTO certificates
@@ -1293,7 +1331,10 @@ return res
 }
 
 res.json(
-"Certificate created"
+{
+success:true,
+message:"Certificate created"
+}
 );
 
 }
@@ -1303,6 +1344,8 @@ res.json(
 }
 );
 
+}
+);
 
 // GET USER CERTIFICATES
 
@@ -1707,7 +1750,6 @@ module_title,
 module_content,
 module_order,
 pdf_file,
-image_file,
 video_link
 }=req.body;
 
@@ -1720,13 +1762,11 @@ module_title,
 module_content,
 module_order,
 pdf_file,
-image_file,
 video_link
 )
 
 VALUES
 (
-?,
 ?,
 ?,
 ?,
@@ -1745,7 +1785,6 @@ module_title,
 module_content,
 module_order,
 pdf_file,
-image_file,
 video_link
 ],
 (err,result)=>{
@@ -1811,8 +1850,698 @@ success:true
 );
 
 
+function updateQuizTotalMarks(quizId){
+
+const sumSql = `
+
+SELECT
+SUM(marks) AS total
+FROM quiz_questions
+WHERE quiz_id=?
+
+`;
+
+db.query(
+sumSql,
+[quizId],
+(err,result)=>{
+
+if(err){
+console.log(err);
+return;
+}
+
+const totalMarks =
+result[0].total || 0;
+
+const updateSql = `
+
+UPDATE quizzes
+
+SET total_marks=?
+
+WHERE course_id=?
+
+`;
+
+db.query(
+updateSql,
+[
+totalMarks,
+quizId
+]
+);
+
+}
+);
+
+}
+
+
+// CREATE QUIZ QUESTION
+
+app.post(
+"/create-question",
+(req,res)=>{
+
+const{
+quiz_id,
+question,
+option_a,
+option_b,
+option_c,
+option_d,
+correct_answer,
+marks
+}=req.body;
+
+const sql=`
+
+INSERT INTO quiz_questions
+(
+quiz_id,
+question,
+option_a,
+option_b,
+option_c,
+option_d,
+correct_answer,
+marks
+)
+
+VALUES
+(
+?,
+?,
+?,
+?,
+?,
+?,
+?,
+?
+)
+
+`;
+
+db.query(
+sql,
+[
+quiz_id,
+question,
+option_a,
+option_b,
+option_c,
+option_d,
+correct_answer,
+marks
+],
+(err,result)=>{
+
+if(err){
+
+return res
+.status(500)
+.json(err);
+
+}
+
+updateQuizTotalMarks(
+quiz_id
+);
+
+res.json({
+success:true
+});
+
+}
+
+);
+
+}
+);
+
+
+// UPDATE QUIZ QUESTION
+
+app.post(
+"/update-question",
+(req,res)=>{
+
+const{
+id,
+question,
+option_a,
+option_b,
+option_c,
+option_d,
+correct_answer,
+marks
+}=req.body;
+
+const sql=`
+
+UPDATE quiz_questions
+
+SET
+
+question=?,
+option_a=?,
+option_b=?,
+option_c=?,
+option_d=?,
+correct_answer=?,
+marks=?
+
+WHERE id=?
+
+`;
+
+db.query(
+sql,
+[
+question,
+option_a,
+option_b,
+option_c,
+option_d,
+correct_answer,
+marks,
+id
+],
+(err,result)=>{
+
+if(err){
+
+return res
+.status(500)
+.json(err);
+
+}
+
+updateQuizTotalMarks(1);
+
+res.json({
+success:true
+});
+
+}
+
+);
+
+}
+);
+
+
+app.get(
+"/quiz-questions",
+(req,res)=>{
+
+const quiz_id=
+req.query.quiz_id;
+
+const sql=`
+
+SELECT *
+FROM quiz_questions
+WHERE quiz_id=?
+
+`;
+
+db.query(
+sql,
+[quiz_id],
+(err,result)=>{
+
+if(err){
+
+return res
+.status(500)
+.json(err);
+
+}
+
+res.json(
+result
+);
+
+}
+
+);
+
+}
+);
+
+// GET QUIZ SETTINGS
+
+app.get(
+"/quiz-settings",
+(req,res)=>{
+
+const course_id =
+req.query.course_id;
+
+const sql = `
+SELECT *
+FROM quizzes
+WHERE course_id=?
+`;
+
+db.query(
+sql,
+[course_id],
+(err,result)=>{
+
+if(err){
+
+return res
+.status(500)
+.json(err);
+
+}
+
+if(result.length===0){
+
+return res.json({
+quiz_title:"",
+total_marks:0,
+passing_marks:0
+});
+
+}
+
+res.json(
+result[0]
+);
+
+}
+
+);
+
+}
+);
+
+
+// UPDATE QUIZ SETTINGS
+
+app.post(
+"/update-quiz-settings",
+(req,res)=>{
+console.log(req.body);
+
+const{
+course_id,
+quiz_title,
+passing_marks
+}=req.body;
+
+const sql = `
+
+UPDATE quizzes
+
+SET
+
+quiz_title=?,
+passing_marks=?
+
+WHERE course_id=?
+
+`;
+
+db.query(
+sql,
+[
+quiz_title,
+passing_marks,
+course_id
+],
+(err,result)=>{
+
+if(err){
+
+return res
+.status(500)
+.json(err);
+
+}
+
+res.json({
+success:true
+});
+
+}
+
+);
+
+}
+);
+
+
+app.delete(
+"/delete-question",
+(req,res)=>{
+
+const question_id=
+req.query.question_id;
+
+const findSql = `
+SELECT quiz_id
+FROM quiz_questions
+WHERE id=?
+`;
+
+db.query(
+findSql,
+[question_id],
+(err,result)=>{
+
+const quizId =
+result[0].quiz_id;
+
+const deleteSql = `
+DELETE FROM quiz_questions
+WHERE id=?
+`;
+
+db.query(
+deleteSql,
+[question_id],
+(err2,result2)=>{
+
+updateQuizTotalMarks(
+quizId
+);
+
+res.json({
+success:true
+});
+
+}
+);
+
+}
+);
+
+}
+);
+
+
+
+// GET ALL EMPLOYEE PROGRESS
+
+console.log("all-progress route loaded");
+
+app.get("/all-progress", (req, res) => {
+  const sql = `
+    SELECT 
+  users.id AS user_id,
+  users.full_name AS employee,
+  users.department,
+  courses.title AS course,
+  progress.progress_percent,
+  progress.status
+    FROM progress
+    JOIN users ON progress.user_id = users.id
+    JOIN courses ON progress.course_id = courses.id
+    ORDER BY users.full_name ASC
+  `;
+  
+  db.query(sql, (err, result) => {
+    if (err) {
+      return res.status(500).json(err);
+    }
+    res.json(result);
+  });
+});
+
+app.get("/all-courses",(req,res)=>{
+
+const sql=`
+SELECT title
+FROM courses
+ORDER BY title ASC
+`;
+
+db.query(sql,(err,result)=>{
+
+if(err){
+return res.status(500).json(err);
+}
+
+res.json(result);
+
+});
+
+});
+
+
+
+// GET CERTIFICATES
+
+app.get(
+"/certificates",
+(req,res)=>{
+
+const sql = `
+
+SELECT
+
+users.full_name AS employee,
+users.department,
+courses.title AS course,
+progress.progress_percent
+
+FROM progress
+
+JOIN users
+ON progress.user_id = users.id
+
+JOIN courses
+ON progress.course_id = courses.id
+
+WHERE progress.progress_percent > 0
+
+ORDER BY users.full_name
+
+`;
+
+db.query(
+sql,
+(err,result)=>{
+
+if(err){
+
+return res
+.status(500)
+.json(err);
+
+}
+
+res.json(result);
+
+}
+);
+
+}
+);
+
+// COMPLETE MODULE
+
+app.post(
+"/complete-module",
+(req,res)=>{
+
+const{
+user_id,
+course_id,
+module_id
+}=req.body;
+
+const sql=`
+
+INSERT IGNORE INTO
+module_progress
+(
+user_id,
+course_id,
+module_id,
+completed
+)
+VALUES
+(
+?,
+?,
+?,
+1
+)
+
+`;
+
+db.query(
+sql,
+[
+user_id,
+course_id,
+module_id
+],
+(err,result)=>{
+
+if(err){
+
+return res
+.status(500)
+.json(err);
+
+}
+
+const totalModulesSql = `
+SELECT COUNT(*) AS totalModules
+FROM modules
+WHERE course_id=?
+`;
+
+db.query(
+totalModulesSql,
+[course_id],
+(err,totalResult)=>{
+
+const totalModules =
+totalResult[0].totalModules;
+
+const completedSql = `
+SELECT COUNT(*) AS completedModules
+FROM module_progress
+WHERE user_id=?
+AND course_id=?
+`;
+
+db.query(
+completedSql,
+[user_id,course_id],
+(err,completedResult)=>{
+
+const completedModules =
+completedResult[0].completedModules;
+
+const progressPercent =
+Math.round(
+(completedModules /
+(totalModules + 1))
+* 100
+);
+
+console.log("Total Modules:", totalModules);
+console.log("Completed Modules:", completedModules);
+console.log("Progress:", progressPercent);
+
+const updateSql = `
+INSERT INTO progress
+(
+user_id,
+course_id,
+progress_percent,
+status
+)
+VALUES (?, ?, ?, ?)
+
+ON DUPLICATE KEY UPDATE
+
+progress_percent=?,
+status=?
+`;
+
+db.query(
+updateSql,
+[
+user_id,
+course_id,
+progressPercent,
+"in-progress",
+progressPercent,
+"in-progress"
+],
+()=>{
+
+res.json({
+success:true
+});
+
+}
+);
+
+}
+);
+
+}
+);
+
+}
+
+);
+
+}
+);
+
+
+// GET MODULE PROGRESS
+
+app.get(
+"/module-progress",
+(req,res)=>{
+
+const{
+email,
+course_id
+}=req.query;
+
+const sql=`
+
+SELECT
+module_progress.module_id
+
+FROM module_progress
+
+JOIN users
+ON module_progress.user_id=
+users.id
+
+WHERE
+users.email=?
+AND
+module_progress.course_id=?
+
+`;
+
+db.query(
+sql,
+[
+email,
+course_id
+],
+(err,result)=>{
+
+if(err){
+
+return res
+.status(500)
+.json(err);
+
+}
+
+res.json(result);
+
+}
+
+);
+
+}
+);
+
 
 // START SERVER
+
+app.get("/test", (req,res)=>{
+res.send("working");
+});
 
 app.listen(
 PORT,

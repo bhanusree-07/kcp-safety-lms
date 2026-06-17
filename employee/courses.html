@@ -60,7 +60,7 @@ class="active-sidebar"
 </a>
 
 <a href="course-details.html">
-▣ My Courses
+▣ All Courses
 </a>
 
 <a href="progress.html">
@@ -182,7 +182,15 @@ await response.json();
 
 grid.innerHTML="";
 
-courses.forEach(
+const activeCourses =
+
+courses.filter(
+course=>
+
+course.progress_percent < 100
+);
+
+activeCourses.forEach(
 course=>{
 
 grid.innerHTML+=`
@@ -194,7 +202,8 @@ ${course.title}
 </h3>
 
 <p>
-Progress: 0%
+Progress:
+${course.progress_percent}%
 </p>
 
 <a
