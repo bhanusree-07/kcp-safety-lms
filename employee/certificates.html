@@ -207,7 +207,7 @@ ${date.toLocaleDateString()}
 <button
 class="certificate-btn"
 onclick="
-alert(
+showPopup(
 'Certificate Viewer Coming Soon'
 )
 "
@@ -298,6 +298,63 @@ window.location.href=
 }
 
 </script>
+
+<div
+id="popup-modal"
+class="logout-modal"
+>
+
+<div class="logout-box">
+
+<h3>
+Notice
+</h3>
+
+<p id="popup-message">
+</p>
+
+<div class="logout-actions">
+
+<button
+class="logout-confirm"
+onclick="closePopup()"
+>
+OK
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+function showPopup(message){
+
+document.getElementById(
+"popup-message"
+).innerText =
+message;
+
+document.getElementById(
+"popup-modal"
+).style.display =
+"flex";
+
+}
+
+function closePopup(){
+
+document.getElementById(
+"popup-modal"
+).style.display =
+"none";
+
+}
+
+</script>
+
 
 <script src="../js/employee-auth.js"></script>
 <script src="../js/logout.js"></script>

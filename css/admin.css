@@ -825,14 +825,21 @@ margin-top:20px;
 }
 
 .question-badge{
-display:inline-block;
 padding:12px 24px;
 background:#e8eefc;
 color:#173a8a;
-font-weight:700;
-font-size:18px;
-border-radius:14px;
-margin-bottom:25px;
+display:inline-flex;
+align-items:center;
+justify-content:center;
+
+height:42px;
+padding:0 18px;
+
+font-size:16px;
+font-weight:600;
+
+border-radius:12px;
+margin-bottom:20px;
 }
 
 .quiz-question{
@@ -1306,7 +1313,10 @@ padding-right:40px;
 }
 
 
-
+.admin-save-btn:disabled{
+opacity:.5;
+cursor:not-allowed;
+}
 
 
 
@@ -1378,4 +1388,262 @@ padding:0;
 margin-top:25px;
 color:#cbd5e1;
 font-size:15px;
+}
+
+
+
+/* =========================
+ADMIN DARK MODE
+========================= */
+
+/* Dashboard Stat Cards */
+
+body.dark-mode .admin-stat-card{
+background:#273449;
+border:1px solid #334155;
+box-shadow:none;
+}
+
+body.dark-mode .admin-stat-card h3{
+color:#f8fafc;
+}
+
+body.dark-mode .admin-stat-card p{
+color:#cbd5e1;
+}
+
+/* Section Cards */
+
+body.dark-mode .admin-section-card{
+background:#273449;
+border:1px solid #334155;
+box-shadow:none;
+}
+
+body.dark-mode .admin-section-card h2{
+color:#f8fafc;
+}
+
+body.dark-mode .admin-section-card p{
+color:#cbd5e1;
+}
+
+/* Analytics */
+
+body.dark-mode #courseAnalytics p{
+color:#cbd5e1;
+}
+
+/* Quick Actions */
+
+body.dark-mode .admin-action-btn{
+background:#1f2937;
+border:1px solid #334155;
+color:#f8fafc;
+}
+
+body.dark-mode .admin-action-btn:hover{
+background:#111827;
+border-color:#475569;
+color:#f8fafc;
+}
+
+/* Search */
+
+body.dark-mode .admin-toolbar input,
+body.dark-mode .course-search{
+background:#111827;
+border:1px solid #334155;
+color:#f8fafc;
+}
+
+body.dark-mode .admin-toolbar input::placeholder,
+body.dark-mode .course-search::placeholder{
+color:#94a3b8;
+}
+
+/* Course Cards */
+
+body.dark-mode .admin-course-card{
+background:#273449;
+border:1px solid #334155;
+}
+
+body.dark-mode .admin-course-card h3{
+color:#f8fafc;
+}
+
+body.dark-mode .admin-course-card p{
+color:#cbd5e1;
+}
+
+body.dark-mode .admin-course-actions a{
+background:#1f2937;
+border:1px solid #334155;
+color:#f8fafc;
+}
+
+body.dark-mode .admin-course-actions a:hover{
+background:#111827;
+border-color:#475569;
+}
+
+/* Forms */
+
+body.dark-mode .admin-input-group label{
+color:#f8fafc;
+}
+
+body.dark-mode .admin-input-group input,
+body.dark-mode .admin-input-group select,
+body.dark-mode .admin-input-group textarea{
+background:#111827;
+border:1px solid #334155;
+color:#f8fafc;
+}
+
+body.dark-mode .admin-input-group input::placeholder,
+body.dark-mode .admin-input-group textarea::placeholder{
+color:#94a3b8;
+}
+
+/* Buttons */
+
+body.dark-mode .admin-save-btn,
+body.dark-mode .admin-add-btn{
+background:#1f2937;
+border:1px solid #334155;
+color:#f8fafc;
+}
+
+body.dark-mode .admin-save-btn:hover,
+body.dark-mode .admin-add-btn:hover{
+background:#111827;
+border-color:#475569;
+color:#f8fafc;
+}
+
+body.dark-mode .admin-delete-btn{
+background:#7f1d1d;
+border:1px solid #991b1b;
+}
+
+body.dark-mode .admin-delete-btn:hover{
+background:#991b1b;
+}
+
+/* Tables */
+
+body.dark-mode .admin-progress-table{
+color:#f8fafc;
+}
+
+body.dark-mode .admin-progress-table th{
+color:#f8fafc;
+}
+
+body.dark-mode .admin-progress-table td{
+color:#cbd5e1;
+}
+
+body.dark-mode .admin-progress-table tr{
+border-color:#334155;
+}
+
+body.dark-mode .admin-progress-table a{
+color:#f8fafc;
+}
+
+/* Filters */
+
+body.dark-mode .course-filters select,
+body.dark-mode #course-select{
+background:#111827;
+border:1px solid #334155;
+color:#f8fafc;
+}
+
+body.dark-mode .course-filters option,
+body.dark-mode #course-select option{
+background:#111827;
+color:#f8fafc;
+}
+
+/* Module Cards */
+
+body.dark-mode .admin-module-card{
+background:#1f2937;
+border:1px solid #334155;
+}
+
+body.dark-mode .module-title,
+body.dark-mode .module-header-row h2{
+color:#f8fafc;
+}
+
+/* Popups */
+
+body.dark-mode .delete-popup-box{
+background:#273449;
+border:1px solid #334155;
+}
+
+body.dark-mode .delete-popup-box h2,
+body.dark-mode .delete-popup-box h3{
+color:#f8fafc;
+}
+
+body.dark-mode .delete-popup-box p{
+color:#cbd5e1;
+}
+
+body.dark-mode .popup-header{
+border-color:#334155;
+}
+
+body.dark-mode .popup-close-btn{
+color:#f8fafc;
+}
+
+/* Success Toast */
+
+body.dark-mode .success-popup,
+body.dark-mode .success-toast{
+background:#1f2937;
+border:1px solid #334155;
+color:#f8fafc;
+}
+
+body.dark-mode .error-toast{
+background:#7f1d1d;
+border:1px solid #991b1b;
+}
+
+body.dark-mode .quiz-card{
+background:#273449;
+border:1px solid #334155;
+box-shadow:none;
+}
+
+body.dark-mode .correct-answer{
+color:#f8fafc;
+font-weight:600;
+line-height:1.5;
+}
+
+body.dark-mode .correct-answer strong{
+color:#ffffff;
+}
+
+
+body.dark-mode .quiz-card{
+background:#273449;
+border:1px solid #334155;
+box-shadow:none;
+}
+
+.active-module{
+background:#17357a !important;
+border-color:#17357a !important;
+color:white !important;
 }
