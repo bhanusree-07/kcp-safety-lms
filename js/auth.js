@@ -43,7 +43,10 @@ await response.json();
 
 if(!data.success){
 
-alert(data.message);
+console.log("LOGIN FAILED");
+console.log(data);
+
+showPopup(data.message);
 return;
 
 }
@@ -118,7 +121,7 @@ if(
 password!==confirmPassword
 ){
 
-alert(
+showPopup(
 "Passwords do not match"
 );
 
@@ -145,7 +148,7 @@ password
 const data=
 await response.json();
 
-alert(
+showPopup(
 data.message
 );
 

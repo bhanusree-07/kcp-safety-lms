@@ -301,13 +301,13 @@ old_email:email
 }
 );
 
-const message=
-await response.text();
+const data =
+await response.json();
 
 document.getElementById(
 "profile-message"
-).innerHTML=
-message;
+).innerHTML =
+data.message;
 
 localStorage.setItem(
 "userEmail",
@@ -393,5 +393,6 @@ window.location.href=
 
 <script src="../js/employee-auth.js"></script>
 <script src="../js/logout.js"></script>
+<script src="../js/theme.js"></script>
 </body>
 </html>

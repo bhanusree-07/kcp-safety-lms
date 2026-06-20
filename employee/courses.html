@@ -48,6 +48,9 @@ Safety LMS
 </div>
 
 
+
+
+
 <!-- NAVIGATION -->
 
 <div class="sidebar-menu">
@@ -197,7 +200,9 @@ grid.innerHTML+=`
 
 <div class="employee-course-card">
 
-<h3>
+<h3
+title="${course.title}"
+>
 ${course.title}
 </h3>
 
@@ -207,7 +212,7 @@ ${course.progress_percent}%
 </p>
 
 <a
-href="course-details.html?course_id=${course.id}"
+href="module.html?course_id=${course.id}"
 >
 Continue →
 </a>
@@ -301,5 +306,6 @@ window.location.href=
 </script>
 <script src="../js/employee-auth.js"></script>
 <script src="../js/logout.js"></script>
+<script src="../js/theme.js"></script>
 </body>
 </html>

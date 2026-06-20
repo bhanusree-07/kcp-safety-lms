@@ -401,9 +401,7 @@ Math.round(
 (score / totalMarks) * 100
 );
 
-alert(
-`Quiz Finished!\n\nScore: ${score}/${totalMarks}\n\nPercentage: ${percentage}%`
-);
+
 
 if(percentage >= 60){
 
@@ -434,18 +432,78 @@ course_id:courseId
 }
 );
 
-alert(
-"Congratulations! You passed the quiz."
+
+
+await fetch(
+"http://localhost:3000/update-progress",
+{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+user_id:user.id,
+course_id:courseId,
+progress_percent:100,
+status:"completed",
+quiz_completed:1
+})
+}
 );
+
+
+
+await fetch(
+"http://localhost:3000/update-progress",
+{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+user_id:user.id,
+course_id:courseId,
+progress_percent:100,
+status:"completed",
+quiz_completed:1
+})
+}
+);
+
+
+
+
+showPopup(
+`Quiz Passed!
+
+Score: ${score}/${totalMarks}
+
+Percentage: ${percentage}%`
+);
+
+
+document.querySelector(
+"#popup-modal .logout-confirm"
+).onclick = function(){
+
+closePopup();
 
 window.location.href =
 "certificates.html";
 
+};
+
 }
 else{
 
-alert(
-"You did not reach the passing score. Please try again."
+showPopup(
+`Quiz Failed
+
+Score: ${score}/${totalMarks}
+
+Percentage: ${percentage}%
+
+Please try again.`
 );
 
 }
@@ -523,8 +581,59 @@ window.location.href=
 
 }
 
+function showPopup(message){
+
+document.getElementById(
+"popup-message"
+).innerText = message;
+
+document.getElementById(
+"popup-modal"
+).style.display = "flex";
+
+}
+
+function closePopup(){
+
+document.getElementById(
+"popup-modal"
+).style.display = "none";
+
+}
 </script>
 <script src="../js/employee-auth.js"></script>
 <script src="../js/logout.js"></script>
+<script src="../js/theme.js"></script>
+
+
+<div id="popup-modal" class="logout-modal">
+
+<div class="logout-box">
+
+<h3>
+Notice
+</h3>
+
+<p id="popup-message"></p>
+
+<div class="logout-actions">
+
+<button
+class="logout-confirm"
+onclick="closePopup()"
+>
+OK
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+
+
+
 </body>
 </html>

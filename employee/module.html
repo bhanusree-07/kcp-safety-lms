@@ -109,6 +109,7 @@ course.title + " Modules";
 }
 
 
+
 async function loadProgress(){
 
 const email =
@@ -122,21 +123,32 @@ await fetch(
 const data =
 await response.json();
 
+console.log("All Progress:", data);
+console.log("Current Course ID:", courseId);
+
 const course =
 data.find(
 item => item.course_id == courseId
 );
+
+console.log("Matched Course:", course);
 
 if(course){
 
 courseProgress =
 course.progress_percent;
 
-console.log("Progress from DB:", courseProgress);
+console.log(
+"Progress from DB:",
+courseProgress
+);
 
 }
 
 }
+
+
+
 
 
 async function loadCompletedModules(){
@@ -151,6 +163,8 @@ await fetch(
 
 const data =
 await response.json();
+
+
 
 completedModuleIds =
 data.map(
@@ -170,6 +184,22 @@ await fetch(
 
 const modules=
 await response.json();
+
+const email =
+localStorage.getItem("userEmail");
+
+const progressResponse =
+await fetch(
+`http://localhost:3000/module-progress?email=${email}&course_id=${courseId}`
+);
+
+const completedModules =
+await progressResponse.json();
+
+completedModuleIds =
+completedModules.map(
+item => item.module_id
+);
 
 console.log(modules);
 
@@ -206,23 +236,52 @@ return;
 }
 
 
-modules.forEach(module=>{
+modules.forEach((module,index)=>{
 
 const isCompleted =
 completedModuleIds.includes(
 module.id
 );
 
-container.innerHTML+=`
+const previousModule =
+modules[index-1];
+
+const isUnlocked =
+index === 0 ||
+completedModuleIds.includes(
+previousModule?.id
+);
+
+container.innerHTML += `
 
 <div
 class="module-item
 ${isCompleted ? "completed-module" : ""}
+${!isUnlocked ? " locked-module" : ""}
 "
-onclick="showModule(${module.id})"
+
+onclick="
+${
+isUnlocked
+?
+`showModule(${module.id})`
+:
+`showPopup('Complete the previous module first.')`
+}
+"
 >
 
-${isCompleted ? "✓ " : ""}
+${
+isCompleted
+?
+"✓ "
+:
+!isUnlocked
+?
+"⊘ "
+:
+""
+}
 
 ${module.module_order}.
 ${module.module_title}
@@ -233,23 +292,52 @@ ${module.module_title}
 
 });
 
+const allModulesCompleted =
+modules.every(
+module =>
+completedModuleIds.includes(module.id)
+);
 
+const certificateUnlocked =
+courseProgress === 100;
 
-container.innerHTML+=`
+container.innerHTML += `
 
 <div class="sidebar-divider"></div>
 
 <div
-class="module-item special-item"
-onclick="showQuiz()"
+class="module-item special-item
+${!allModulesCompleted ? "locked-module" : ""}
+"
+onclick="
+${
+allModulesCompleted
+?
+"showQuiz()"
+:
+`showPopup('Complete all modules before attempting the quiz.')`
+}
+"
 >
+${allModulesCompleted ? "" : "⊘ "}
 Quiz
 </div>
 
 <div
-class="module-item special-item"
-onclick="showCertificate()"
+class="module-item special-item
+${!certificateUnlocked ? "locked-module" : ""}
+"
+onclick="
+${
+certificateUnlocked
+?
+"showCertificate()"
+:
+`showPopup('Pass the quiz to unlock your certificate.')`
+}
+"
 >
+${certificateUnlocked ? "" : "⊘ "}
 Certificate
 </div>
 
@@ -399,12 +487,27 @@ Download PDF
 
 <div class="module-complete-section">
 
+${
+completedModuleIds.includes(module.id)
+?
+`
+<button
+id="complete-btn"
+disabled
+>
+✓ Completed
+</button>
+`
+:
+`
 <button
 id="complete-btn"
 onclick="completeModule(${module.id})"
 >
 ✓ Mark Module Complete
 </button>
+`
+}
 
 </div>
 
@@ -573,8 +676,9 @@ completedModules.length
 
 
 
-alert(
-`Module completed. Progress: ${progressPercent}%`
+showPopup(
+`Module completed successfully.
+Current Progress: ${progressPercent}%`
 );
 
 await loadProgress();
@@ -610,6 +714,57 @@ init();
 
 <script src="../js/employee-auth.js"></script>
 <script src="../js/logout.js"></script>
+<script src="../js/theme.js"></script>
+
+
+
+<div id="popup-modal" class="logout-modal">
+
+<div class="logout-box">
+
+<h3>
+Notice
+</h3>
+
+<p id="popup-message"></p>
+
+<div class="logout-actions">
+
+<button
+class="logout-confirm"
+onclick="closePopup()"
+>
+OK
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+    function showPopup(message){
+
+document.getElementById(
+"popup-message"
+).innerText = message;
+
+document.getElementById(
+"popup-modal"
+).style.display = "flex";
+
+}
+
+function closePopup(){
+
+document.getElementById(
+"popup-modal"
+).style.display = "none";
+
+}
+</script>
+
 
 </body>
 </html>

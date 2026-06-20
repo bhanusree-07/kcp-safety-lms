@@ -8,7 +8,7 @@ background:#f5f7fb;
 
 .employee-sidebar{
 width:260px;
-background:#0d2b6b;
+background:#0b1f4d;
 color:white;
 padding:30px 22px;
 display:flex;
@@ -128,6 +128,10 @@ box-shadow:0 12px 28px #0d2b6b29;
 font-size:20px;
 color:#111;
 margin-bottom:12px;
+white-space:nowrap;
+overflow:hidden;
+text-overflow:ellipsis;
+max-width:100%;
 }
 
 .employee-course-card p{
@@ -288,7 +292,7 @@ font-weight:500;
 /* MY COURSES PAGE BANNER */
 
 .employee-banner{
-background:#0d2b6b;
+background:#0b1f4d;
 color:white;
 padding:30px 34px;
 border-radius:20px;
@@ -578,9 +582,18 @@ margin-bottom:25px;
 }
 
 .question-badge{
-font-size:20px;
-margin-bottom:20px;
+display:inline-block;
+padding:10px 18px;
+border-radius:10px;
+
+background:#ffffff;
+border:1px solid #334155;
+
+color:#111;
+font-size:15px;
 font-weight:600;
+
+margin-bottom:30px;
 }
 
 .quiz-actions{
@@ -902,4 +915,488 @@ color:#1f7a36;
 
 font-weight:600;
 
+}
+
+.completed-module{
+
+background:#e8f7ea;
+border:1px solid #b8dfc0;
+color:#2e7d32;
+font-weight:600;
+
+}
+
+.locked-module{
+
+opacity:0.55;
+cursor:not-allowed;
+
+}
+
+
+
+
+
+
+/*===========dark mode=====*/
+/* ===== EMPLOYEE DARK MODE ===== */
+
+body.dark-mode .employee-layout{
+background:#0f172a;
+}
+
+body.dark-mode .employee-main{
+background:#1a2332;
+}
+
+body.dark-mode .employee-banner{
+background:#111827;
+border:1px solid #334155;
+color:white;
+}
+
+
+body.dark-mode .employee-sidebar{
+background:#111827;
+border:1px solid #334155;
+}
+
+body.dark-mode .active-sidebar{
+background:rgba(248,204,77,.15);
+color:#F8CC4D !important;
+border:1px solid rgba(248,204,77,.4);
+}
+
+body.dark-mode .sidebar-menu a:hover{
+background:rgba(248,204,77,.12);
+color:#F8CC4D;
+}
+
+
+body.dark-mode .employee-content{
+background:transparent;
+box-shadow:none;
+padding:0;
+}
+
+body.dark-mode .employee-content h2{
+color:white;
+margin-bottom:25px;
+padding-bottom:15px;
+border-bottom:1px solid #334155;
+}
+
+
+body.dark-mode .employee-course-card{
+background:#273449;
+border:1px solid #334155;
+box-shadow:0 10px 25px rgba(0,0,0,.25);
+}
+
+
+body.dark-mode .employee-course-card h3{
+color:white;
+}
+
+body.dark-mode .employee-course-card a{
+background:#1f2937;
+border:1px solid #475569;
+color:white;
+}
+
+body.dark-mode .employee-course-card a:hover{
+background:#F8CC4D;
+color:#111827;
+border-color:#F8CC4D;
+
+}
+
+body.dark-mode .employee-banner p,
+body.dark-mode .employee-course-card p{
+color:#cbd5e1;
+}
+
+
+body.dark-mode .employee-course-card p{
+color:#d0d0d0;
+}
+
+/* ===== COURSE DETAILS DARK MODE ===== */
+
+body.dark-mode .employee-search input{
+background:#111827;
+color:white;
+border:1px solid #334155;
+}
+
+body.dark-mode .employee-search input::placeholder{
+color:#94a3b8;
+}
+
+body.dark-mode .employee-search{
+background:transparent;
+}
+
+body.dark-mode #course-filter{
+background:#111827;
+color:white;
+border:1px solid #334155;
+}
+
+body.dark-mode .employee-catalog-card{
+background:#273449;
+border:1px solid #334155;
+box-shadow:none;
+}
+
+body.dark-mode .employee-catalog-card h3{
+color:white;
+}
+
+body.dark-mode .employee-catalog-card p{
+color:#cbd5e1;
+}
+
+body.dark-mode .view-btn,
+body.dark-mode .progress-btn,
+body.dark-mode .completed-btn{
+
+background:#1f2937;
+color:white;
+border:1px solid #334155;
+
+}
+
+body.dark-mode .view-btn:hover,
+body.dark-mode .progress-btn:hover,
+body.dark-mode .completed-btn:hover{
+
+background:#111827;
+border-color:#475569;
+
+}
+
+
+/*===progress===*/
+
+body.dark-mode .filter-box select{
+background:#111827;
+color:white;
+border:1px solid #334155;
+}
+
+body.dark-mode .filter-box select option{
+background:#111827;
+color:white;
+}
+
+body.dark-mode #clearFilters{
+background:#1f2937;
+border:1px solid #334155;
+color:white;
+}
+
+body.dark-mode #clearFilters:hover{
+background:#111827;
+border-color:#475569;
+}
+
+body.dark-mode .admin-section-card{
+background:#273449;
+border:1px solid #334155;
+box-shadow:none;
+}
+
+
+body.dark-mode .admin-progress-table{
+color:white;
+}
+
+body.dark-mode .admin-progress-table th{
+color:white;
+}
+
+body.dark-mode .admin-progress-table td{
+color:#cbd5e1;
+}
+
+body.dark-mode .admin-progress-table tr{
+border-color:#334155;
+}
+
+
+body.dark-mode .progress-badge.completed{
+background:#111827;
+color:#A3B18A;
+border:1px solid rgba(248,204,77,.35);
+}
+
+body.dark-mode .progress-badge.in_progress{
+background:#111827;
+color:#cbd5e1;
+border:1px solid #475569;
+}
+
+body.dark-mode .progress-badge.not-started{
+background:#111827;
+color:#94a3b8;
+border:1px solid #334155;
+}
+
+
+body.dark-mode .admin-progress-table a{
+color:#cbd5e1;
+font-weight:600;
+}
+
+body.dark-mode .admin-progress-table a:hover{
+color:#111827;
+}
+
+/*===certificates===*/
+
+body.dark-mode .certificate-card{
+background:#273449;
+border:1px solid #334155;
+box-shadow:none;
+}
+
+body.dark-mode .certificate-top h2{
+color:white;
+}
+
+body.dark-mode .certificate-top span{
+background:#111827;
+color:#A3B18A;
+border:1px solid rgba(248,204,77,.35);
+}
+
+body.dark-mode .certificate-body p{
+color:#cbd5e1;
+}
+
+body.dark-mode .certificate-body strong{
+color:white;
+}
+
+body.dark-mode .certificate-btn{
+background:#1f2937;
+border:1px solid #334155;
+color:white;
+}
+
+body.dark-mode .certificate-btn:hover{
+background:#111827;
+border-color:#475569;
+}
+
+body.dark-mode .empty-certificates{
+background:#273449;
+border:1px solid #334155;
+color:white;
+}
+
+
+/*===profile.html===*/
+
+body.dark-mode .profile-card{
+background:#273449;
+border:1px solid #334155;
+box-shadow:none;
+}
+
+body.dark-mode .profile-group label{
+color:white;
+}
+
+body.dark-mode .profile-group input{
+background:#111827;
+border:1px solid #334155;
+color:white;
+}
+
+body.dark-mode .profile-group input::placeholder{
+color:#94a3b8;
+}
+
+
+body.dark-mode input[readonly]{
+background:#0f172a;
+color:#cbd5e1;
+}
+
+body.dark-mode .profile-save-btn{
+background:#1f2937;
+border:1px solid #334155;
+color:white;
+}
+
+body.dark-mode .profile-save-btn:hover{
+background:#111827;
+border-color:#475569;
+}
+
+body.dark-mode #profile-message{
+color:#F8CC4D;
+font-weight:600;
+}
+
+body.dark-mode .profile-group input{
+background:#0f172a;
+border:1px solid #334155;
+color:#f8fafc;
+}
+
+body.dark-mode .profile-group input{
+color:#f8fafc !important;
+}
+
+body.dark-mode input[readonly]{
+background:#111827;
+color:#cbd5e1 !important;
+}
+
+body.dark-mode .profile-group input{
+caret-color:#f8fafc;
+}
+
+/*===quiz-card===*/
+
+body.dark-mode .quiz-preview-card{
+background:#273449;
+border:1px solid #334155;
+box-shadow:none;
+}
+
+body.dark-mode .question-badge{
+background:#111827;
+color:#cbd5e1;
+border:1px solid #334155;
+}
+
+body.dark-mode .quiz-option{
+background:#0f172a;
+border:1px solid #334155;
+color:#f8fafc;
+}
+
+body.dark-mode .quiz-option:hover{
+border-color:#475569;
+background:#111827;
+}
+
+body.dark-mode .quiz-actions .admin-save-btn,
+body.dark-mode .quiz-actions .admin-add-btn{
+background:#1e293b;
+border:1px solid #334155;
+color:#f8fafc;
+}
+
+body.dark-mode .quiz-actions .admin-save-btn:hover,
+body.dark-mode .quiz-actions .admin-add-btn:hover{
+background:#273449;
+}
+
+body.dark-mode .quiz-question{
+color:#f8fafc;
+}
+
+body.dark-mode .question-badge{
+display:inline-block;
+padding:10px 18px;
+border-radius:10px;
+
+background:#111827;
+border:1px solid #334155;
+
+color:#cbd5e1;
+font-size:15px;
+font-weight:600;
+}
+
+
+body.dark-mode .completed-module{
+background:#334155;
+border:1px solid #475569;
+color:#ffffff;
+}
+body.dark-mode .completed-module{
+color:#ffffff !important;
+}
+
+/*=== view-btn ===*/
+body.dark-mode .view-btn{
+background:#1e293b;
+border:1px solid #334155;
+color:#f8fafc;
+}
+
+body.dark-mode .view-btn:hover{
+background:#273449;
+border-color:#475569;
+color:#ffffff;
+}
+
+body.dark-mode .progress-btn,
+body.dark-mode .completed-btn,
+body.dark-mode .view-btn{
+background:#1e293b;
+border:1px solid #334155;
+color:#f8fafc;
+}
+
+body.dark-mode .progress-btn:hover,
+body.dark-mode .completed-btn:hover,
+body.dark-mode .view-btn:hover{
+background:#273449;
+border-color:#475569;
+}
+
+body.dark-mode .module-item.completed-module{
+background:#334155;
+border:1px solid #475569;
+color:#111 !important;
+}
+
+
+/* ===== POPUPS / MODALS ===== */
+
+body.dark-mode .logout-box{
+background:#273449;
+border:1px solid #334155;
+box-shadow:none;
+}
+
+body.dark-mode .logout-box h3{
+color:#f8fafc;
+}
+
+body.dark-mode .logout-box p{
+color:#cbd5e1;
+}
+
+body.dark-mode .logout-cancel{
+background:#111827;
+border:1px solid #334155;
+color:#f8fafc;
+}
+
+body.dark-mode .logout-cancel:hover{
+background:#1f2937;
+}
+
+body.dark-mode .logout-confirm{
+background:#1f2937;
+border:1px solid #334155;
+color:#f8fafc;
+}
+
+body.dark-mode .logout-confirm:hover{
+background:#273449;
+border-color:#475569;
+}
+
+body.dark-mode .logout-modal{
+background:rgba(0,0,0,.65);
+backdrop-filter:blur(4px);
 }

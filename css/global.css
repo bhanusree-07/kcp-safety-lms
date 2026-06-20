@@ -805,3 +805,125 @@ transition:.25s;
 
 .password-toggle:hover{color:#0d2b6b;}
 
+
+
+/* ===== POPUP MODAL ===== */
+
+.logout-modal{
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,.45);
+justify-content:center;
+align-items:center;
+z-index:9999;
+}
+
+.logout-box{
+background:white;
+padding:30px;
+border-radius:18px;
+min-width:350px;
+max-width:450px;
+text-align:center;
+box-shadow:0 10px 30px rgba(0,0,0,.18);
+}
+
+.logout-box h3{
+margin-bottom:12px;
+color:#0d2b6b;
+}
+
+.logout-box p{
+margin-bottom:20px;
+color:#555;
+}
+
+.logout-actions{
+display:flex;
+gap:12px;
+justify-content:center;
+}
+
+.logout-cancel,
+.logout-confirm{
+width:auto;
+padding:12px 24px;
+}
+
+.logout-cancel{
+background:#e9edf5;
+color:#0d2b6b;
+}
+
+.logout-confirm{
+background:#0d2b6b;
+color:white;
+}
+
+
+
+/*====dark-mode=====*/
+
+/* =========================
+   DARK MODE - GLOBAL
+========================= */
+
+body.dark-mode{
+background:#121212;
+color:#ffffff;
+}
+
+body.dark-mode .public-navbar{
+background:#1e1e1e;
+border-bottom:1px solid #333;
+}
+
+body.dark-mode .hero-section{
+background:#121212;
+}
+
+body.dark-mode .about-section{
+background:#121212;
+}
+
+body.dark-mode .mission-section{
+background:#121212;
+}
+
+body.dark-mode .public-footer{
+background:#1e1e1e;
+border-top:1px solid #333;
+}
+
+body.dark-mode h1,
+body.dark-mode h2,
+body.dark-mode h3{
+color:white !important;
+}
+
+body.dark-mode p{
+color:#d0d0d0 !important;
+}
+
+
+body.dark-mode .nav-center a{
+color:white;
+}
+
+body.dark-mode .lang-toggle{
+color:white;
+}
+
+
+body.dark-mode .course-card{
+background:#1e1e1e;
+border:1px solid #333;
+}
+
+body.dark-mode .course-card p{
+color:#cfcfcf;
+}

@@ -1304,3 +1304,78 @@ border-radius:14px;
 #course-select{
 padding-right:40px;
 }
+
+
+
+
+
+
+/*========DARK-MODE=======*/
+body.dark-mode #module-list-panel{
+background:#1f2937;
+border:1px solid #334155;
+}
+
+body.dark-mode #module-content-panel{
+background:#1f2937;
+border:1px solid #334155;
+color:white;
+}
+
+body.dark-mode .module-item{
+background:#111827;
+color:white;
+border:1px solid #334155;
+}
+
+body.dark-mode .completed-module{
+background:#111827;
+color:#cbd5e1;
+border:1px solid #334155;
+}
+
+
+body.dark-mode .locked-module{
+background:#0f172a;
+color:#94a3b8;
+border:1px dashed #475569;
+}
+
+body.dark-mode .progress-placeholder{
+background:#111827;
+color:white;
+border:1px solid #334155;
+}
+
+body.dark-mode .module-description{
+color:#cbd5e1;
+}
+
+
+body.dark-mode #complete-btn{
+background:#0f172a;
+border:1px solid #475569;
+color:white;
+font-weight:600;
+}
+
+body.dark-mode #complete-btn:hover{
+border-color:#F8CC4D;
+color:#F8CC4D;
+background:#1f2937;
+}
+
+body.dark-mode #complete-btn:hover{
+background:#F8CC4D;
+color:#111827;
+border-color:#F8CC4D;
+}
+
+body.dark-mode .progress-placeholder{
+background:none;
+border:none;
+padding:0;
+margin-top:25px;
+color:#cbd5e1;
+font-size:15px;
+}

@@ -123,7 +123,60 @@ message.className="form-message error";
 
 });
 
+
+
+function showPopup(message){
+
+document.getElementById(
+"popup-message"
+).innerText = message;
+
+document.getElementById(
+"popup-modal"
+).style.display = "flex";
+
+}
+
+function closePopup(){
+
+document.getElementById(
+"popup-modal"
+).style.display = "none";
+
+}
+
+
 </script>
+
+<script src="../js/theme.js"></script>
+
+
+
+<div id="popup-modal" class="logout-modal">
+
+<div class="logout-box">
+
+<h3>
+Notice
+</h3>
+
+<p id="popup-message"></p>
+
+<div class="logout-actions">
+
+<button
+class="logout-confirm"
+onclick="closePopup()"
+>
+OK
+</button>
+
+</div>
+
+</div>
+
+</div>
+
 
 </body>
 </html>

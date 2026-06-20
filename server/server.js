@@ -1130,17 +1130,21 @@ success:true
 
 
 
+
 // UPDATE PROGRESS
 
 app.post(
 "/update-progress",
 (req,res)=>{
 
+console.log(req.body);
+
 const{
 user_id,
 course_id,
 progress_percent,
-status
+status,
+quiz_completed = 0
 }=req.body;
 
 const sql=`
@@ -1150,14 +1154,16 @@ INSERT INTO progress
 user_id,
 course_id,
 progress_percent,
-status
+status,
+quiz_completed
 )
-VALUES (?, ?, ?, ?)
+VALUES (?, ?, ?, ?, ?)
 
 ON DUPLICATE KEY UPDATE
 
 progress_percent=?,
 status=?,
+quiz_completed=?,
 updated_at=CURRENT_TIMESTAMP
 
 `;
@@ -1169,8 +1175,11 @@ user_id,
 course_id,
 progress_percent,
 status,
+quiz_completed || 0,
+
 progress_percent,
-status
+status,
+quiz_completed || 0
 ],
 (err,result)=>{
 
@@ -1192,7 +1201,6 @@ res.json(
 
 }
 );
-
 
 
 
@@ -2356,6 +2364,10 @@ course_id,
 module_id
 }=req.body;
 
+console.log("USER:", user_id);
+console.log("COURSE:", course_id);
+console.log("MODULE:", module_id);
+
 const sql=`
 
 INSERT IGNORE INTO
@@ -2455,11 +2467,14 @@ updateSql,
 user_id,
 course_id,
 progressPercent,
-"in-progress",
+"in_progress",
 progressPercent,
-"in-progress"
+"in_progress"
 ],
-()=>{
+(err,result)=>{
+
+console.log("UPDATE PROGRESS ERROR:", err);
+console.log("UPDATE PROGRESS RESULT:", result);
 
 res.json({
 success:true
