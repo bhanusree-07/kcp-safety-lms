@@ -684,6 +684,9 @@ app.post(
 "/update-course",
 (req,res)=>{
 
+console.log("UPDATE COURSE BODY:");
+console.log(req.body);
+
 const{
 course_id,
 title,
