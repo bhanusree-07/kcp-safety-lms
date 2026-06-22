@@ -64,6 +64,27 @@ app.use(cors());
 app.use(express.json());
 
 
+app.use(
+"/course-thumbnails",
+express.static(
+path.join(
+__dirname,
+"../assests/course-thumbnails"
+)
+)
+);
+
+
+app.use(
+"/module-pdfs",
+express.static(
+path.join(
+__dirname,
+"../assests/module-pdfs"
+)
+)
+);
+
 // CREATE USER
 
 app.post(
