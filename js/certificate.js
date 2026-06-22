@@ -6,7 +6,7 @@ document.addEventListener(
 ()=>{
 
 fetch(
-"http://localhost:3000/certificates"
+"https://kcp-safety-lms.onrender.com/certificates"
 )
 
 .then(res=>res.json())
@@ -16,7 +16,7 @@ fetch(
 allCertificates = data;
 
 fetch(
-"http://localhost:3000/courses"
+"https://kcp-safety-lms.onrender.com/courses"
 )
 
 .then(res=>res.json())

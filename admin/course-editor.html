@@ -299,7 +299,7 @@ async function loadCourseDetails(){
 
 const response =
 await fetch(
-`http://localhost:3000/course-details?course_id=${courseId}`
+`https://kcp-safety-lms.onrender.com/course-details?course_id=${courseId}`
 );
 
 const course =
@@ -343,7 +343,7 @@ console.log("loadModules running");
 
 const response=
 await fetch(
-`http://localhost:3000/course-modules?course_id=${courseId}`
+`https://kcp-safety-lms.onrender.com/course-modules?course_id=${courseId}`
 );
 
 const modules=
@@ -653,7 +653,7 @@ pdfInput.files[0]
 
 const pdfUploadResponse=
 await fetch(
-"http://localhost:3000/upload-module-pdf",
+"https://kcp-safety-lms.onrender.com/upload-module-pdf",
 {
 method:"POST",
 body:pdfFormData
@@ -678,7 +678,7 @@ pdf_file
 
 const response=
 await fetch(
-"http://localhost:3000/create-module",
+"https://kcp-safety-lms.onrender.com/create-module",
 {
 method:"POST",
 headers:{
@@ -782,7 +782,7 @@ inputs[2].value;
 
 const response=
 await fetch(
-"http://localhost:3000/update-module",
+"https://kcp-safety-lms.onrender.com/update-module",
 {
 method:"PUT",
 headers:{
@@ -855,7 +855,7 @@ return;
 
 const response=
 await fetch(
-`http://localhost:3000/delete-module?module_id=${moduleId}`,
+`https://kcp-safety-lms.onrender.com/delete-module?module_id=${moduleId}`,
 {
 method:"DELETE"
 }
@@ -948,7 +948,7 @@ thumbnailInput.files[0]
 
 const uploadResponse=
 await fetch(
-"http://localhost:3000/upload-course-thumbnail",
+"https://kcp-safety-lms.onrender.com/upload-course-thumbnail",
 {
 method:"POST",
 body:formData
@@ -964,7 +964,7 @@ uploadData.thumbnail;
 }
 
 let url=
-"http://localhost:3000/create-course";
+"https://kcp-safety-lms.onrender.com/create-course";
 
 let payload={
 title,
@@ -979,7 +979,7 @@ created_by:5
 if(courseId){
 
 url=
-"http://localhost:3000/update-course";
+"https://kcp-safety-lms.onrender.com/update-course";
 
 payload={
 course_id:courseId,

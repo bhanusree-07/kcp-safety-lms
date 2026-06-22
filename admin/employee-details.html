@@ -192,7 +192,7 @@ async function loadEmployee(){
 
 const response=
 await fetch(
-`http://localhost:3000/employee-details?user_id=${user_id}`
+`https://kcp-safety-lms.onrender.com/employee-details?user_id=${user_id}`
 );
 
 const employee=
@@ -240,7 +240,7 @@ async function loadCourses(){
 
 const response=
 await fetch(
-"http://localhost:3000/courses"
+"https://kcp-safety-lms.onrender.com/courses"
 );
 
 const courses=
@@ -271,7 +271,7 @@ async function loadAssignedCourses(){
 
 const response=
 await fetch(
-`http://localhost:3000/assigned-courses?user_id=${user_id}`
+`https://kcp-safety-lms.onrender.com/assigned-courses?user_id=${user_id}`
 );
 
 const courses=
@@ -329,7 +329,7 @@ document.getElementById(
 ).value;
 
 await fetch(
-"http://localhost:3000/assign-course",
+"https://kcp-safety-lms.onrender.com/assign-course",
 {
 method:"POST",
 headers:{

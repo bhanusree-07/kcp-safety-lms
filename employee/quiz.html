@@ -105,7 +105,7 @@ async function loadModules(){
 
 const response=
 await fetch(
-`http://localhost:3000/course-modules?course_id=${courseId}`
+`https://kcp-safety-lms.onrender.com/course-modules?course_id=${courseId}`
 );
 
 const modules=
@@ -211,7 +211,7 @@ async function loadQuiz(){
 
 const response =
 await fetch(
-`http://localhost:3000/quiz-questions?quiz_id=${courseId}`
+`https://kcp-safety-lms.onrender.com/quiz-questions?quiz_id=${courseId}`
 );
 
 questions =
@@ -437,14 +437,14 @@ localStorage.getItem(
 
 const userResponse =
 await fetch(
-`http://localhost:3000/get-user?email=${email}`
+`https://kcp-safety-lms.onrender.com/get-user?email=${email}`
 );
 
 const user =
 await userResponse.json();
 
 await fetch(
-"http://localhost:3000/create-certificate",
+"https://kcp-safety-lms.onrender.com/create-certificate",
 {
 method:"POST",
 headers:{
@@ -460,7 +460,7 @@ course_id:courseId
 
 
 await fetch(
-"http://localhost:3000/update-progress",
+"https://kcp-safety-lms.onrender.com/update-progress",
 {
 method:"POST",
 headers:{
@@ -481,7 +481,7 @@ quiz_percentage:percentage
 
 
 await fetch(
-"http://localhost:3000/update-progress",
+"https://kcp-safety-lms.onrender.com/update-progress",
 {
 method:"POST",
 headers:{

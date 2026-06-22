@@ -169,7 +169,7 @@ return;
 
 const response=
 await fetch(
-`http://localhost:3000/module-details?module_id=${moduleId}`
+`https://kcp-safety-lms.onrender.com/module-details?module_id=${moduleId}`
 );
 
 const module=
@@ -247,7 +247,7 @@ pdfInput.files[0]
 
 const uploadResponse=
 await fetch(
-"http://localhost:3000/upload-module-files",
+"https://kcp-safety-lms.onrender.com/upload-module-files",
 {
 method:"POST",
 body:formData
@@ -280,7 +280,7 @@ if(moduleId){
 
 response=
 await fetch(
-"http://localhost:3000/update-module",
+"https://kcp-safety-lms.onrender.com/update-module",
 {
 method:"PUT",
 headers:{
@@ -301,7 +301,7 @@ video_link
 
 response=
 await fetch(
-"http://localhost:3000/create-module",
+"https://kcp-safety-lms.onrender.com/create-module",
 {
 method:"POST",
 headers:{

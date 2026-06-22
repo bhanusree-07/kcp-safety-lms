@@ -25,7 +25,7 @@ document.getElementById(
 
 const response=
 await fetch(
-"http://localhost:3000/login",
+"https://kcp-safety-lms.onrender.com/login",
 {
 method:"POST",
 headers:{
@@ -131,7 +131,7 @@ return;
 
 const response=
 await fetch(
-"http://localhost:3000/signup",
+"https://kcp-safety-lms.onrender.com/signup",
 {
 method:"POST",
 headers:{

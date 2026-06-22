@@ -17,7 +17,7 @@ try{
 
 const response=
 await fetch(
-`http://localhost:3000/verify-user?email=${email}`
+`https://kcp-safety-lms.onrender.com/verify-user?email=${email}`
 );
 
 const user=

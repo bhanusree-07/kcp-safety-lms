@@ -424,7 +424,7 @@ async function loadCourseInfo(){
 
 const response=
 await fetch(
-`http://localhost:3000/course-name?course_id=${courseId}`
+`https://kcp-safety-lms.onrender.com/course-name?course_id=${courseId}`
 );
 
 const course=
@@ -443,7 +443,7 @@ async function loadModules(){
 
 const response=
 await fetch(
-`http://localhost:3000/course-modules?course_id=${courseId}`
+`https://kcp-safety-lms.onrender.com/course-modules?course_id=${courseId}`
 );
 
 const modules=
@@ -540,7 +540,7 @@ showModule(modules[0].id);
 function showModule(moduleId){
 
 fetch(
-`http://localhost:3000/course-modules?course_id=${courseId}`
+`https://kcp-safety-lms.onrender.com/course-modules?course_id=${courseId}`
 )
 .then(res=>res.json())
 .then(modules=>{
@@ -677,7 +677,7 @@ Download PDF
 function showResources(){
 
 fetch(
-`http://localhost:3000/course-modules?course_id=${courseId}`
+`https://kcp-safety-lms.onrender.com/course-modules?course_id=${courseId}`
 )
 .then(res=>res.json())
 .then(modules=>{
@@ -743,7 +743,7 @@ html;
 function showQuiz(){
 
 fetch(
-`http://localhost:3000/quiz-questions?quiz_id=${courseId}`
+`https://kcp-safety-lms.onrender.com/quiz-questions?quiz_id=${courseId}`
 )
 .then(res=>res.json())
 .then(questions=>{
@@ -1177,9 +1177,9 @@ return;
 const url =
 editingQuestionId
 ?
-"http://localhost:3000/update-question"
+"https://kcp-safety-lms.onrender.com/update-question"
 :
-"http://localhost:3000/create-question";
+"https://kcp-safety-lms.onrender.com/create-question";
 
 const response =
 await fetch(
@@ -1282,7 +1282,7 @@ async function openQuizSettings(){
 
 const response =
 await fetch(
-`http://localhost:3000/quiz-settings?course_id=${courseId}`
+`https://kcp-safety-lms.onrender.com/quiz-settings?course_id=${courseId}`
 );
 
 const quiz =
@@ -1341,7 +1341,7 @@ document.getElementById(
 
 const response =
 await fetch(
-"http://localhost:3000/update-quiz-settings",
+"https://kcp-safety-lms.onrender.com/update-quiz-settings",
 {
 method:"POST",
 headers:{
@@ -1461,7 +1461,7 @@ window.questionToDelete;
 
 const response =
 await fetch(
-`http://localhost:3000/delete-question?question_id=${questionId}`,
+`https://kcp-safety-lms.onrender.com/delete-question?question_id=${questionId}`,
 {
 method:"DELETE"
 }
@@ -1527,7 +1527,7 @@ window.moduleToDelete;
 
 const response=
 await fetch(
-`http://localhost:3000/delete-module?module_id=${moduleId}`,
+`https://kcp-safety-lms.onrender.com/delete-module?module_id=${moduleId}`,
 {
 method:"DELETE"
 }

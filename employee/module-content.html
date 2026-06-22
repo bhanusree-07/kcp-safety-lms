@@ -181,7 +181,7 @@ try{
 
 const response=
 await fetch(
-`http://localhost:3000/module-details?module_id=${moduleId}`
+`https://kcp-safety-lms.onrender.com/module-details?module_id=${moduleId}`
 );
 
 const module=
@@ -218,7 +218,7 @@ try{
 
 const userResponse=
 await fetch(
-`http://localhost:3000/get-user?email=${email}`
+`https://kcp-safety-lms.onrender.com/get-user?email=${email}`
 );
 
 const user=
@@ -226,7 +226,7 @@ await userResponse.json();
 
 
 await fetch(
-"http://localhost:3000/update-progress",
+"https://kcp-safety-lms.onrender.com/update-progress",
 {
 method:"POST",
 headers:{

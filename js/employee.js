@@ -2,7 +2,7 @@ let allProgress = [];
 
 document.addEventListener("DOMContentLoaded", () => {
 
-  fetch("http://localhost:3000/all-progress")
+  fetch("https://kcp-safety-lms.onrender.com/all-progress")
 
     .then(res => res.json())
 
@@ -65,7 +65,7 @@ ${status.replaceAll("_"," ")}
 
 });
 
-fetch("http://localhost:3000/all-courses")
+fetch("https://kcp-safety-lms.onrender.com/all-courses")
 
 .then(res=>res.json())
 

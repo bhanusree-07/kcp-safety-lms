@@ -212,6 +212,12 @@ message:"Email already exists"
 
 }
 
+let role = "employee";
+
+if(email.toLowerCase().endsWith("@kcp.co.in")){
+    role = "admin";
+}
+
 const insertSql=`
 
 INSERT INTO users
@@ -229,7 +235,7 @@ VALUES
 ?,
 ?,
 ?,
-'employee',
+?,
 '',
 ''
 )
@@ -241,7 +247,8 @@ insertSql,
 [
 full_name,
 email,
-password
+password,
+role
 ],
 (err2,result2)=>{
 

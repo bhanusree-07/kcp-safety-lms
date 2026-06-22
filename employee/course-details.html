@@ -195,7 +195,7 @@ async function loadData(){
 
 const courseResponse=
 await fetch(
-"http://localhost:3000/courses"
+"https://kcp-safety-lms.onrender.com/courses"
 );
 courses=
 await courseResponse.json();
@@ -205,7 +205,7 @@ await courseResponse.json();
 
 const progressResponse=
 await fetch(
-`http://localhost:3000/user-progress?email=${email}`
+`https://kcp-safety-lms.onrender.com/user-progress?email=${email}`
 );
 
 progressData=
