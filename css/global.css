@@ -681,9 +681,18 @@ button.secondary:hover {
 
 .theme-toggle:hover{
 
-    background:#0d2b6b;
-    color:white;
+    
+  
     transform:scale(1.08);
+
+}
+
+.theme-toggle{
+
+background:#ffffff;
+border:1px solid #d9d9d9;
+
+color:#0F2E78;
 
 }
 
@@ -866,64 +875,357 @@ color:white;
 
 
 
-/*====dark-mode=====*/
-
-/* =========================
-   DARK MODE - GLOBAL
-========================= */
+/* ===== AUTH DARK MODE ===== */
 
 body.dark-mode{
-background:#121212;
-color:#ffffff;
+background:#0f172a;
+}
+
+body.dark-mode .login-card{
+background:#273449;
+border:1px solid #334155;
+box-shadow:none;
+}
+
+body.dark-mode .login-card h1,
+body.dark-mode .login-card h2{
+color:#f8fafc;
+}
+
+body.dark-mode .small-text{
+color:#cbd5e1;
+}
+
+body.dark-mode .small-text a{
+color:#F8CC4D;
+}
+
+body.dark-mode .login-card input{
+background:#111827;
+border:1px solid #334155;
+color:#f8fafc;
+}
+
+body.dark-mode .login-card input::placeholder{
+color:#94a3b8;
+}
+
+body.dark-mode .password-toggle{
+color:#cbd5e1;
+}
+
+body.dark-mode .auth-home-link{
+background:#111827;
+border:1px solid #334155;
+color:white;
+}
+
+body.dark-mode .auth-home-link:hover{
+background:#1f2937;
+}
+
+body.dark-mode .forgot-link{
+color:#F8CC4D;
+}
+
+body.dark-mode .login-card button{
+background:#1f2937;
+border:1px solid #334155;
+color:white;
+}
+
+body.dark-mode .login-card button:hover{
+background:#111827;
+border-color:#475569;
+}
+
+body.dark-mode .logout-box{
+background:#273449;
+border:1px solid #334155;
+color:white;
+}
+
+body.dark-mode .logout-box h3{
+color:white;
+}
+
+body.dark-mode .logout-box p{
+color:#cbd5e1;
+}
+
+body.dark-mode .logout-confirm{
+background:#1f2937;
+border:1px solid #334155;
+color:white;
+}
+
+body.dark-mode .logout-confirm:hover{
+background:#111827;
+border-color:#475569;
+}
+
+body.dark-mode .theme-toggle{
+
+background:#273449;
+border:1px solid #334155;
+
+color:#F8CC4D !important;
+
+}
+
+body.dark-mode .form-message{
+color:#cbd5e1;
+}
+
+body.dark-mode .success{
+color:#A3B18A;
+}
+
+body.dark-mode .error{
+color:#ef4444;
+}
+
+body.dark-mode .remember-label span{
+color:#cbd5e1;
+}
+
+body.dark-mode .remember-label input{
+accent-color:#F8CC4D;
+}
+
+body.dark-mode .password-toggle{
+color:#cbd5e1;
+}
+
+body.dark-mode .password-toggle:hover{
+color:#F8CC4D;
+}
+
+
+/*===landing-page===*/
+
+body.dark-mode .hero-section{
+background:#1a2332;
+}
+
+body.dark-mode .hero-section h1{
+color:#f8fafc;
+}
+
+body.dark-mode .hero-section p{
+color:#cbd5e1;
 }
 
 body.dark-mode .public-navbar{
-background:#1e1e1e;
-border-bottom:1px solid #333;
+background:#111827;
+border-bottom:1px solid #334155;
 }
-
-body.dark-mode .hero-section{
-background:#121212;
-}
-
-body.dark-mode .about-section{
-background:#121212;
-}
-
-body.dark-mode .mission-section{
-background:#121212;
-}
-
-body.dark-mode .public-footer{
-background:#1e1e1e;
-border-top:1px solid #333;
-}
-
-body.dark-mode h1,
-body.dark-mode h2,
-body.dark-mode h3{
-color:white !important;
-}
-
-body.dark-mode p{
-color:#d0d0d0 !important;
-}
-
 
 body.dark-mode .nav-center a{
-color:white;
+color:#f8fafc;
 }
 
-body.dark-mode .lang-toggle{
-color:white;
+body.dark-mode .nav-center a:hover{
+color:#F8CC4D;
 }
 
+body.dark-mode .nav-login-btn{
+background:#273449;
+border:1px solid #334155;
+color:#f8fafc;
+}
+
+body.dark-mode .nav-login-btn:hover{
+background:#334155;
+}
 
 body.dark-mode .course-card{
-background:#1e1e1e;
-border:1px solid #333;
+background:#273449;
+border:1px solid #334155;
+box-shadow:none;
+}
+
+body.dark-mode .course-card h3{
+color:#f8fafc;
 }
 
 body.dark-mode .course-card p{
-color:#cfcfcf;
+color:#cbd5e1;
+}
+
+body.dark-mode .locked-course{
+background:#111827;
+border:1px solid #334155;
+color:#f8fafc;
+}
+
+body.dark-mode .locked-course:hover{
+background:#273449;
+border-color:#475569;
+}
+
+body.dark-mode .about-section{
+background:#273449;
+border-top:1px solid #334155;
+}
+
+body.dark-mode .about-section h2{
+color:#f8fafc;
+}
+
+body.dark-mode .about-section p{
+color:#cbd5e1;
+}
+
+body.dark-mode .public-footer{
+background:#111827;
+border-top:1px solid #334155;
+}
+
+body.dark-mode .public-footer p{
+color:#cbd5e1;
+}
+
+body.dark-mode .public-footer a{
+color:#F8CC4D;
+}
+
+body.dark-mode .lang-toggle{
+color:#cbd5e1;
+}
+
+body.dark-mode .lang-toggle:hover{
+color:#F8CC4D;
+}
+
+body.dark-mode .lang-toggle{
+color:#f8fafc;
+}
+
+body.dark-mode .hero-btn{
+background:#F8CC4D;
+color:#111827;
+border:none;
+}
+
+body.dark-mode .hero-btn:hover{
+background:#eab308;
+}
+
+body.dark-mode .courses-banner{
+background:#1f2937;
+border-top:1px solid #334155;
+border-bottom:1px solid #334155;
+}
+
+body.dark-mode .courses-search input{
+background:#111827;
+border:1px solid #334155;
+color:#f8fafc;
+}
+
+body.dark-mode .courses-search input::placeholder{
+color:#94a3b8;
+}
+
+body.dark-mode .courses-search button{
+background:#273449;
+border:1px solid #ffffff;
+color:#f8fafc;
+}
+
+body.dark-mode .courses-search button:hover{
+background:#334155;
+}
+
+body.dark-mode .course-card{
+background:#273449;
+border:1px solid #334155;
+}
+
+body.dark-mode .course-card h3{
+color:#f8fafc;
+}
+
+body.dark-mode .course-card p{
+color:#cbd5e1;
+}
+
+body.dark-mode .locked-course{
+background:#111827;
+border:1px solid #eab308;
+color:#f8fafc;
+}
+
+body.dark-mode .locked-course:hover{
+background:#334155;
+border-color:#475569;
+}
+
+body.dark-mode .no-courses-message{
+color:#F8CC4D;
+}
+
+
+/* ===== ABOUT PAGE DARK MODE ===== */
+
+body.dark-mode .about-banner{
+background:#1a2332;
+border-top:1px solid #334155;
+border-bottom:1px solid #334155;
+}
+
+body.dark-mode .about-banner-title{
+color:#f8fafc;
+}
+
+
+body.dark-mode .about-text h2{
+color:#f8fafc;
+}
+
+body.dark-mode .about-text p{
+color:#cbd5e1;
+}
+
+body.dark-mode .about-image{
+border:1px solid #334155;
+box-shadow:none;
+}
+
+body.dark-mode .mission-section h2{
+color:#f8fafc;
+}
+
+body.dark-mode .mission-section p{
+color:#cbd5e1;
+}
+
+body.dark-mode .mission-section{
+background:transparent;
+}
+
+/* ===== CONTACT PAGE DARK MODE ===== */
+
+body.dark-mode .contact-banner{
+background:#1a2332;
+border-top:1px solid #334155;
+border-bottom:1px solid #334155;
+}
+
+body.dark-mode .contact-banner-title{
+color:#f8fafc;
+}
+
+body.dark-mode .contact-info h2{
+color:#f8fafc;
+}
+
+body.dark-mode .contact-info p{
+color:#cbd5e1;
+}
+
+body.dark-mode .contact-image{
+border:1px solid #334155;
+box-shadow:none;
 }

@@ -217,6 +217,30 @@ await fetch(
 questions =
 await response.json();
 
+if(questions.length === 0){
+
+document.getElementById(
+"quiz-container"
+).innerHTML = `
+
+<div class="empty-state">
+
+<h3>
+No Quiz Available
+</h3>
+
+<p>
+This course does not have any quiz questions yet.
+</p>
+
+</div>
+
+`;
+
+return;
+
+}
+
 renderQuestion();
 
 }
@@ -401,7 +425,8 @@ Math.round(
 (score / totalMarks) * 100
 );
 
-
+console.log("Score:", score);
+console.log("Percentage:", percentage);
 
 if(percentage >= 60){
 
@@ -446,7 +471,9 @@ user_id:user.id,
 course_id:courseId,
 progress_percent:100,
 status:"completed",
-quiz_completed:1
+quiz_completed:1,
+quiz_score:score,
+quiz_percentage:percentage
 })
 }
 );
@@ -465,7 +492,9 @@ user_id:user.id,
 course_id:courseId,
 progress_percent:100,
 status:"completed",
-quiz_completed:1
+quiz_completed:1,
+quiz_score:score,
+quiz_percentage:percentage
 })
 }
 );

@@ -6,8 +6,6 @@ const db = require("./db");
 
 const app = express();
 
-const PORT = 3000;
-
 const multer = require("multer");
 
 const path = require("path");
@@ -1144,7 +1142,9 @@ user_id,
 course_id,
 progress_percent,
 status,
-quiz_completed = 0
+quiz_completed = 0,
+quiz_score = 0,
+quiz_percentage = 0
 }=req.body;
 
 const sql=`
@@ -1155,15 +1155,19 @@ user_id,
 course_id,
 progress_percent,
 status,
-quiz_completed
+quiz_completed,
+quiz_score,
+quiz_percentage
 )
-VALUES (?, ?, ?, ?, ?)
+VALUES (?, ?, ?, ?, ?, ?, ?)
 
 ON DUPLICATE KEY UPDATE
 
 progress_percent=?,
 status=?,
 quiz_completed=?,
+quiz_score=?,
+quiz_percentage=?,
 updated_at=CURRENT_TIMESTAMP
 
 `;
@@ -1176,10 +1180,14 @@ course_id,
 progress_percent,
 status,
 quiz_completed || 0,
+quiz_score || 0,
+quiz_percentage || 0,
 
 progress_percent,
 status,
-quiz_completed || 0
+quiz_completed || 0,
+quiz_score || 0,
+quiz_percentage || 0
 ],
 (err,result)=>{
 
@@ -2558,15 +2566,9 @@ app.get("/test", (req,res)=>{
 res.send("working");
 });
 
-app.listen(
-PORT,
-()=>{
+const PORT = process.env.PORT || 3000;
 
-console.log(
-`Server running on port ${PORT}`
-);
-
-}
-);
-
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
 
