@@ -23,10 +23,10 @@ display:block;
 
 #employee-name{
 position:absolute;
-top:237px;
+top:337px;
 left:52%;
 transform:translateX(-50%);
-font-size:34px;
+font-size:36px;
 font-weight:700;
 color:#0b67c2;
 margin:0;
@@ -34,20 +34,20 @@ margin:0;
 
 #course-name{
 position:absolute;
-top:323px;
+top:459px;
 left:50%;
 transform:translateX(-50%);
-font-size:28px;
-font-weight:600;
+font-size:34px;
+font-weight:700;
 margin:0;
 }
 
 #certificate-date{
 position:absolute;
-top: 444px;
+top: 630px;
 left:60%;
 transform:translateX(-50%);
-font-size:21px;
+font-size:27px;
 margin:0;
 }
 
