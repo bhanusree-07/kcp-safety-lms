@@ -2598,6 +2598,69 @@ res.json(result);
 );
 
 
+
+app.get(
+"/certificate-details",
+(req,res)=>{
+
+const certificate_id =
+req.query.certificate_id;
+
+const sql = `
+
+SELECT
+
+certificates.id,
+certificates.certificate_code,
+certificates.issued_at,
+
+users.full_name,
+
+courses.title
+
+FROM certificates
+
+JOIN users
+ON certificates.user_id =
+users.id
+
+JOIN courses
+ON certificates.course_id =
+courses.id
+
+WHERE certificates.id = ?
+
+`;
+
+db.query(
+sql,
+[certificate_id],
+(err,result)=>{
+
+if(err){
+
+return res
+.status(500)
+.json(err);
+
+}
+
+if(result.length===0){
+
+return res.json(null);
+
+}
+
+res.json(result[0]);
+
+}
+
+);
+
+}
+);
+
+
 // START SERVER
 
 app.get("/test", (req,res)=>{
