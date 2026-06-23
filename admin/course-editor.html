@@ -447,6 +447,22 @@ value="${module.video_link || ""}"
 
 </div>
 
+
+<div class="admin-input-group">
+
+<label>
+PPT Link
+</label>
+
+<input
+type="text"
+value="${module.ppt_link || ""}"
+placeholder="PowerPoint Embed URL"
+>
+
+</div>
+
+
 </div>
 
 <div class="module-btn-row">
@@ -572,6 +588,21 @@ placeholder="YouTube URL"
 
 </div>
 
+
+<div class="admin-input-group">
+
+<label>
+PPT Link
+</label>
+
+<input
+type="text"
+placeholder="PowerPoint Embed URL"
+>
+
+</div>
+
+
 </div>
 
 <div class="module-btn-row">
@@ -632,6 +663,9 @@ inputs[2].value;
 const video_link=
 inputs[4].value;
 
+const ppt_link=
+inputs[5].value;
+
 const pdfInput=
 card.querySelectorAll(
 'input[type="file"]'
@@ -691,7 +725,8 @@ module_content,
 module_order,
 pdf_file,
 image_file:"",
-video_link
+video_link,
+ppt_link
 })
 }
 );
@@ -780,6 +815,9 @@ card.querySelector(
 const video_link=
 inputs[2].value;
 
+const ppt_link=
+inputs[3].value;
+
 const response=
 await fetch(
 "https://kcp-safety-lms.onrender.com/update-module",
@@ -795,7 +833,8 @@ module_content,
 module_order,
 pdf_file:existingPdf,
 image_file:"",
-video_link
+video_link,
+ppt_link
 })
 }
 );
