@@ -120,6 +120,21 @@ placeholder="Youtube URL"
 
 </div>
 
+
+<div class="admin-input-group">
+
+<label>PPT Link</label>
+
+<input
+type="text"
+id="ppt-link"
+placeholder="PowerPoint URL"
+>
+
+</div>
+
+
+
 <div class="admin-input-group">
 
 <label>Module Order</label>
@@ -192,6 +207,13 @@ document.getElementById(
 ).value=
 module.video_link || "";
 
+
+document.getElementById(
+"ppt-link"
+).value=
+module.ppt_link || "";
+
+
 document.getElementById(
 "module-order"
 ).value=
@@ -224,6 +246,11 @@ document.getElementById(
 const video_link=
 document.getElementById(
 "video-link"
+).value;
+
+const ppt_link=
+document.getElementById(
+"ppt-link"
 ).value;
 
 const module_order=
@@ -292,7 +319,8 @@ module_title,
 module_content,
 module_order,
 pdf_file,
-video_link
+video_link,
+ppt_link
 })
 }
 );
@@ -313,7 +341,8 @@ module_title,
 module_content,
 module_order,
 pdf_file,
-video_link
+video_link,
+ppt_link
 })
 }
 );

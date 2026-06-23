@@ -1107,7 +1107,8 @@ module_title,
 module_content,
 module_order,
 pdf_file,
-video_link
+video_link,
+ppt_link
 }=req.body;
 
 const sql=`
@@ -1120,7 +1121,8 @@ module_title=?,
 module_content=?,
 module_order=?,
 pdf_file=?,
-video_link=?
+video_link=?,
+ppt_link=?
 
 WHERE id=?
 
@@ -1134,6 +1136,7 @@ module_content,
 module_order,
 pdf_file,
 video_link,
+ppt_link,
 module_id
 ],
 (err,result)=>{
@@ -1797,7 +1800,8 @@ module_title,
 module_content,
 module_order,
 pdf_file,
-video_link
+video_link,
+ppt_link
 }=req.body;
 
 const sql=`
@@ -1809,11 +1813,13 @@ module_title,
 module_content,
 module_order,
 pdf_file,
-video_link
+video_link,
+ppt_link
 )
 
 VALUES
 (
+?,
 ?,
 ?,
 ?,
@@ -1832,7 +1838,8 @@ module_title,
 module_content,
 module_order,
 pdf_file,
-video_link
+video_link,
+ppt_link
 ],
 (err,result)=>{
 

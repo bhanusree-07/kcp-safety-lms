@@ -438,6 +438,48 @@ margin-top:15px;
 ""
 }
 
+
+
+
+
+${
+module.ppt_link
+?
+`
+<hr class="module-divider">
+
+<div class="ppt-section">
+
+<h3>
+Presentation Slides
+</h3>
+
+<iframe
+src="https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(module.ppt_link)}"
+width="100%"
+height="700"
+style="
+border:none;
+border-radius:12px;
+margin-top:15px;
+background:white;
+"
+>
+</iframe>
+
+</div>
+
+<br>
+`
+:
+""
+}
+
+
+
+
+
+
 ${
 module.pdf_file
 ?
