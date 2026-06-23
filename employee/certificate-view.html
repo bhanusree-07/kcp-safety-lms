@@ -1,49 +1,46 @@
-<!DOCTYPE html>
-<html lang="en">
+<script>
 
-<head>
+const params =
+new URLSearchParams(
+window.location.search
+);
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+const certificateId =
+params.get(
+"certificate_id"
+);
 
-<title>Certificate</title>
+async function loadCertificate(){
 
-<link rel="stylesheet" href="../css/global.css">
-<link rel="stylesheet" href="../css/certificate-view.css">
+const response =
+await fetch(
+`https://kcp-safety-lms.onrender.com/certificate-details?certificate_id=${certificateId}`
+);
 
-</head>
+const cert =
+await response.json();
 
-<body>
+console.log(cert);
 
-<div class="certificate-container">
+document.getElementById(
+"employee-name"
+).innerText =
+cert.full_name;
 
-<img
-src="../assests/certificate-template.png"
-class="certificate-template"
->
+document.getElementById(
+"course-name"
+).innerText =
+cert.title;
 
-<h2 id="employee-name">
-Employee Name
-</h2>
+document.getElementById(
+"certificate-date"
+).innerText =
+new Date(
+cert.issued_at
+).toLocaleDateString();
 
-<h3 id="course-name">
-Course Name
-</h3>
+}
 
-<p id="certificate-date">
-Date
-</p>
+loadCertificate();
 
-</div>
-
-<script src="../js/certificate-view.js"></script>
-
-</body>
-
-</html>
-
-
-
-
-
-
+</script>

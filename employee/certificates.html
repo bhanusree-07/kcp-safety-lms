@@ -207,14 +207,11 @@ ${date.toLocaleDateString()}
 <button
 class="certificate-btn"
 onclick="
-showPopup(
-'Certificate Viewer Coming Soon'
-)
+window.location.href=
+'certificate-view.html?certificate_id=${cert.id}'
 "
 >
-
 View Certificate
-
 </button>
 
 </div>
