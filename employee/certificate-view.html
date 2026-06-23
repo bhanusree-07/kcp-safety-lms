@@ -37,6 +37,16 @@ Loading...
 
 </div>
 
+
+
+<div class="certificate-actions">
+
+<button onclick="downloadCertificate()">
+Download Certificate
+</button>
+</div>
+
+
 <script>
 
 const params =
@@ -82,7 +92,35 @@ cert.issued_at
 
 loadCertificate();
 
+
+
+async function downloadCertificate(){
+
+const certificate =
+document.querySelector(
+".certificate-container"
+);
+
+const canvas =
+await html2canvas(certificate);
+
+const link =
+document.createElement("a");
+
+link.download =
+"certificate.png";
+
+link.href =
+canvas.toDataURL();
+
+link.click();
+
+}
+
 </script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
 
 </body>
 

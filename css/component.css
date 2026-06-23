@@ -12,7 +12,8 @@ background:#f5f7fb;
 
 .certificate-container{
 position:relative;
-width:1200px;
+width:90vw;
+max-width:1000px;
 margin:auto;
 }
 
@@ -23,7 +24,7 @@ display:block;
 
 #employee-name{
 position:absolute;
-top:337px;
+top:277px;
 left:52%;
 transform:translateX(-50%);
 font-size:36px;
@@ -34,7 +35,7 @@ margin:0;
 
 #course-name{
 position:absolute;
-top:459px;
+top:378px;
 left:50%;
 transform:translateX(-50%);
 font-size:34px;
@@ -44,11 +45,62 @@ margin:0;
 
 #certificate-date{
 position:absolute;
-top: 630px;
-left:60%;
+top: 523px;
+left:61%;
 transform:translateX(-50%);
 font-size:27px;
 margin:0;
 }
 
 
+body{
+display:flex;
+flex-direction:column;
+align-items:center;
+}
+
+.certificate-actions{
+margin-top:20px;
+text-align:center;
+width:100%;
+}
+
+.certificate-actions button{
+background:#0b67c2;
+color:white;
+border:none;
+padding:14px 28px;
+border-radius:8px;
+cursor:pointer;
+font-size:16px;
+font-weight:600;
+width:auto;
+}
+
+.certificate-actions{
+    text-align:center;
+    margin:20px 0 40px;
+}
+
+#download-btn{
+    background:#0b67c2;
+    color:white;
+    border:none;
+    padding:16px 32px;
+    border-radius:8px;
+    cursor:pointer;
+    font-size:16px;
+    font-weight:600;
+}
+
+@media print{
+
+.certificate-actions{
+display:none;
+}
+
+body{
+margin:0;
+}
+
+}
