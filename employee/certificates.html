@@ -164,6 +164,9 @@ new Date(
 cert.issued_at
 );
 
+console.log(cert);
+
+
 grid.innerHTML+=`
 
 <div class="certificate-card">
@@ -206,6 +209,7 @@ ${date.toLocaleDateString()}
 
 <button
 class="certificate-btn"
+console.log(cert);
 onclick="
 window.location.href=
 'certificate-view.html?certificate_id=${cert.id}'
