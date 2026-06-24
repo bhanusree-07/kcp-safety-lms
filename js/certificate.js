@@ -170,7 +170,12 @@ ${certificateStatus}
 ${
 row.progress_percent === 100
 ?
-'<a href="#">Download</a>'
+`<a
+href="../employee/certificate-view.html?certificate_id=${row.id}"
+target="_blank"
+>
+Download
+</a>`
 :
 '--'
 }
