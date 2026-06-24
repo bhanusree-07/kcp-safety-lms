@@ -330,8 +330,8 @@ grid.innerHTML+=`
 <div class="employee-catalog-card">
 
 <img
-src="https://kcp-safety-lms.onrender.com/course-thumbnails/${course.thumbnail}"
-class="admin-course-thumbnail"
+src="../assests/course-thumbnails/${getThumbnail(course.id)}"
+class="employee-course-thumbnail"
 >
 
 <h3
@@ -471,8 +471,40 @@ localStorage.clear();
 
 window.location.href=
 "../index.html";
+}
+</script>
+<script>
+
+
+
+
+
+
+
+function getThumbnail(courseId){
+
+const thumbnails={
+
+1:"fire1.png",
+3:"ppe-training.png",
+4:"elec1.png",
+5:"confined-safety.jpeg",
+6:"scaffold1.png",
+7:"heights.jpeg",
+8:"handling.png",
+9:"stress.png",
+10:"noise-training.png",
+11:"hira.png"
+
+};
+
+return thumbnails[courseId] || "kcp_plant.png";
 
 }
+
+
+
+
 
 </script>
 <script src="../js/employee-auth.js"></script>

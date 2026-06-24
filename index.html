@@ -133,25 +133,75 @@ class="public-logo">
 
     <section class="course-grid">
 
-        <div class="course-card searchable-course"><img src="assests/course-thumbnails/fire-safety-new.png"><h3>FIRE SAFETY</h3><a href="login.html" class="locked-course">Login to View Modules →</a></div>
+        <div class="course-card searchable-course"><img src="assests/course-thumbnails/fire-safety-new.png"><h3>FIRE SAFETY</h3><a
+href="login.html"
+class="locked-course course-link"
+>
+Login to View Modules →
+</a></div>
 
-        <div class="course-card searchable-course"><img src="assests/course-thumbnails/ppe-training.png"><h3>PPE TRAINING</h3><a href="login.html" class="locked-course">Login to View Modules →</a></div>
+        <div class="course-card searchable-course"><img src="assests/course-thumbnails/ppe-training.png"><h3>PPE TRAINING</h3><a
+href="login.html"
+class="locked-course course-link"
+>
+Login to View Modules →
+</a></div>
 
-        <div class="course-card searchable-course"><img src="assests/course-thumbnails/elec.png"><h3>ELECTRICAL SAFETY</h3><a href="login.html" class="locked-course">Login to View Modules →</a></div>
+        <div class="course-card searchable-course"><img src="assests/course-thumbnails/elec1.png"><h3>ELECTRICAL SAFETY</h3><a
+href="login.html"
+class="locked-course course-link"
+>
+Login to View Modules →
+</a></div>
 
-        <div class="course-card searchable-course"><img src="assests/course-thumbnails/confined-safety.jpeg"><h3>CONFINED SPACE ENTRY</h3><a href="login.html" class="locked-course">Login to View Modules →</a></div>
+        <div class="course-card searchable-course"><img src="assests/course-thumbnails/confined-safety.jpeg"><h3>CONFINED SPACE ENTRY</h3><a
+href="login.html"
+class="locked-course course-link"
+>
+Login to View Modules →
+</a></div>
 
-        <div class="course-card searchable-course"><img src="assests/course-thumbnails/scaffold.png"><h3>SCAFFOLDING SAFETY</h3><a href="login.html" class="locked-course">Login to View Modules →</a></div>
+        <div class="course-card searchable-course"><img src="assests/course-thumbnails/scaffold.png"><h3>SCAFFOLDING SAFETY</h3><a
+href="login.html"
+class="locked-course course-link"
+>
+Login to View Modules →
+</a></div>
 
-        <div class="course-card searchable-course"><img src="assests/course-thumbnails/heights.jpeg"><h3>WORK AT HEIGHT</h3><a href="login.html" class="locked-course">Login to View Modules →</a></div>
+        <div class="course-card searchable-course"><img src="assests/course-thumbnails/heights.jpeg"><h3>WORK AT HEIGHT</h3><a
+href="login.html"
+class="locked-course course-link"
+>
+Login to View Modules →
+</a></div>
 
-        <div class="course-card searchable-course"><img src="assests/course-thumbnails/handling.png"><h3>SAFETY DESIGN</h3><p><a href="login.html" class="locked-course">Login to View Modules →</a></div>
+        <div class="course-card searchable-course"><img src="assests/course-thumbnails/handling.png"><h3>SAFETY DESIGN</h3><p><a
+href="login.html"
+class="locked-course course-link"
+>
+Login to View Modules →
+</a></div>
 
-        <div class="course-card searchable-course"><img src="assests/course-thumbnails/stress.png"><h3>THERMAL STRESS</h3><a href="login.html" class="locked-course">Login to View Modules →</a></div>
+        <div class="course-card searchable-course"><img src="assests/course-thumbnails/stress.png"><h3>THERMAL STRESS</h3><a
+href="login.html"
+class="locked-course course-link"
+>
+Login to View Modules →
+</a></div>
 
-        <div class="course-card searchable-course"><img src="assests/course-thumbnails/noise-training.png"><h3>NOISE TRAINING</h3><a href="login.html" class="locked-course">Login to View Modules →</a></div>
+        <div class="course-card searchable-course"><img src="assests/course-thumbnails/noise-training.png"><h3>NOISE TRAINING</h3><a
+href="login.html"
+class="locked-course course-link"
+>
+Login to View Modules →
+</a></div>
 
-        <div class="course-card searchable-course"><img src="assests/course-thumbnails/hira.png"><h3>EMERGENCY PREPAREDNESS</h3><a href="login.html" class="locked-course">Login to View Modules →</a></div>
+        <div class="course-card searchable-course"><img src="assests/course-thumbnails/hira.png"><h3>EMERGENCY PREPAREDNESS</h3><a
+href="login.html"
+class="locked-course course-link"
+>
+Login to View Modules →
+</a></div>
 
 
     </section>
@@ -201,6 +251,12 @@ localStorage.getItem("userEmail");
 const userRole=
 localStorage.getItem("userRole");
 
+
+const courseLinks =
+document.querySelectorAll(
+".course-link"
+);
+
 const navBtn=
 document.querySelector(".nav-login-btn");
 
@@ -211,6 +267,34 @@ const logoLink=
 document.getElementById("logo-link");
 
 if(userEmail){
+
+
+
+courseLinks.forEach(link=>{
+
+if(userRole==="admin"){
+
+link.innerHTML =
+"Manage Course →";
+
+link.href =
+"admin/courses.html";
+
+}
+
+else{
+
+link.innerHTML =
+"My Courses →";
+
+link.href =
+"employee/courses.html";
+
+}
+
+});
+
+
 
 navBtn.innerHTML=
 "Profile";

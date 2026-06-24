@@ -12,9 +12,14 @@ background:#f5f7fb;
 
 .certificate-container{
 position:relative;
-width:90vw;
-max-width:1000px;
+width:1000px;
+height:auto;
 margin:auto;
+flex-shrink:0;
+}
+
+body{
+overflow-x:auto;
 }
 
 .certificate-template{
