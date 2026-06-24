@@ -1,3 +1,5 @@
+const bcrypt = require("bcrypt");
+
 const express = require("express");
 
 const cors = require("cors");
@@ -148,7 +150,7 @@ res.json(
 
 app.post(
 "/login",
-(req,res)=>{
+async(req,res)=>{
 
 const{
 email,
@@ -159,13 +161,12 @@ const sql=`
 SELECT *
 FROM users
 WHERE email=?
-AND password=?
 `;
 
 db.query(
 sql,
-[email,password],
-(err,result)=>{
+[email],
+async(err,result)=>{
 
 if(err){
 
@@ -184,9 +185,27 @@ message:"Invalid email or password"
 
 }
 
+const user =
+result[0];
+
+const match =
+await bcrypt.compare(
+password,
+user.password
+);
+
+if(!match){
+
+return res.json({
+success:false,
+message:"Invalid email or password"
+});
+
+}
+
 res.json({
 success:true,
-user:result[0]
+user
 });
 
 }
@@ -196,11 +215,12 @@ user:result[0]
 }
 );
 
+
 // SIGNUP
 
 app.post(
 "/signup",
-(req,res)=>{
+async(req,res)=>{
 
 const{
 full_name,
@@ -263,12 +283,17 @@ VALUES
 
 `;
 
+
+const hashedPassword =
+await bcrypt.hash(password,10);
+
+
 db.query(
 insertSql,
 [
 full_name,
 email,
-password,
+hashedPassword,
 role
 ],
 (err2,result2)=>{
@@ -312,7 +337,7 @@ const sql=
 db.query(
 sql,
 [email],
-(err,result)=>{
+async(err,result)=>{
 
 if(err){
 
