@@ -628,6 +628,71 @@ Delete
 );
 
 
+let moduleToDelete = null;
+
+function openDeleteModuleModal(moduleId){
+
+moduleToDelete = moduleId;
+
+document.getElementById(
+"delete-module-modal"
+).style.display = "flex";
+
+}
+
+function closeDeleteModuleModal(){
+
+moduleToDelete = null;
+
+document.getElementById(
+"delete-module-modal"
+).style.display = "none";
+
+}
+
+
+
+
+
+document.addEventListener(
+"DOMContentLoaded",
+()=>{
+
+document.getElementById(
+"confirm-delete-module"
+).addEventListener(
+"click",
+async()=>{
+
+const response=
+await fetch(
+`https://kcp-safety-lms.onrender.com/delete-module?module_id=${moduleToDelete}`,
+{
+method:"DELETE"
+}
+);
+
+const data=
+await response.json();
+
+if(data.success){
+
+closeDeleteModuleModal();
+
+loadModules();
+
+}
+
+}
+);
+
+}
+);
+
+
+
+
+
 document.addEventListener(
 "click",
 async function(e){
@@ -881,16 +946,11 @@ e.target.classList.contains(
 const moduleId=
 e.target.dataset.id;
 
-const confirmed=
-confirm(
-"Delete this module?"
+openDeleteModuleModal(
+moduleId
 );
 
-if(!confirmed){
-
 return;
-
-}
 
 const response=
 await fetch(
@@ -1068,6 +1128,49 @@ saveBtn.innerHTML=
 }
 );
 </script>
+
+
+
+
+<div
+id="delete-module-modal"
+class="logout-modal"
+>
+
+<div class="logout-box">
+
+<h3>
+Delete Module
+</h3>
+
+<p>
+Are you sure you want to delete this module?
+</p>
+
+<div class="logout-actions">
+
+<button
+class="logout-cancel"
+onclick="closeDeleteModuleModal()"
+>
+Cancel
+</button>
+
+<button
+class="logout-confirm"
+id="confirm-delete-module"
+>
+Delete
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+
 
 <!-- LOGOUT MODAL -->
 
