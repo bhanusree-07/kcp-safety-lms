@@ -107,6 +107,9 @@ tbody.innerHTML = "";
 
 data.forEach(row=>{
 
+
+    console.log(row);
+
 const certificateStatus =
 row.progress_percent === 100
 ?

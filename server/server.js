@@ -2359,18 +2359,23 @@ const sql = `
 
 SELECT
 
+certificates.id,
 users.full_name AS employee,
 users.department,
 courses.title AS course,
-progress.progress_percent
+progress.progress_percent,
+certificates.issued_at
 
-FROM progress
-
+FROM certificates
 JOIN users
-ON progress.user_id = users.id
+ON certificates.user_id = users.id
 
 JOIN courses
-ON progress.course_id = courses.id
+ON certificates.course_id = courses.id
+
+JOIN progress
+ON progress.user_id = users.id
+AND progress.course_id = courses.id
 
 WHERE progress.progress_percent > 0
 
