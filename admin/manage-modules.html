@@ -552,6 +552,28 @@ m=>m.id==moduleId
 
 console.log(module);
 
+
+
+let pdfMap = {
+
+1:"module1.pdf",
+3:"module2.pdf",
+4:"module3.pdf",
+5:"module4.pdf",
+6:"module5.pdf",
+7:"module6.pdf",
+8:"module7.pdf",
+9:"module8.pdf",
+10:"module9.pdf",
+11:"module10.pdf"
+
+};
+
+const pdfFile = pdfMap[courseId];
+
+
+
+
 document.getElementById(
 "module-content-panel"
 ).innerHTML=`
@@ -667,7 +689,7 @@ Learning Material
 
 
 <iframe
-src="https://kcp-safety-lms.onrender.com/module-pdfs/${module.pdf_file}"
+src="../assests/module-pdfs/${pdfFile}"
 width="100%"
 height="1000"
 style="
@@ -679,7 +701,7 @@ margin-top:15px;
 </iframe>
 
 <a
-href="https://kcp-safety-lms.onrender.com/module-pdfs/${module.pdf_file}"
+href="../assests/module-pdfs/${pdfFile}"
 download
 class="admin-save-btn"
 >
