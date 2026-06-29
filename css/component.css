@@ -88,8 +88,8 @@ width:auto;
 }
 
 #download-btn{
-    background:#0b67c2;
-    color:white;
+    background:white;
+    color:black;
     border:none;
     padding:16px 32px;
     border-radius:8px;
